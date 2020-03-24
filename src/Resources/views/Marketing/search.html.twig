@@ -1,0 +1,22 @@
+{% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" %}
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'conversion', {'send_to': {{ google_conversion }}});
+        gtag('event', 'view_item_list', {
+            "items": [
+                {% for product in products %}
+                {{ marketing.impression_data(product.id, product.name, website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
+                {% endfor %}
+            ]
+        });
+        gtag('event', 'search', {"search_term": '{{ name }}'});
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+
+    tarteaucitron.user.facebookpixelMore = function () {
+        fbq('track', 'Search', {
+            search_string: '{{ name }}',
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+</script>

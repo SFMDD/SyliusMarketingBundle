@@ -1,0 +1,10 @@
+<script>
+    tarteaucitron.user.facebookpixelMore = function () {
+        fbq('track', 'AddPaymentInfo');
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'conversion', {'send_to': {{ google_conversion }}});
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>

@@ -1,0 +1,8 @@
+twig:
+  globals:
+    google_analytics: "%google.analytics%"
+    facebook_pixel: "%facebook.pixel%"
+    url_privacy: "%url.privacy%"
+    website_name: "%website.name%"
+    author: "%author%"
+    contact_email: "%contact.email%"

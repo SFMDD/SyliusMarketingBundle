@@ -1,0 +1,199 @@
+{# Website #}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "WebSite",
+  "name": "{{ 'parameter.page.title'|trans({}, "parameters") }}",
+  "alternateName": "{{ 'parameter.page.title'|trans({}, "parameters") }}",
+  "url": "{{ 'parameter.url'|trans({}, "parameters") }}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ 'parameter.url'|trans({}, "parameters") }}fr/search/{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{#CONTACT BUSINESS#}
+<script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "url": "{{ 'parameter.url'|trans({}, "parameters") }}",
+              "logo": "{{ 'parameter.url'|trans({}, "parameters") }}assets/custom/logo.png",
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "{{ 'parameter.contact.phone.int'|trans({}, "parameters") }}",
+                "contactType": "customer service"
+              }]
+            }
+</script>
+{#LOCAL BUSINESS#}
+<script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "{{ 'parameter.google.type.merchant'|trans({}, "parameters") }}",
+            "name": "{{ 'parameter.page.title'|trans({}, "parameters") }}",
+            "image": "{{ 'parameter.url'|trans({}, "parameters") }}assets/custom/logo.png",
+            "@id": "{{ 'parameter.google.id'|trans({}, "parameters") }}",
+            "url": "{{ 'parameter.url'|trans({}, "parameters") }}",
+            "telephone": "{{ 'parameter.contact.phone.int'|trans({}, "parameters") }}",
+            "priceRange": "0",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ 'parameter.contact.address.street'|trans({}, "parameters") }}",
+                "addressLocality": "{{ 'parameter.contact.address.locality'|trans({}, "parameters") }}",
+                "postalCode": "{{ 'parameter.contact.address.pc'|trans({}, "parameters") }}",
+                "addressCountry": "FR"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 50.53978859999999,
+                "longitude": 2.798208299999942
+            },
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday"
+                ],
+                "opens": "08:00",
+                "closes": "17:00"
+            },
+            "sameAs": [
+                "{{ 'parameter.social_networks.facebook.url'|trans({}, "parameters") }}",
+                "{{ 'parameter.parent.url'|trans({}, "parameters") }}"
+            ]
+        }
+</script>
+{# Produit #}
+{% if product is defined %}
+    {% if product.images is not empty %}
+        {% set path = 'parameter.s3.url.small'|trans({}, "parameters") ~ product.images.first.path|replace({'JPG': 'jpg'}) %}
+    {% else %}
+        {% set path = 'parameter.s3.url.img-marque'|trans({}, "parameters") %}
+    {% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": "{{ product.name|lower }}",
+      "image": "{{ path }}",
+{% if product.shortDescription != null and product.shortDescription != "-" and product.shortDescription != "" %}
+      "description": "{{ product.shortDescription }}",
+{% else %}
+      "description": "{{ product.description|truncate(150, true)  }}",
+{% endif %}
+      "brand": "{{ 'parameter.brand'|trans({}, 'parameters') }}",
+      "sku": "{{ product.code|upper }}",
+      {% if product.averageRating|round > 0 %}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ product.averageRating|round }}",
+        "reviewCount": "{{ product.acceptedReviews|length }}"
+        }
+        {% else %}
+       "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1"
+        }
+        {% endif %}
+      }
+</script>
+{% endif %}
+{#BREADCRUMB#}
+<script type="application/ld+json">
+    {
+{% if product is defined %}
+      "@context": "http://schema.org/",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": "1",
+          "item": {
+            "@id": "{{ "parameter.url"|trans({}, "parameters") }}",
+            "name": "{{ "sylius.ui.home"|trans }}"
+          }
+        }
+        {% if product.mainTaxon is not null %}
+    {% set count = 2 %}
+    {% set taxon = product.mainTaxon %}
+    {% set ancestors = taxon.ancestors|reverse %}
+
+    {% for ancestor in ancestors %}
+            ,{
+              "@type": "ListItem",
+              "position": "{{ count }}",
+              "item": {
+                    {% if ancestor.isRoot() %}
+                "@id": "{{ path('bitbag_sylius_elasticsearch_plugin_shop_list_products', {'slug': 'parameter.homepage.product.list.taxon'|trans({}, "parameters")}) }}",
+                "name": "{{ "product.breadcrumb.category"|trans({}, 'messages') }}"
+              }
+            }
+                     {% else %}
+            "@id": "{{ path('bitbag_sylius_elasticsearch_plugin_shop_list_products', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+            "name": "{{ ancestor.name }}"
+          }
+        }
+                     {% endif %}
+    {% set count = count+1 %}
+    {% endfor %}
+        ,
+        {
+          "@type": "ListItem",
+          "position": "{{ count }}",
+          "item": {
+            "@id": "{{ path('bitbag_sylius_elasticsearch_plugin_shop_list_products', {'slug': taxon.slug, '_locale': taxon.translation.locale}) }}",
+            "name": "{{ taxon.name }}"
+          }
+        }
+        {% endif %}
+      ]
+{% else %}
+    "@context": "http://schema.org/",
+    "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": "1",
+                "item": {
+                        "@id": "{{ "parameter.url"|trans({}, "parameters") }}",
+                        "name": "{{ "sylius.ui.home"|trans }}"
+                        }
+            }
+        {% if name is defined %},
+            {
+            "@type": "ListItem",
+            "position": "1",
+                "item": {
+                "@id": "{{ path('route_search', {'_locale': app.request.locale, 'name': name}) }}",
+                "name": "{{ "sylius.ui.home"|trans }}"
+                }
+            }
+        {% elseif taxon is defined %}
+{% set ancestors = taxon.ancestors|reverse %}
+    {% if ancestors|length > 0 %}
+    {% set count = 1 %}
+    {% for ancestor in ancestors %}
+    {% if not ancestor.isRoot() %}
+                        ,{
+                        "@type": "ListItem",
+                        "position": "1",
+                        "item": {
+                        "@id": "{{ path('bitbag_sylius_elasticsearch_plugin_shop_list_products', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+                        "name": "{{ ancestor.name }}"
+                        }
+                        }
+                    {% endif %}
+    {% set count = count+1 %}
+    {% endfor %}
+    {% endif %}
+    {% endif %}
+        ]
+{% endif %}
+    }
+</script>

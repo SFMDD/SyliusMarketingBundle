@@ -1,0 +1,15 @@
+{% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" %}
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'view_item_list', {
+            "items": [
+                {% for product in products %}
+                {{ marketing.impression_data(product.id, product.name,
+                    website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})*1.2/100)|round(0, 'common'),
+                null, "Taxon : "~product.mainTaxon.name) }},
+                {% endfor %}
+            ]
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>

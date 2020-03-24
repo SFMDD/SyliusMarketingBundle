@@ -1,0 +1,109 @@
+<!-- MARKETING DIGITAL -->
+{% include '@SyliusUi/_javascripts.html.twig' with {'path': '//cdn.jsdelivr.net/gh/AmauriC/tarteaucitron.js@master/tarteaucitron.js'} %}
+<style>#tarteaucitron #tarteaucitronInfo, #tarteaucitron #tarteaucitronServices .tarteaucitronDetails {  position: relative!important; max-width: none; }</style>
+<script type="text/javascript">
+    tarteaucitron.init({
+        "privacyUrl": "{{ url_privacy }}", /* Privacy policy url */
+
+        "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
+        "cookieName": "tarteaucitron", /* Cookie name */
+
+        "orientation": "bottom", /* Banner position (top - bottom) */
+        "showAlertSmall": false, /* Show the small banner on bottom right */
+        "cookieslist": true, /* Show the cookie list */
+
+        "adblocker": false, /* Show a Warning if an adblocker is detected */
+        "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
+        "highPrivacy": false, /* Disable auto consent */
+        "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+        "removeCredit": true, /* Remove credit link */
+        "moreInfoLink": true, /* Show more info link */
+        "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
+
+        //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
+        "readmoreLink": "/cookiespolicy" /* Change the default readmore link */
+    });
+
+    // google analytics
+    tarteaucitron.services.analyticsrgpd = {
+      "key": "analyticsrgpd",
+      "type": "analytic",
+      "name": "Google Analytics (send IP)",
+      "uri": "https://support.google.com/analytics/topic/2919631",
+      "needConsent": true,
+      "cookies": ['_ga', '_gat', '_gid', '__utma', '__utmb', '__utmc', '__utmt', '__utmz'],
+      "js": function () {
+        "use strict";
+        if(typeof window.ga === 'undefined') {
+          window.GoogleAnalyticsObject = 'ga';
+          window.ga = window.ga || function () {
+            window.ga.q = window.ga.q || [];
+            window.ga.q.push(arguments);
+          };
+          window.ga.l = new Date();
+
+          tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
+            ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
+            ga('send', 'pageview');
+            if (typeof tarteaucitron.user.analyticsMore === 'function') {
+              tarteaucitron.user.analyticsMore();
+            }
+          });
+        } else {
+          ga('set', 'anonymizeIp', false);
+        }
+
+      },
+      "fallback": function () {
+        "use strict";
+        var id = 'analyticsrgpd';
+
+        if(typeof window.ga === 'undefined') {
+
+          window.GoogleAnalyticsObject = 'ga';
+          window.ga = window.ga || function () {
+            window.ga.q = window.ga.q || [];
+            window.ga.q.push(arguments);
+          };
+          window.ga.l = new Date();
+
+          tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
+            ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
+            ga('send', 'pageview');
+            ga('set', 'anonymizeIp', true); // anonymisation
+            if (typeof tarteaucitron.user.analyticsMore === 'function') {
+              tarteaucitron.user.analyticsMore();
+            }
+          });
+        } else {
+          ga('set', 'anonymizeIp', true);
+        }
+      }
+    };
+
+    tarteaucitron.user.analyticsUa = '{{ google_analytics }}';
+    (tarteaucitron.job = tarteaucitron.job || []).push('analyticsrgpd');
+
+    <!-- Google Analytics + Adwords -->
+    tarteaucitron.user.gtagUa = '{{ google_analytics }}';
+    tarteaucitron.user.gtagMore = function () {
+        <!-- Global site tag (gtag.js) - Google Ads: 716984528 -->
+        gtag('config', '{{ google_analytics }}');
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+
+    <!-- Pixel Facebook -->
+    tarteaucitron.user.facebookpixelId = '{{ facebook_pixel }}';
+    tarteaucitron.user.facebookpixelMore = function () {};
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+
+    <!-- reCaptcha -->
+    (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
+</script>
+
+{% block header_end %}
+{% endblock header_end %}
+
+{% include '@FMDDSyliusMarketingPlugin/Include/_json-ld.html.twig' %}
+{% include '@FMDDSyliusMarketingPlugin/Include/_functions.html.twig' %}
+<!-- END MARKETING DIGITAL -->

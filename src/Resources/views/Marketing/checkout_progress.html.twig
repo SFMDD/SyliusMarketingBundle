@@ -1,0 +1,18 @@
+{% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" %}
+
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'checkout_progress', {
+            "items": [
+                {% for item in order.items %}
+                {{ marketing.product_data(item.getVariant.code, item.getVariant.name,
+                website_name, item.getVariant.product.mainTaxon.slug,
+                (item.subtotal/100)|round(2, 'common'), item.quantity, null, loop.index+1, null)
+                }},
+                {% endfor %}
+            ],
+            "coupon": ""
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>

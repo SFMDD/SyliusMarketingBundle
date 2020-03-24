@@ -1,0 +1,37 @@
+{% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" %}
+
+<script>
+    tarteaucitron.user.facebookpixelMore = function () {
+        fbq('track', 'Purchase', {
+            value: '{{ (order.total/100)|round(0, 'common') }}',
+            currency: '{{ order.currencyCode }}',
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'conversion', {
+            'send_to': {{ google_conversion }},
+            'value': '{{ (order.total/100)|round(2, 'common') }}',
+            'currency': 'EUR',
+            'transaction_id': '{{ order.id }}'
+        });
+        gtag('event', 'purchase', {
+            "transaction_id": "{{ order.id }}",
+            "affiliation": {{ website_name }},
+            "value": {{ (order.total/100)|round(2, 'common') }},
+            "currency": "EUR",
+            "tax": 1.00,
+            "shipping": 0,
+            "items": [
+                {% for item in order.items %}
+                {{ marketing.product_data(item.getVariant.code, item.getVariant.name,
+                    website_name, item.getVariant.product.mainTaxon.slug,
+                (item.subtotal/100)|round(2, 'common'), item.quantity, null, loop.index+1, null)
+                }},
+                {% endfor %}
+            ]
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>

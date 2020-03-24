@@ -1,0 +1,9 @@
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('event', 'exception', {
+            'description': 'Error '+'{{ code_error }}',
+            'fatal': false
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>

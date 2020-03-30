@@ -28,7 +28,7 @@ imports:
 #fmdd.event.marketing.selectPayment') }}sylius.shop.checkout.select_payment.after_steps
 
 #Add event in ShopBundle error404/500 
-{{ sonata_block_render_event('fmdd.event.marketing.exception') }}
+{{ sonata_block_render_event('fmdd.event.marketing.exception', {"code_error": "500"})) }}
 #Add event after <head> in layout
 #{{ sonata_block_render_event('fmdd.event.marketing.metadata') }}
 

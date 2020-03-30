@@ -1,11 +1,15 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
+{% set products = settings.products %}
+{% set name = settings.name %}
 <script>
     tarteaucitron.user.gtagMore = function () {
-        gtag('event', 'conversion', {'send_to': {{ google_conversion }}});
+        {% if google_conversion not empty and google_event_search not empty  %}
+            gtag('event', 'conversion', {'send_to': '{{ google_conversion }}/{{ google_event_search }}' });
+        {% endif %}
         gtag('event', 'view_item_list', {
             "items": [
                 {% for product in products %}
-                {{ marketing.impression_data(product.id, product.name, website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
+                    {{ marketing.impression_data(product.id, product.name, website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
                 {% endfor %}
             ]
         });

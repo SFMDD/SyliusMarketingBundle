@@ -1,4 +1,5 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
+{% set order = settings.order %}
 <script>
     tarteaucitron.user.facebookpixelMore = function () {
         fbq('track', 'InitiateCheckout');

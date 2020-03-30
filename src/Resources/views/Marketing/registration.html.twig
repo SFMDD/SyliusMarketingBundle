@@ -1,7 +1,10 @@
 <script>
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'sign_up', { 'method': 'Email' });
-        gtag('event', 'conversion', {'send_to': {{ google_conversion }}});
+
+        {% if google_conversion not empty and google_event_registration not empty  %}
+            gtag('event', 'conversion', {'send_to': '{{ google_conversion }}/{{ google_event_registration }}'});
+        {% endif %}
     };
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 

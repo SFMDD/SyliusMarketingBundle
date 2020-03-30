@@ -1,12 +1,16 @@
 parameters:
   google.analytics: "GA-"
   google.conversion: "AW-"
-  google.event.checkout.progress: ""
   facebook.pixel: ""
   url.privacy: ""
   website.name: ""
   author: ""
   contact.email: ""
+  google.event.purchase: ""
+  google.event.search: ""
+  google.event.product_show: ""
+  google.event.registration: ""
+  google.event.checkout.progress: ""
 
 services:
   fmdd.event.listener.marketing:

@@ -1,4 +1,5 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
+{% set product = settings.product %}
 <script>
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'view_item', {
@@ -15,10 +16,13 @@
                     window.location = url;
                 }
             };
-            gtag('event', 'conversion', {
-                'send_to': {{ google_conversion }},
-                'event_callback': callback
-            });
+
+            {% if google_conversion not empty and google_event_product_show not empty  %}
+                gtag('event', 'conversion', {
+                    'send_to': '{{ google_conversion }}/{{ google_event_product_show }}',
+                    'event_callback': callback
+                });
+            {% endif %}
             return false;
         }
     };

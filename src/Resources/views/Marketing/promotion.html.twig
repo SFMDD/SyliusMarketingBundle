@@ -4,10 +4,10 @@
         gtag('event', 'view_item_list', {
             "items": [
                 {% for variant in variants %}
-                {% set product = variant.product %}
-                {{ marketing.impression_data(product.id, product.name,
-                website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
-                null, "Promotion") }},
+                    {% set product = variant.product %}
+                    {{ marketing.impression_data(product.id, product.name,
+                    website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                    null, "Promotion") }},
                 {% endfor %}
             ]
         });

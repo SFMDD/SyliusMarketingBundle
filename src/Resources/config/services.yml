@@ -1,6 +1,7 @@
 parameters:
   google.analytics: "GA-"
   google.conversion: "AW-"
+  google.event.checkout.progress: ""
   facebook.pixel: ""
   url.privacy: ""
   website.name: ""

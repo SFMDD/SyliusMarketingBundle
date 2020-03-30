@@ -1,6 +1,8 @@
 twig:
   globals:
     google_analytics: "%google.analytics%"
+    google_conversion: "%google.conversion%"
+    google_event_checkout_progress: "%google.event.checkout.progress%"
     facebook_pixel: "%facebook.pixel%"
     url_privacy: "%url.privacy%"
     website_name: "%website.name%"

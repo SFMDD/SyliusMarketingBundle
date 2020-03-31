@@ -7,6 +7,15 @@ parameters:
   url.privacy: ""
   website.name: ""
   author: ""
+
+  contact.phone: ""
+  contact.address.street: ""
+  contact.address.locality: ""
+  contact.address.state: ""
+  contact.address.pc: ""
+  contact_geo_latitude_longitude: ["", ""]
+  contact_geo_opening_hours: [["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], ["09:00", "19:30"]]
+
   google.event.purchase: ""
   google.event.search: ""
   google.event.product_show: ""

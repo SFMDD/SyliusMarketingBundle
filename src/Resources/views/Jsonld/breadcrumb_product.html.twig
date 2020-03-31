@@ -1,8 +1,9 @@
 {#BREADCRUMB#}
 {% set product = settings.product %}
-<script type="application/ld+json">
-    {
+
 {% if product is not empty %}
+    <script type="application/ld+json">
+    {
       "@context": "http://schema.org/",
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -15,28 +16,28 @@
           }
         }
         {% if product.mainTaxon is not null %}
-    {% set count = 2 %}
-    {% set taxon = product.mainTaxon %}
-    {% set ancestors = taxon.ancestors|reverse %}
+        {% set count = 2 %}
+        {% set taxon = product.mainTaxon %}
+        {% set ancestors = taxon.ancestors|reverse %}
 
-    {% for ancestor in ancestors %}
+        {% for ancestor in ancestors %}
             ,{
               "@type": "ListItem",
               "position": "{{ count }}",
               "item": {
                     {% if ancestor.isRoot() %}
                 "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                "name": "{{ ancestors.name }}"
+                "name": "{{ ancestor.name }}"
               }
             }
                      {% else %}
-            "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-            "name": "{{ ancestor.name }}"
-          }
-        }
+                "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+                "name": "{{ ancestor.name }}"
+              }
+            }
                      {% endif %}
-    {% set count = count+1 %}
-    {% endfor %}
+        {% set count = count+1 %}
+        {% endfor %}
         ,
         {
           "@type": "ListItem",
@@ -50,3 +51,4 @@
       ]
     }
 </script>
+{% endif %}

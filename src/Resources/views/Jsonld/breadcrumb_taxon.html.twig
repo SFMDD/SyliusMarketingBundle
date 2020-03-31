@@ -9,22 +9,20 @@
                 "@type": "ListItem",
                 "position": "1",
                 "item": {
-                        "@id": "{{ "parameter.url"|trans({}, "parameters") }}",
+                        "@id": "{{ website_name }}",
                         "name": "{{ "sylius.ui.home"|trans }}"
                         }
             }
     {% if ancestors|length > 0 %}
-        {% for ancestor in ancestors %}
-            {% if not ancestor.isRoot() %}
+    {% for ancestor in ancestors %}
                 ,{
                     "@type": "ListItem",
-                    "position": "{{ loop.index + 1 }}",
+                    "position": "{{ loop.index+1 }}",
                     "item": {
                     "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
                     "name": "{{ ancestor.name }}"
                     }
                 }
-            {% endif %}
         {% endfor %}
     {% endif %}
         ]

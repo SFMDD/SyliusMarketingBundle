@@ -3,13 +3,12 @@
 {
   "@context": "http://schema.org/",
   "@type": "WebSite",
-  "name": "{{ website_name }}",
-  "alternateName": "{{ website_name }}",
+  "name": "{{ website_name|capitalize }}",
   "url": "{{ absolute_url(path('sylius_shop_homepage')) }}",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "{{ absolute_url(path('sylius_shop_homepage')) }}search/{search_term_string}",
-    "query-input": "required name=search_term_string"
+    "target": "{{ absolute_url(path('sylius_shop_homepage')) }}search/{search_term}",
+    "query-input": "required name=search_term"
   }
 }
 </script>

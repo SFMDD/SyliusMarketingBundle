@@ -1,38 +1,25 @@
 {# Produit #}
+{% set product = settings.product %}
 {% if product is defined %}
-    {% if product.imagesByType('thumbnail') is not empty %}
-        {% set path = product.imagesByType('thumbnail').first.path|imagine_filter(filter|default('sylius_shop_product_thumbnail')) %}
-    {% elseif product.images.first %}
+    {% if product.images.first %}
         {% set path = product.images.first.path|imagine_filter(filter|default('sylius_shop_product_thumbnail')) %}
     {% else %}
         {% set path = '//placehold.it/200x200' %}
     {% endif %}
-    <script type="application/ld+json">
+<script type="application/ld+json">
     {
       "@context": "http://schema.org/",
       "@type": "Product",
       "name": "{{ product.name|lower }}",
-      "image": "{{ path }}",
-{% if product.shortDescription != null and product.shortDescription != "-" and product.shortDescription != "" %}
-      "description": "{{ product.shortDescription }}",
-{% else %}
-      "description": "{{ product.description|truncate(150, true)  }}",
-{% endif %}
+      "image": "{{ absolute_url(path) }}",
+      "description": "{% if product.shortDescription|trim is not empty %}{{ product.shortDescription }}{% else %}{{ product.description|truncate(150, true)  }}{% endif %}",
       "brand": "{{ website_name|capitalize }}",
       "sku": "{{ product.code|upper }}",
-      {% if product.averageRating|round > 0 %}
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "{{ product.averageRating|round }}",
-        "reviewCount": "{{ product.acceptedReviews|length }}"
+        "ratingValue": "{% if product.averageRating|round > 0 %}{{ product.averageRating|round }}{% else %}0{% endif %}",
+        "reviewCount": "{% if product.averageRating|round > 0 %}{{ product.acceptedReviews|length }}{% else %}0{% endif %}"
         }
-        {% else %}
-       "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "1"
-        }
-        {% endif %}
       }
 </script>
 {% endif %}

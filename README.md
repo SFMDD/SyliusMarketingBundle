@@ -25,6 +25,9 @@ parameters:
   google.adwords: "AW-"
   google.id: ""
   google.type.merchant: "FurnitureStore"
+  contact_geo_latitude_longitude: ["", ""]
+  contact_geo_opening_hours: [["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], ["09:00", "19:30"]]
+
   facebook.pixel: ""
   url.privacy: ""
   website.name: ""
@@ -68,11 +71,13 @@ Add event in product index (if use elasticSearch, in Shop/Product/Index)
 
 ## Add Event json_ld
 ```twig
+{% block header_end #}
+{% endblock %}
 {{ sonata_block_render_event('fmdd.event.jsonld.website') }} #homepage
 {{ sonata_block_render_event('fmdd.event.jsonld.contact.business') }} #contact page
 {{ sonata_block_render_event('fmdd.event.jsonld.local.business') }} #contact page
-{{ sonata_block_render_event('fmdd.event.jsonld.product') }} # show product
-{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.product') }} # show product
-{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.search') }} #Search page
+{{ sonata_block_render_event('fmdd.event.jsonld.product', {'product': product}) }} # show product
+{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.product', {'product': product}) }} # show product
+{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.search', {'name': name}) }} #Search page
 {{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.taxon') }} #Show list product
 ```

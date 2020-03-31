@@ -1,0 +1,8 @@
+{% if google_adwords is not empty and google_event_select_payment is not empty  %}
+<script>
+        tarteaucitron.user.gtagMore = function () {
+            gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_select_payment }}'});
+        };
+        (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+</script>
+{% endif %}

@@ -17,8 +17,8 @@
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 
 
-    {% if google_conversion not empty and google_event_checkout_progress not empty  %}
+    {% if google_adwords is not empty and google_event_checkout_progress is not empty  %}
         <!-- Event snippet for Initialisation choice shipping conversion page -->
-        gtag('event', 'conversion', {'send_to': '{{ google_conversion }}/{{ google_event_checkout_progress }}'});
+        gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_checkout_progress }}'});
     {% endif %}
 </script>

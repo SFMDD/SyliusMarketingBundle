@@ -1,0 +1,32 @@
+{#BREADCRUMB#}
+{% set ancestors = settings.taxon.ancestors|reverse %}
+<script type="application/ld+json">
+    {
+    "@context": "http://schema.org/",
+    "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": "1",
+                "item": {
+                        "@id": "{{ "parameter.url"|trans({}, "parameters") }}",
+                        "name": "{{ "sylius.ui.home"|trans }}"
+                        }
+            }
+    {% if ancestors|length > 0 %}
+        {% for ancestor in ancestors %}
+            {% if not ancestor.isRoot() %}
+                ,{
+                    "@type": "ListItem",
+                    "position": "{{ loop.index + 1 }}",
+                    "item": {
+                    "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+                    "name": "{{ ancestor.name }}"
+                    }
+                }
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+        ]
+    }
+</script>

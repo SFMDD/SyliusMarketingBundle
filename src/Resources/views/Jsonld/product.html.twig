@@ -1,0 +1,36 @@
+{# Produit #}
+{% if product is defined %}
+    {% if product.images is not empty %}
+        {% set path = 'parameter.s3.url.small'|trans({}, "parameters") ~ product.images.first.path|replace({'JPG': 'jpg'}) %}
+    {% else %}
+        {% set path = 'parameter.s3.url.img-marque'|trans({}, "parameters") %}
+    {% endif %}
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Product",
+      "name": "{{ product.name|lower }}",
+      "image": "{{ path }}",
+{% if product.shortDescription != null and product.shortDescription != "-" and product.shortDescription != "" %}
+      "description": "{{ product.shortDescription }}",
+{% else %}
+      "description": "{{ product.description|truncate(150, true)  }}",
+{% endif %}
+      "brand": "{{ 'parameter.brand'|trans({}, 'parameters') }}",
+      "sku": "{{ product.code|upper }}",
+      {% if product.averageRating|round > 0 %}
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ product.averageRating|round }}",
+        "reviewCount": "{{ product.acceptedReviews|length }}"
+        }
+        {% else %}
+       "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1"
+        }
+        {% endif %}
+      }
+</script>
+{% endif %}

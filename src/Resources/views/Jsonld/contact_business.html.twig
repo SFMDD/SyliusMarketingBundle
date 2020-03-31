@@ -1,0 +1,14 @@
+{#CONTACT BUSINESS#}
+<script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "url": "{{ absolute_url(path('sylius_shop_homepage')) }}",
+              "logo": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/custom/logo.png",
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "{{ contact_phone }}",
+                "contactType": "customer service"
+              }]
+            }
+</script>

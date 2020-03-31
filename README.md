@@ -21,13 +21,20 @@ imports:
 # Parameter
 ```yaml
 parameters:
-  google.analytics: "GA-"
-  google.conversion: "AW-"
+  google.analytics: "UA-"
+  google.adwords: "AW-"
+  google.id: ""
+  google.type.merchant: "FurnitureStore"
   facebook.pixel: ""
   url.privacy: ""
   website.name: ""
   author: ""
-  contact.email: ""
+  google.event.purchase: ""
+  google.event.search: ""
+  google.event.product_show: ""
+  google.event.registration: ""
+  google.event.checkout.progress: ""
+  google.event.select.payment: ""
 
 ```
 
@@ -57,4 +64,15 @@ Add event in product index (if use elasticSearch, in Shop/Product/Index)
 
 # TODO
 #{{ sonata_block_render_event('fmdd.event.marketing.view_item_list') }}
+```
+
+## Add Event json_ld
+```twig
+{{ sonata_block_render_event('fmdd.event.jsonld.website') }} #homepage
+{{ sonata_block_render_event('fmdd.event.jsonld.contact.business') }} #contact page
+{{ sonata_block_render_event('fmdd.event.jsonld.local.business') }} #contact page
+{{ sonata_block_render_event('fmdd.event.jsonld.product') }} # show product
+{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.product') }} # show product
+{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.search') }} #Search page
+{{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.taxon') }} #Show list product
 ```

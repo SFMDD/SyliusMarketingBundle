@@ -1,0 +1,43 @@
+{#LOCAL BUSINESS#}
+<script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "{{ google_type_merchant }}",
+            "name": "{{ website_name }}",
+            "image": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/custom/logo.png",
+            "@id": "{{ google_id }}",
+            "url": "{{ absolute_url(path('sylius_shop_homepage')) }}",
+            "telephone": "{{ contact_phone }}",
+            "priceRange": "0",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ contact_address_street }}",
+                "addressLocality": "{{ contact_address_locality }}",
+                "postalCode": "{{ contact_address_pc }}",
+                "addressCountry": "FR"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 50.53978859999999,
+                "longitude": 2.798208299999942
+            },
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday"
+                ],
+                "opens": "08:00",
+                "closes": "17:00"
+            },
+            "sameAs": [
+                {% if url_facebook is not empty %}
+                "{{ url_facebook }}",
+                {% endif %}
+                "{{ absolute_url(path('sylius_shop_homepage')) }}"
+            ]
+        }
+</script>

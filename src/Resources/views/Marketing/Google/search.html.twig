@@ -3,8 +3,8 @@
 {% set name = settings.name %}
 <script>
     tarteaucitron.user.gtagMore = function () {
-        {% if google_conversion not empty and google_event_search not empty  %}
-            gtag('event', 'conversion', {'send_to': '{{ google_conversion }}/{{ google_event_search }}' });
+        {% if google_adwords is not empty and google_event_search is not empty  %}
+            gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_search }}' });
         {% endif %}
         gtag('event', 'view_item_list', {
             "items": [
@@ -16,11 +16,4 @@
         gtag('event', 'search', {"search_term": '{{ name }}'});
     };
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-
-    tarteaucitron.user.facebookpixelMore = function () {
-        fbq('track', 'Search', {
-            search_string: '{{ name }}',
-        });
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
 </script>

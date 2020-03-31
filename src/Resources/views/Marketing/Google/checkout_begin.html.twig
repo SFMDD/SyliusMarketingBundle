@@ -1,10 +1,6 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
 {% set order = settings.order %}
 <script>
-    tarteaucitron.user.facebookpixelMore = function () {
-        fbq('track', 'InitiateCheckout');
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'begin_checkout', {
             "items": [

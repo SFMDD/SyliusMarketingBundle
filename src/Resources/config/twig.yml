@@ -1,7 +1,9 @@
 twig:
   globals:
     google_analytics: "%google.analytics%"
-    google_conversion: "%google.conversion%"
+    google_adwords: "%google.adwords%"
+    google_id: "%google.id%"
+    google_type_merchant: "%google.type.merchant%"
     google_event_purchase: "%google.event.purchase%"
     google_event_search: "%google.event.search%"
     google_event_product_show: "%google.event.product_show%"
@@ -12,4 +14,3 @@ twig:
     url_privacy: "%url.privacy%"
     website_name: "%website.name%"
     author: "%author%"
-    contact_email: "%contact.email%"

@@ -1,0 +1,10 @@
+{% set order = settings.order %}
+<script>
+    tarteaucitron.user.facebookpixelMore = function () {
+        fbq('track', 'Purchase', {
+            value: '{{ (order.total/100)|round(0, 'common') }}',
+            currency: '{{ order.currencyCode }}',
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+</script>

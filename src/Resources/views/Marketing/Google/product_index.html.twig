@@ -1,8 +1,5 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
 {% set products = settings.products %}
-{#
-{% set taxon = settings.taxon %}
-#}
 {% if products|length > 0 %}{# or taxon.child|length > 0#}
     <script>
         tarteaucitron.user.gtagMore = function () {

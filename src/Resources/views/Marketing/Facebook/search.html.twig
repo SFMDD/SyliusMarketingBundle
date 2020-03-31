@@ -1,0 +1,9 @@
+{% set name = settings.name %}
+<script>
+    tarteaucitron.user.facebookpixelMore = function () {
+        fbq('track', 'Search', {
+            search_string: '{{ name }}',
+        });
+    };
+    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+</script>

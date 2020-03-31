@@ -1,19 +1,11 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
 {% set order = settings.order %}
 <script>
-    tarteaucitron.user.facebookpixelMore = function () {
-        fbq('track', 'Purchase', {
-            value: '{{ (order.total/100)|round(0, 'common') }}',
-            currency: '{{ order.currencyCode }}',
-        });
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
-
     tarteaucitron.user.gtagMore = function () {
 
-        {% if google_conversion not empty and google_event_purchase not empty  %}
+        {% if google_adwords is not empty and google_event_purchase is not empty  %}
             gtag('event', 'conversion', {
-                'send_to': '{{ google_conversion }}/{{ google_event_purchase }}',
+                'send_to': '{{ google_adwords }}/{{ google_event_purchase }}',
                 'value': '{{ (order.total/100)|round(2, 'common') }}',
                 'currency': 'EUR',
                 'transaction_id': '{{ order.id }}'

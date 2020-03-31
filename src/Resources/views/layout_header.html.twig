@@ -87,7 +87,7 @@
     <!-- Google Analytics + Adwords -->
     tarteaucitron.user.gtagUa = '{{ google_analytics }}';
     tarteaucitron.user.gtagMore = function () {
-        <!-- Global site tag (gtag.js) - Google Ads: 716984528 -->
+        <!-- Global site tag (gtag.js) - Google Ads:  -->
         gtag('config', '{{ google_analytics }}');
     };
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
@@ -104,6 +104,5 @@
 {% block header_end %}
 {% endblock header_end %}
 
-{% include '@FMDDSyliusMarketingPlugin/Include/_json-ld.html.twig' %}
 {% include '@FMDDSyliusMarketingPlugin/Include/_functions.html.twig' %}
 <!-- END MARKETING DIGITAL -->

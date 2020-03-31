@@ -17,9 +17,9 @@
                 }
             };
 
-            {% if google_conversion not empty and google_event_product_show not empty  %}
+            {% if google_adwords is not empty and google_event_product_show is not empty  %}
                 gtag('event', 'conversion', {
-                    'send_to': '{{ google_conversion }}/{{ google_event_product_show }}',
+                    'send_to': '{{ google_adwords }}/{{ google_event_product_show }}',
                     'event_callback': callback
                 });
             {% endif %}

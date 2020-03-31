@@ -46,12 +46,6 @@ class MarketingListener extends AbstractMarketingListener
             $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/product_show.html.twig"));
     }
 
-    public function buildPromotion(BlockEvent $blockEvent)
-    {
-        if($this->isEnabled())
-            $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/promotion.html.twig"));
-    }
-
     public function buildPurchase(BlockEvent $blockEvent)
     {
         if($this->isEnabled()){
@@ -65,14 +59,6 @@ class MarketingListener extends AbstractMarketingListener
         if($this->isEnabled()){
             $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/registration.html.twig"));
             $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Facebook/registration.html.twig"));
-        }
-    }
-
-    public function buildSearch(BlockEvent $blockEvent)
-    {
-        if($this->isEnabled()){
-            $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/search.html.twig"));
-            $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Facebook/search.html.twig"));
         }
     }
 

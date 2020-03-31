@@ -1,9 +1,11 @@
-{% set name = settings.name %}
-<script>
-    tarteaucitron.user.facebookpixelMore = function () {
-        fbq('track', 'Search', {
-            search_string: '{{ name }}',
-        });
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
-</script>
+{% if facebook_pixel is not empty %}
+    {% set name = settings.taxon %}
+    <script>
+        tarteaucitron.user.facebookpixelMore = function () {
+            fbq('track', 'Search', {
+                search_string: '{{ name }}',
+            });
+        };
+        (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+    </script>
+{% endif %}

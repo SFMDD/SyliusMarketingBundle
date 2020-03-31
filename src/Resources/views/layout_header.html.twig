@@ -26,59 +26,59 @@
 
     // google analytics
     tarteaucitron.services.analyticsrgpd = {
-      "key": "analyticsrgpd",
-      "type": "analytic",
-      "name": "Google Analytics (send IP)",
-      "uri": "https://support.google.com/analytics/topic/2919631",
-      "needConsent": true,
-      "cookies": ['_ga', '_gat', '_gid', '__utma', '__utmb', '__utmc', '__utmt', '__utmz'],
-      "js": function () {
-        "use strict";
-        if(typeof window.ga === 'undefined') {
-          window.GoogleAnalyticsObject = 'ga';
-          window.ga = window.ga || function () {
-            window.ga.q = window.ga.q || [];
-            window.ga.q.push(arguments);
-          };
-          window.ga.l = new Date();
+        "key": "analyticsrgpd",
+        "type": "analytic",
+        "name": "Google Analytics (send IP)",
+        "uri": "https://support.google.com/analytics/topic/2919631",
+        "needConsent": true,
+        "cookies": ['_ga', '_gat', '_gid', '__utma', '__utmb', '__utmc', '__utmt', '__utmz'],
+        "js": function () {
+            "use strict";
+            if(typeof window.ga === 'undefined') {
+                window.GoogleAnalyticsObject = 'ga';
+                window.ga = window.ga || function () {
+                    window.ga.q = window.ga.q || [];
+                    window.ga.q.push(arguments);
+                };
+                window.ga.l = new Date();
 
-          tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
-            ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
-            ga('send', 'pageview');
-            if (typeof tarteaucitron.user.analyticsMore === 'function') {
-              tarteaucitron.user.analyticsMore();
+                tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
+                    ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
+                    ga('send', 'pageview');
+                    if (typeof tarteaucitron.user.analyticsMore === 'function') {
+                        tarteaucitron.user.analyticsMore();
+                    }
+                });
+            } else {
+                ga('set', 'anonymizeIp', false);
             }
-          });
-        } else {
-          ga('set', 'anonymizeIp', false);
-        }
 
-      },
-      "fallback": function () {
-        "use strict";
-        var id = 'analyticsrgpd';
+        },
+        "fallback": function () {
+            "use strict";
+            var id = 'analyticsrgpd';
 
-        if(typeof window.ga === 'undefined') {
+            if(typeof window.ga === 'undefined') {
 
-          window.GoogleAnalyticsObject = 'ga';
-          window.ga = window.ga || function () {
-            window.ga.q = window.ga.q || [];
-            window.ga.q.push(arguments);
-          };
-          window.ga.l = new Date();
+                window.GoogleAnalyticsObject = 'ga';
+                window.ga = window.ga || function () {
+                    window.ga.q = window.ga.q || [];
+                    window.ga.q.push(arguments);
+                };
+                window.ga.l = new Date();
 
-          tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
-            ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
-            ga('send', 'pageview');
-            ga('set', 'anonymizeIp', true); // anonymisation
-            if (typeof tarteaucitron.user.analyticsMore === 'function') {
-              tarteaucitron.user.analyticsMore();
+                tarteaucitron.addScript('//www.google-analytics.com/analytics.js', '', function () {
+                    ga('create', tarteaucitron.user.analyticsUa, {'cookieExpires': 34128000});
+                    ga('send', 'pageview');
+                    ga('set', 'anonymizeIp', true); // anonymisation
+                    if (typeof tarteaucitron.user.analyticsMore === 'function') {
+                        tarteaucitron.user.analyticsMore();
+                    }
+                });
+            } else {
+                ga('set', 'anonymizeIp', true);
             }
-          });
-        } else {
-          ga('set', 'anonymizeIp', true);
         }
-      }
     };
 
     tarteaucitron.user.analyticsUa = '{{ google_analytics }}';
@@ -100,9 +100,6 @@
     <!-- reCaptcha -->
     (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
 </script>
-
-{% block header_end %}
-{% endblock header_end %}
 
 {% include '@FMDDSyliusMarketingPlugin/Include/_functions.html.twig' %}
 <!-- END MARKETING DIGITAL -->

@@ -1,19 +1,21 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
-{% set products = settings.products %}
-{% set name = settings.name %}
-<script>
-    tarteaucitron.user.gtagMore = function () {
-        {% if google_adwords is not empty and google_event_search is not empty  %}
-            gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_search }}' });
-        {% endif %}
-        gtag('event', 'view_item_list', {
-            "items": [
-                {% for product in products %}
-                    {{ marketing.impression_data(product.id, product.name, website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
-                {% endfor %}
-            ]
-        });
-        gtag('event', 'search', {"search_term": '{{ name }}'});
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-</script>
+{% if google_analytics|replace({"UA-": ""}) is not empty %}
+    {% set products = settings.product %}
+    {% set name = settings.taxon %}
+    <script>
+        tarteaucitron.user.gtagMore = function () {
+            {% if google_adwords is not empty and google_event_search is not empty %}
+            gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_search }}'});
+            {% endif %}
+            gtag('event', 'view_item_list', {
+                "items": [
+                    {% for product in products %}
+                    {{ marketing.impression_data(prod.id, prod.name, website_name, prod.mainTaxon.slug, loop.index, (prod|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
+                    {% endfor %}
+                ]
+            });
+            gtag('event', 'search', {"search_term": '{{ name }}'});
+        };
+        (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+    </script>
+{% endif %}

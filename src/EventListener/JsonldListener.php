@@ -27,11 +27,6 @@ class JsonldListener extends AbstractMarketingListener
         $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Jsonld/breadcrumb_product.html.twig"));
     }
 
-    public function buildBreadcrumbSearch(BlockEvent $blockEvent)
-    {
-        $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Jsonld/breadcrumb_search.html.twig"));
-    }
-
     public function buildBreadcrumbTaxon(BlockEvent $blockEvent)
     {
         $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Jsonld/breadcrumb_taxon.html.twig"));

@@ -16,7 +16,7 @@
             "@type": "ListItem",
             "position": "2",
                 "item": {
-                "@id": "{{ path('route_search', {'_locale': app.request.locale, 'name': name}) }}",
+                "@id": "{{ path('route_search', {'_locale': app.request.locale, 'name': settings.name}) }}",
                 "name": "{{ "sylius.ui.home"|trans }}"
                 }
             }

@@ -36,7 +36,7 @@ services:
 
 
   fmdd.event.listener.marketing:
-    parent: fmdd.event.listener.marketing.abstract
+    parent: "fmdd.event.listener.marketing.abstract"
     class: FMDD\SyliusMarketingPlugin\EventListener\MarketingListener
     tags:
       - { name: kernel.event_listener, event: sonata.block.event.sylius.shop.layout.head, method: buildLayoutHeader }
@@ -56,7 +56,7 @@ services:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.view_item_list, method: buildViewItemList }
 
   fmdd.event.listener.jsonld:
-    parent: fmdd.event.listener.marketing.abstract
+    parent: "fmdd.event.listener.marketing.abstract"
     class: FMDD\SyliusMarketingPlugin\EventListener\JsonldListener
     tags:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.website, method: buildWebsite}

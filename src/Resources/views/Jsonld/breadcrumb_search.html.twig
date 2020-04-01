@@ -1,5 +1,5 @@
 {#BREADCRUMB#}
-{% set name = settings.taxon %}
+{% set name = settings.taxon|escape|raw %}
 <script type="application/ld+json">
     {
     "@context": "http://schema.org/",

@@ -27,12 +27,12 @@
               "item": {
                     {% if ancestor.isRoot() %}
                 "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                "name": "{{ ancestor.name }}"
+                "name": "{{ ancestor.name|escape|raw }}"
               }
             }
                      {% else %}
                 "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                "name": "{{ ancestor.name }}"
+                "name": "{{ ancestor.name|escape|raw }}"
               }
             }
                      {% endif %}
@@ -44,7 +44,7 @@
           "position": "{{ count }}",
           "item": {
             "@id": "{{ path('sylius_shop_product_index', {'slug': taxon.slug, '_locale': taxon.translation.locale}) }}",
-            "name": "{{ taxon.name }}"
+            "name": "{{ taxon.name|escape|raw }}"
           }
         }
         {% endif %}

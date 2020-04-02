@@ -74,7 +74,7 @@ by
 Add event in product index (if use elasticSearch, in Shop/Product/Index)
 {% block metatags %}
     {{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.taxon', {'taxon': taxon}) }}
-    {{ sonata_block_render_event('fmdd.event.marketing.product_index', {'products': products, 'taxon': taxon}) }}
+    {{ sonata_block_render_event('fmdd.event.marketing.product_index', {'attr': {'products': products}, 'taxon': taxon}) }}
 {% endblock %}
 
 #add event in product/show.html
@@ -86,7 +86,7 @@ Add event in product index (if use elasticSearch, in Shop/Product/Index)
 # use in specific webpage, import in dialann website bundle
 #{{ sonata_block_render_event('fmdd.event.marketing.promotion', {'variants': variants}) }}
 #{{ sonata_block_render_event('fmdd.event.marketing.registration') }}
-#{{ sonata_block_render_event('fmdd.event.marketing.search') }}
+#{{ sonata_block_render_event('fmdd.event.marketing.exception', {"attr": {'code_error': "404"}}) }}
 
 # TODO
 #{{ sonata_block_render_event('fmdd.event.marketing.view_item_list') }}

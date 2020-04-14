@@ -86,11 +86,13 @@
 
     <!-- Google Analytics + Adwords -->
     tarteaucitron.user.gtagUa = '{{ google_analytics }}';
-    tarteaucitron.user.gtagMore = function () {
-        <!-- Global site tag (gtag.js) - Google Ads:  -->
-        gtag('config', '{{ google_analytics }}');
-    };
-    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+    {% if google_adwords is not empty %}
+        tarteaucitron.user.gtagMore = function () {
+                <!-- Global site tag (gtag.js) - Google Ads:  -->
+                gtag('config', '{{ google_adwords }}');
+        };
+        (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+    {% endif %}
 
     <!-- Pixel Facebook -->
     tarteaucitron.user.facebookpixelId = '{{ facebook_pixel }}';

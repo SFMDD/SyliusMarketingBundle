@@ -63,6 +63,8 @@ by
 #fmdd.event.marketing.box_product') }}sylius.shop.product.index.after_box
 #fmdd.event.marketing.checkout_begin') }}sylius.shop.checkout.address.after_steps
 #fmdd.event.marketing.checkout_progress') }}sylius.shop.checkout.select_shipping.after_steps
+
+{{ sonata_block_render_event('fmdd.event.marketing.checkout_progress', {'order': order}) }}
 #fmdd.event.marketing.selectPayment') }}sylius.shop.checkout.select_payment.after_steps
 #fmdd.event.marketing.purchase') }}sylius.shop.order.thank_you.after_message
 

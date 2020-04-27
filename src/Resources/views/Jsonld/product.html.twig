@@ -6,20 +6,23 @@
     {% else %}
         {% set path = '//placehold.it/200x200' %}
     {% endif %}
-<script type="application/ld+json">
+    <script type="application/ld+json">
     {
       "@context": "http://schema.org/",
       "@type": "Product",
-      "name": "{{ product.name|lower }}",
+      "name": "{{ product.name|escape|raw }}",
       "image": "{{ absolute_url(path) }}",
-      "description": "{% if product.shortDescription|trim is not empty %}{{ product.shortDescription }}{% else %}{{ product.description|truncate(150, true)  }}{% endif %}",
+      "description": "{% if product.shortDescription|trim is not empty %}{{ product.shortDescription|escape|raw }}{% else %}{{ product.description|truncate(150, true)|escape|raw }}{% endif %}",
       "brand": "{{ website_name|capitalize }}",
-      "sku": "{{ product.code|upper }}",
+      "sku": "{{ product.code|upper }}"{% if product.averageRating|round > 0 %},
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "{% if product.averageRating|round > 0 %}{{ product.averageRating|round }}{% else %}0{% endif %}",
-        "reviewCount": "{% if product.averageRating|round > 0 %}{{ product.acceptedReviews|length }}{% else %}0{% endif %}"
+        "ratingValue": "{{ product.averageRating|round }}",
+        "reviewCount": "{{ product.acceptedReviews|length }}"
         }
+        {% endif %}
       }
-</script>
+
+
+    </script>
 {% endif %}

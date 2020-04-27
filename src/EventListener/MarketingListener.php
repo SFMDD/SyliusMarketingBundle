@@ -99,7 +99,7 @@ class MarketingListener extends AbstractMarketingListener
     public function buildBoxProduct(BlockEvent $blockEvent)
     {
         /** TODO: Create impression box product */
-       // $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/box_product.html.twig"));
+        // $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/box_product.html.twig"));
     }
 
     public function buildCheckoutBegin(BlockEvent $blockEvent)

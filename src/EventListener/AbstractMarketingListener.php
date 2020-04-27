@@ -114,7 +114,7 @@ abstract class AbstractMarketingListener
     }
 
     public function isEnabledGoogle(){
-        if($this->checkGoogleAdwords() and $this->checkGoogleAnalytics())
+        if($this->checkGoogleAnalytics())
             return true;
         return false;
     }

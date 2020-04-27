@@ -9,7 +9,7 @@
                 "@type": "ListItem",
                 "position": "1",
                 "item": {
-                        "@id": "{{ website_name }}",
+                        "@id": "{{ website_name|capitalize }}",
                         "name": "{{ "sylius.ui.home"|trans }}"
                         }
             }
@@ -20,7 +20,7 @@
                     "position": "{{ loop.index+1 }}",
                     "item": {
                     "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                    "name": "{{ ancestor.name }}"
+                    "name": "{{ ancestor.name|escape|raw }}"
                     }
                 }
         {% endfor %}

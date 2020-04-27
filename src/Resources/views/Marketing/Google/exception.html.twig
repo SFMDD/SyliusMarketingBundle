@@ -1,8 +1,8 @@
-{% set code_error = settings.code_error %}
+{% set code_error = settings.attr.code_error %}
 <script>
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'exception', {
-            'description': 'Error '+'{{ code_error }}',
+            'description': 'Error {{ code_error }}',
             'fatal': false
         });
     };

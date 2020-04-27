@@ -1,5 +1,5 @@
 {% import "@FMDDSyliusMarketingPlugin/Include/marketing_macro.html.twig" as marketing %}
-{% set products = settings.products %}
+{% set products = settings.attr.products %}
 {% if products|length > 0 %}{# or taxon.child|length > 0#}
     <script>
         tarteaucitron.user.gtagMore = function () {
@@ -7,7 +7,7 @@
                 "items": [
                     {% for product in products %}
                     {{ marketing.impression_data(product.id, product.name,
-                        website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})*1.2/100)|round(0, 'common'),
+                        website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
                     null, "Taxon : "~product.mainTaxon.name) }},
                     {% endfor %}
                 ]

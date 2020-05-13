@@ -1,5 +1,6 @@
 {#BREADCRUMB#}
-{% set name = settings.taxon|escape|raw %}
+{% set search_term = settings.attr.search_term|escape|raw %}
+
 <script type="application/ld+json">
     {
     "@context": "http://schema.org/",
@@ -17,7 +18,7 @@
             "@type": "ListItem",
             "position": "2",
                 "item": {
-                "@id": "{{ path('route_search', {'_locale': app.request.locale, 'name': name}) }}",
+                "@id": "{{ path('route_search', {'_locale': app.request.locale, 'search_term': search_term}) }}",
                 "name": "{{ "sylius.ui.home"|trans }}"
                 }
             }

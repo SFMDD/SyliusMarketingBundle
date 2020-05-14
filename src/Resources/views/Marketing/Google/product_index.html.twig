@@ -6,9 +6,14 @@
             gtag('event', 'view_item_list', {
                 "items": [
                     {% for product in products %}
-                    {{ marketing.impression_data(product.id, product.name,
-                        website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
-                    null, "Taxon : "~product.mainTaxon.name) }},
+                    {% if product.mainTaxon is not null %}
+                    {% set mt = product.mainTaxon.name %}
+                    {% else %}
+                    {% set mt = "not set" %}
+                    {% endif %}
+                            {{ marketing.impression_data(product.id, product.name,
+                                website_name, product.mainTaxon, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                            null, "Taxon : "~mt) }},
                     {% endfor %}
                 ]
             });

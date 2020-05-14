@@ -7,8 +7,8 @@
                 "items": [
                     {% for product in products %}
                     {{ marketing.impression_data(product.id, product.name,
-                        website_name, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
-                    null, "Taxon : "~product.mainTaxon.name) }},
+                        website_name, product.mainTaxon is null ? null : product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                    null, "Taxon : "~ product.mainTaxon is null ? 'null' : product.mainTaxon.name) }},
                     {% endfor %}
                 ]
             });

@@ -1,38 +1,42 @@
 <script>
     let addToCart = function (id, name, list_name, brand, category, variant, list_position, quantity, price) {
-        gtag('event', 'add_to_cart', {
-            "items": [
-                {
-                    "id": id,
-                    "name": name,
-                    "list_name": list_name,
-                    "brand": brand,
-                    "category": category,
-                    "variant": variant,
-                    "list_position": list_position,
-                    "quantity": quantity,
-                    "price": price
-                }
-            ]
-        });
+        tarteaucitron.user.gtagMore = function () {
+            gtag('event', 'add_to_cart', {
+                "items": [
+                    {
+                        "id": id,
+                        "name": name,
+                        "list_name": list_name,
+                        "brand": brand,
+                        "category": category,
+                        "variant": variant,
+                        "list_position": list_position,
+                        "quantity": quantity,
+                        "price": price
+                    }
+                ]
+            });
+        }
         (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
     };
     let removeToCart = function (id, name, list_name, brand, category, variant, list_position, quantity, price) {
-        gtag('event', 'remove_from_cart', {
-            "items": [
-                {
-                    "id": id,
-                    "name": name,
-                    "list_name": list_name,
-                    "brand": brand,
-                    "category": category,
-                    "variant": variant,
-                    "list_position": list_position,
-                    "quantity": quantity,
-                    "price": price
-                }
-            ]
-        });
+        tarteaucitron.user.gtagMore = function () {
+            gtag('event', 'remove_from_cart', {
+                "items": [
+                    {
+                        "id": id,
+                        "name": name,
+                        "list_name": list_name,
+                        "brand": brand,
+                        "category": category,
+                        "variant": variant,
+                        "list_position": list_position,
+                        "quantity": quantity,
+                        "price": price
+                    }
+                ]
+            });
+        }
         (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
     };
 </script>

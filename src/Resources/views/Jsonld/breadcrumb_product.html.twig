@@ -18,7 +18,7 @@
         {% if product.mainTaxon is not null %}
         {% set count = 2 %}
         {% set taxon = product.mainTaxon %}
-        {% if taxon not null %}
+        {% if taxon is not null %}
             {% set ancestors = taxon.ancestors|reverse %}
 
             {% for ancestor in ancestors %}

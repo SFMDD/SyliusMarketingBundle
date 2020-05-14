@@ -18,35 +18,37 @@
         {% if product.mainTaxon is not null %}
         {% set count = 2 %}
         {% set taxon = product.mainTaxon %}
-        {% set ancestors = taxon.ancestors|reverse %}
+        {% if taxon not null %}
+            {% set ancestors = taxon.ancestors|reverse %}
 
-        {% for ancestor in ancestors %}
-            ,{
+            {% for ancestor in ancestors %}
+                ,{
+                  "@type": "ListItem",
+                  "position": "{{ count }}",
+                  "item": {
+                        {% if ancestor.isRoot() %}
+                    "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+                    "name": "{{ ancestor.name|escape|raw }}"
+                  }
+                }
+                         {% else %}
+                    "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
+                    "name": "{{ ancestor.name|escape|raw }}"
+                  }
+                }
+                         {% endif %}
+            {% set count = count+1 %}
+            {% endfor %}
+            ,
+            {
               "@type": "ListItem",
               "position": "{{ count }}",
               "item": {
-                    {% if ancestor.isRoot() %}
-                "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                "name": "{{ ancestor.name|escape|raw }}"
+                "@id": "{{ path('sylius_shop_product_index', {'slug': taxon.slug, '_locale': taxon.translation.locale}) }}",
+                "name": "{{ taxon.name|escape|raw }}"
               }
             }
-                     {% else %}
-                "@id": "{{ path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}) }}",
-                "name": "{{ ancestor.name|escape|raw }}"
-              }
-            }
-                     {% endif %}
-        {% set count = count+1 %}
-        {% endfor %}
-        ,
-        {
-          "@type": "ListItem",
-          "position": "{{ count }}",
-          "item": {
-            "@id": "{{ path('sylius_shop_product_index', {'slug': taxon.slug, '_locale': taxon.translation.locale}) }}",
-            "name": "{{ taxon.name|escape|raw }}"
-          }
-        }
+            {% endif %}
         {% endif %}
       ]
     }

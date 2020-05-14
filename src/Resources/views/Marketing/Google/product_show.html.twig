@@ -4,9 +4,9 @@
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'view_item', {
             "items": [
-                {{ marketing.impression_data(product.id, product.name,
-                    website_name, product.mainTaxon.slug, 1, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})*1.2/100)|round(0, 'common'),
-                null, "product_show") }}
+                    {{ marketing.impression_data(product.id, product.name,
+                        website_name, product.mainTaxon, 1, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                    null, "product_show") }}
             ]
         });
 

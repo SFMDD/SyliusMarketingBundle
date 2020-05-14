@@ -20,10 +20,7 @@
             "shipping": 0,
             "items": [
                 {% for item in order.items %}
-                {{ marketing.product_data(item.getVariant.code, item.getVariant.name,
-                    website_name, item.getVariant.product.mainTaxon.slug,
-                (item.subtotal/100)|round(2, 'common'), item.quantity, null, loop.index+1, null)
-                }},
+                        {{ marketing.product_data(item.getVariant, (item.subtotal/100)|round(2, 'common'), item.quantity, null, loop.index+1, null) }},
                 {% endfor %}
             ]
         });

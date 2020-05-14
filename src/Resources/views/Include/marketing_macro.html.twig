@@ -1,4 +1,9 @@
 {% macro impression_data(id, name, brand = null, category = null, list_position = null, price = null, variant = null, list_name = null, quantity = null) %}
+    {% if category is not null %}
+        {% set category = category.slug %}
+    {% else %}
+        {% set category = null %}
+    {% endif %}
     {
     "id": {{ id }},
     "name": '{{ name }}',
@@ -26,7 +31,15 @@
     }
 {% endmacro %}
 
-{% macro product_data(id, name, brand = null, category = null, price = null, quantity = null, coupon = null, list_position = null, variant = null) %}
+{% macro product_data(itemVariant, price = null, quantity = null, coupon = null, list_position = null, variant = null) %}
+    {% set id = itemVariant.code %}
+    {% set name = itemVariant.name %}
+    {% set brand = website_name %}
+    {% if itemVariant.product.mainTaxon is not null %}
+        {% set category = itemVariant.name %}
+    {% else %}
+        {% set category = null %}
+    {% endif %}
     {
     "id": '{{ id }}',
     "name": '{{ name }}',

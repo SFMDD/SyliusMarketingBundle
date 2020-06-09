@@ -9,7 +9,7 @@
                 "@type": "ListItem",
                 "position": "1",
                 "item": {
-                        "@id": "{{ website_name|capitalize }}",
+                        "@id": "{{ sylius.channel.name|lower|capitalize }}",
                         "name": "{{ "sylius.ui.home"|trans }}"
                         }
             }

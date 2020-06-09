@@ -14,6 +14,8 @@
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 
 
+    {% set google_adwords = sylius.channel.googleAdwords %}
+    {% set google_event_checkout_progress = sylius.channel.googleEventCheckoutProgress %}
     {% if google_adwords is not empty and google_event_checkout_progress is not empty  %}
         <!-- Event snippet for Initialisation choice shipping conversion page -->
         gtag('event', 'conversion', {'send_to': '{{ google_adwords }}/{{ google_event_checkout_progress }}'});

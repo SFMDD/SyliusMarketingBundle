@@ -2,38 +2,39 @@
 <script type="application/ld+json">
         {
             "@context": "http://schema.org",
-            "@type": "{{ google_type_merchant }}",
-            "name": "{{ website_name|capitalize }}",
-            "image": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/custom/logo.png",
-            "@id": "{{ google_id }}",
+            "@type": "{{ sylius.channel.googleTypeMerchant }}",
+            "name": "{{ sylius.channel.name|capitalize }}",
+            "image": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/themes/{{ sylius.channel.name|lower }}/img/logo.png",
+            "@id": "{{ sylius.channel.googleId }}",
             "url": "{{ absolute_url(path('sylius_shop_homepage')) }}",
-            "telephone": "{{ contact_phone }}",
+            "telephone": "{{ sylius.channel.contactPhone }}",
             "priceRange": "0",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "{{ contact_address_street|escape|raw }}",
-                "addressLocality": "{{ contact_address_locality|escape|raw }}",
-                "postalCode": "{{ contact_address_pc|escape|raw }}",
+                "streetAddress": "{{ sylius.channel.shopBillingData.street|escape|raw }}",
+                "addressLocality": "{{ sylius.channel.shopBillingData.city|escape|raw }}",
+                "postalCode": "{{ sylius.channel.shopBillingData.postcode|escape|raw }}",
                 "addressCountry": "FR"
-            },
-            {% if contact_geo_latitude_longitude[0]|trim is not empty and contact_geo_latitude_longitude[1]|trim is not empty %}
+            },{% set contactGeoLatitudeLongitude = sylius.channel.contactGeoLatitudeLongitude %}
+            {% if contactGeoLatitudeLongitude[0]|trim is not empty and contactGeoLatitudeLongitude[1]|trim is not empty %}
             "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": "{{ contact_geo_latitude_longitude[0] }}",
-                "longitude": "{{ contact_geo_latitude_longitude[1] }}"
+                "latitude": "{{ contactGeoLatitudeLongitude[0] }}",
+                "longitude": "{{ contactGeoLatitudeLongitude[1] }}"
             },
             {% endif %}
-            {% if contact_geo_opening_hours[0]|length > 0 %}
+            {% set contactGeoOpeningHours = sylius.channel.contactGeoOpeningHours %}
+            {% if contactGeoOpeningHours[0]|length > 0 %}
             "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",
-                "dayOfWeek": {{ contact_geo_opening_hours[0]|json_encode|raw }},
-                "opens": "{{ contact_geo_opening_hours[1][0] }}",
-                "closes": "{{ contact_geo_opening_hours[1][1] }}"
+                "dayOfWeek": {{ contactGeoOpeningHours[0]|json_encode|raw }},
+                "opens": "{{ contactGeoOpeningHours[1][0] }}",
+                "closes": "{{ contactGeoOpeningHours[1][1] }}"
             },
             {% endif %}
             "sameAs": [
-                {% if url_facebook is not empty %}
-                "{{ url_facebook }}",
+                {% if sylius.channel.urlFacebook is not empty %}
+                "{{ sylius.channel.urlFacebook }}",
                 {% endif %}
                 "{{ absolute_url(path('sylius_shop_homepage')) }}"
             ]

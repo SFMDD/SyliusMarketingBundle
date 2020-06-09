@@ -5,7 +5,7 @@
     "content_type": "product",
     "items": [
         {{ marketing.impression_data(product.id, product.name,
-            "{{ website_name }}", product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+            {{ sylius.channel.name|capitalize }}, product.mainTaxon.slug, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
         null, "Box Product") }}
     ]
   });

@@ -3,7 +3,7 @@
 <style>#tarteaucitron #tarteaucitronInfo, #tarteaucitron #tarteaucitronServices .tarteaucitronDetails {  position: relative!important; max-width: none; }</style>
 <script type="text/javascript">
     tarteaucitron.init({
-        "privacyUrl": "{{ url_privacy }}", /* Privacy policy url */
+        "privacyUrl": "{{ sylius.channel.urlPrivacy }}", /* Privacy policy url */
 
         "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
         "cookieName": "tarteaucitron", /* Cookie name */
@@ -81,11 +81,12 @@
         }
     };
 
-    tarteaucitron.user.analyticsUa = '{{ google_analytics }}';
+    tarteaucitron.user.analyticsUa = '{{ sylius.channel.googleAnalytics }}';
     (tarteaucitron.job = tarteaucitron.job || []).push('analyticsrgpd');
 
     <!-- Google Analytics + Adwords -->
-    tarteaucitron.user.gtagUa = '{{ google_analytics }}';
+    tarteaucitron.user.gtagUa = '{{ sylius.channel.googleAnalytics }}';
+    {% set google_adwords = sylius.channel.googleAdwords %}
     {% if google_adwords is not empty %}
         tarteaucitron.user.gtagMore = function () {
                 <!-- Global site tag (gtag.js) - Google Ads:  -->
@@ -94,10 +95,13 @@
         (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
     {% endif %}
 
-    <!-- Pixel Facebook -->
-    tarteaucitron.user.facebookpixelId = '{{ facebook_pixel }}';
-    tarteaucitron.user.facebookpixelMore = function () {};
-    (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+    {% set facebook_pixel = sylius.channel.facebookPixel %}
+    {% if facebook_pixel is not empty %}
+        <!-- Pixel Facebook -->
+        tarteaucitron.user.facebookpixelId = '{{ facebook_pixel }}';
+        tarteaucitron.user.facebookpixelMore = function () {};
+        (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
+    {% endif %}
 
     <!-- reCaptcha -->
     (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');

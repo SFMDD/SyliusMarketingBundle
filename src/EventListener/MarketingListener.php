@@ -3,23 +3,13 @@
 namespace FMDD\SyliusMarketingPlugin\EventListener;
 
 use Sonata\BlockBundle\Event\BlockEvent;
-use Sonata\BlockBundle\Model\Block;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 
 class MarketingListener extends AbstractMarketingListener
 {
-    public function __construct(string $googleAnalytics, string $googleAdwords, string $googleId, string $googleTypeMerchant, string $facebookPixel, string $urlPrivacy, string $websiteName, string $author, string $googleEventPurchase, string $googleEventSearch, string $googleProductShow, string $googleEventRegistration, string $googleEventCheckoutProgress, string $googleEventSelectPayment)
+    public function __construct(ChannelContextInterface $channelContext)
     {
-        parent::__construct($googleAnalytics, $googleAdwords, $googleId, $googleTypeMerchant, $facebookPixel, $urlPrivacy, $websiteName, $author, $googleEventPurchase, $googleEventSearch, $googleProductShow, $googleEventRegistration, $googleEventCheckoutProgress, $googleEventSelectPayment);
-    }
-
-    private function blockInit(BlockEvent $blockEvent, string $template){
-        $block = new Block();
-        $block->setId(uniqid('', true));
-        $block->setSettings(array_replace($blockEvent->getSettings(), [
-            'template' => $template
-        ]));
-        $block->setType('sonata.block.service.template');
-        return $block;
+        parent::__construct($channelContext);
     }
 
     public function buildLayoutHeader(BlockEvent $blockEvent)

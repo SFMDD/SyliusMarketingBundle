@@ -4,111 +4,51 @@
 namespace FMDD\SyliusMarketingPlugin\EventListener;
 
 
+use Sonata\BlockBundle\Event\BlockEvent;
+use Sonata\BlockBundle\Model\Block;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
+
 abstract class AbstractMarketingListener
 {
+
     /**
-     * @var string
+     * @var ChannelContextInterface
      */
-    public $googleAnalytics;
-    /**
-     * @var string
-     */
-    public $googleAdwords;
-    /**
-     * @var string
-     */
-    public $googleId;
-    /**
-     * @var string
-     */
-    public $googleTypeMerchant;
-    /**
-     * @var string
-     */
-    public $facebookPixel;
-    /**
-     * @var string
-     */
-    public $urlPrivacy;
-    /**
-     * @var string
-     */
-    public $websiteName;
-    /**
-     * @var string
-     */
-    public $author;
-    /**
-     * @var string
-     */
-    public $googleEventPurchase;
-    /**
-     * @var string
-     */
-    public $googleEventSearch;
-    /**
-     * @var string
-     */
-    public $googleProductShow;
-    /**
-     * @var string
-     */
-    public $googleEventRegistration;
-    /**
-     * @var string
-     */
-    public $googleEventCheckoutProgress;
-    /**
-     * @var string
-     */
-    public $googleEventSelectPayment;
+    private ChannelContextInterface $channelContext;
 
     public function __construct(
-        string $googleAnalytics,
-        string $googleAdwords,
-        string $googleId,
-        string $googleTypeMerchant,
-        string $facebookPixel,
-        string $urlPrivacy,
-        string $websiteName,
-        string $author,
-        string $googleEventPurchase,
-        string $googleEventSearch,
-        string $googleProductShow,
-        string $googleEventRegistration,
-        string $googleEventCheckoutProgress,
-        string $googleEventSelectPayment
+        ChannelContextInterface $channelContext
     ){
-        $this->googleAnalytics = $googleAnalytics;
-        $this->googleAdwords = $googleAdwords;
-        $this->googleId = $googleId;
-        $this->googleTypeMerchant = $googleTypeMerchant;
-        $this->facebookPixel = $facebookPixel;
-        $this->urlPrivacy = $urlPrivacy;
-        $this->websiteName = $websiteName;
-        $this->author = $author;
-        $this->googleEventPurchase = $googleEventPurchase;
-        $this->googleEventSearch = $googleEventSearch;
-        $this->googleProductShow = $googleProductShow;
-        $this->googleEventRegistration = $googleEventRegistration;
-        $this->googleEventCheckoutProgress = $googleEventCheckoutProgress;
-        $this->googleEventSelectPayment = $googleEventSelectPayment;
+        $this->channelContext = $channelContext;
+    }
+
+    public function blockInit(BlockEvent $blockEvent, string $template){
+        $block = new Block();
+        $block->setId(uniqid('', true));
+        $block->setSettings(array_replace($blockEvent->getSettings(), [
+            'template' => $template
+        ]));
+        $block->setType('sonata.block.service.template');
+        return $block;
     }
 
     private function checkGoogleAdwords(){
-        if(empty(str_replace("AW-", "", $this->googleAdwords)))
+        $adwords = $this->channelContext->getChannel()->getGoogleAdwords();
+        if(empty(str_replace("AW-", "", $adwords)))
             return false;
         return true;
     }
 
     private function checkGoogleAnalytics(){
-        if(empty(str_replace("UA-", "", $this->googleAnalytics)))
+        $analytics = $this->channelContext->getChannel()->getGoogleAnalytics();
+        if(empty(str_replace("UA-", "", $analytics)))
             return false;
         return true;
     }
 
     public function isEnabledFacebook(){
-        if(!empty($this->facebookPixel))
+        $pixel = $this->channelContext->getChannel()->getFacebookPixel();
+        if(!empty($pixel))
             return true;
         return false;
     }

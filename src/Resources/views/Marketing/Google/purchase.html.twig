@@ -3,6 +3,9 @@
 <script>
     tarteaucitron.user.gtagMore = function () {
 
+
+        {% set google_adwords = sylius.channel.googleAdwords %}
+        {% set google_event_purchase = sylius.channel.googleEventPurchase %}
         {% if google_adwords is not empty and google_event_purchase is not empty  %}
             gtag('event', 'conversion', {
                 'send_to': '{{ google_adwords }}/{{ google_event_purchase }}',
@@ -13,7 +16,7 @@
         {% endif %}
         gtag('event', 'purchase', {
             "transaction_id": "{{ order.id }}",
-            "affiliation": {{ website_name }},
+            "affiliation": {{ sylius.channel.name|capitalize }},
             "value": {{ (order.total/100)|round(2, 'common') }},
             "currency": "EUR",
             "tax": 1.00,

@@ -1,3 +1,5 @@
+{% set google_adwords = sylius.channel.googleAdwords %}
+{% set google_event_select_payment = sylius.channel.googleEventSelectPayment %}
 {% if google_adwords is not empty and google_event_select_payment is not empty  %}
 <script>
         tarteaucitron.user.gtagMore = function () {

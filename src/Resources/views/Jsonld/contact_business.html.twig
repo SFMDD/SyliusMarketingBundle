@@ -4,10 +4,10 @@
               "@context": "https://schema.org",
               "@type": "Organization",
               "url": "{{ absolute_url(path('sylius_shop_homepage')) }}",
-              "logo": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/custom/logo.png",
+              "logo": "{{ absolute_url(path('sylius_shop_homepage')) }}assets/themes/{{ sylius.channel.name|lower }}/img/logo.png",
               "contactPoint": [{
                 "@type": "ContactPoint",
-                "telephone": "{{ contact_phone }}",
+                "telephone": "{{ sylius.channel.contactPhone|lower }}",
                 "contactType": "customer service"
               }]
             }

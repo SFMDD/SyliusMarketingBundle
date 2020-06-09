@@ -15,7 +15,7 @@
                 "addressLocality": "{{ sylius.channel.shopBillingData.city|escape|raw }}",
                 "postalCode": "{{ sylius.channel.shopBillingData.postcode|escape|raw }}",
                 "addressCountry": "FR"
-            },{% set contactGeoLatitudeLongitude = sylius.channel.contactGeoLatitudeLongitude %}
+            },{% set contactGeoLatitudeLongitude = sylius.channel.contactGeoLatitudeLongitudeArray %}
             {% if contactGeoLatitudeLongitude[0]|trim is not empty and contactGeoLatitudeLongitude[1]|trim is not empty %}
             "geo": {
                 "@type": "GeoCoordinates",
@@ -23,7 +23,7 @@
                 "longitude": "{{ contactGeoLatitudeLongitude[1] }}"
             },
             {% endif %}
-            {% set contactGeoOpeningHours = sylius.channel.contactGeoOpeningHours %}
+            {% set contactGeoOpeningHours = sylius.channel.contactGeoOpeningHoursArray %}
             {% if contactGeoOpeningHours[0]|length > 0 %}
             "openingHoursSpecification": {
                 "@type": "OpeningHoursSpecification",

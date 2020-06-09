@@ -28,20 +28,7 @@ services:
     class: FMDD\SyliusMarketingPlugin\EventListener\AbstractMarketingListener
     abstract: true
     arguments:
-      - "%google.analytics%"
-      - "%google.adwords%"
-      - "%google.id%"
-      - "%google.type.merchant%"
-      - "%facebook.pixel%"
-      - "%url.privacy%"
-      - "%website.name%"
-      - "%author%"
-      - "%google.event.purchase%"
-      - "%google.event.search%"
-      - "%google.event.product_show%"
-      - "%google.event.registration%"
-      - "%google.event.checkout.progress%"
-      - "%google.event.select.payment%"
+      - "@sylius.context.channel"
 
 
   fmdd.event.listener.marketing:

@@ -1,3 +1,2 @@
 imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
-  - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/twig.yml" }

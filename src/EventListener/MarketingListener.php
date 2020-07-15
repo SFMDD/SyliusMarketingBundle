@@ -20,8 +20,13 @@ class MarketingListener extends AbstractMarketingListener
 
     public function buildMetadata(BlockEvent $blockEvent)
     {
-        if($this->isEnabled() and !empty($this->author))
+        if($this->isEnabled() and !empty($this->channelContext->getChannel()->getShopBillingData()->getCompany()))
             $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/metadata.html.twig"));
+    }
+
+    public function buildProductShowMetadata(BlockEvent $blockEvent){
+        if($this->isEnabled())
+            $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/productShowMetadata.html.twig"));
     }
 
     public function buildProductIndex(BlockEvent $blockEvent)

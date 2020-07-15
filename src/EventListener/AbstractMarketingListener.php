@@ -14,7 +14,7 @@ abstract class AbstractMarketingListener
     /**
      * @var ChannelContextInterface
      */
-    private ChannelContextInterface $channelContext;
+    protected ChannelContextInterface $channelContext;
 
     public function __construct(
         ChannelContextInterface $channelContext

@@ -45,6 +45,7 @@ services:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.metadata, method: buildMetadata }
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.product_index, method: buildProductIndex }
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.product_show, method: buildProductShow }
+      - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.product_show_metadata, method: buildProductShowMetadata }
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.promotion, method: buildPromotion }
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.registration, method: buildRegistration }
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.search, method: buildSearch }

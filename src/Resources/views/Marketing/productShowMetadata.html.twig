@@ -1,0 +1,16 @@
+{% if settings.attr.title is defined and settings.attr.description is defined and settings.attr.image is defined and settings.attr.url is defined %}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+          content="{{ settings.attr.url }}">
+    <meta property="og:title" content="{{ settings.attr.title }}">
+    <meta property="og:description" content="{{ settings.attr.description }}">
+    <meta property="og:image" content="{{ settings.attr.image }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ settings.attr.url }}">
+    <meta property="twitter:title" content="{{ settings.attr.title }}">
+    <meta property="twitter:description" content="{{ settings.attr.description }}">
+    <meta property="twitter:image" content="{{ settings.attr.image }}">
+{% endif %}

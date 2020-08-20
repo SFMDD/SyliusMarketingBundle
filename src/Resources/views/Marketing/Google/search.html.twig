@@ -12,7 +12,9 @@
         gtag('event', 'view_item_list', {
             "items": [
                 {% for product in products %}
-                {{ marketing.impression_data(product.id, product.name, sylius.channel.name|capitalize, product.mainTaxon, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
+                {#{{ marketing.impression_data(product.id, product.name, sylius.channel.name|capitalize, product.mainTaxon, loop.index, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),null, "Search Result") }},
+                  #}
+                    {{ marketing.impression_data(product.id, product.name, sylius.channel.name|capitalize, product.mainTaxon, loop.index, null, null, "Search Result") }},
                 {% endfor %}
             ]
         });

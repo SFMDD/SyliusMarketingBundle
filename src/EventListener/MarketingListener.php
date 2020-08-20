@@ -39,6 +39,7 @@ class MarketingListener extends AbstractMarketingListener
     {
         if($this->isEnabled())
             $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Google/product_show.html.twig"));
+            $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Marketing/Facebook/product_show.html.twig"));
     }
 
     public function buildPromotion(BlockEvent $blockEvent)

@@ -5,8 +5,11 @@
         gtag('event', 'view_item', {
             "items": [
                     {{ marketing.impression_data(product.id, product.name,
-                        sylius.channel.name|capitalize, product.mainTaxon, 1, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                        sylius.channel.name|capitalize, product.mainTaxon, 1, null,
                     null, "product_show") }}
+                {#{{ marketing.impression_data(product.id, product.name,
+                        sylius.channel.name|capitalize, product.mainTaxon, 1, (product|sylius_resolve_variant|sylius_calculate_price({'channel': sylius.channel})/100)|round(0, 'common'),
+                    null, "product_show") }}#}
             ]
         });
 
@@ -31,25 +34,3 @@
     };
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
 </script>
-
-{# TODO: A réaliser les meta property du produit
-
-{% if product.images|length >= 1 %}
-    {% set path = product.images[0].path is not null ? 'parameter.s3.url.big'|trans({'#brand#': product.brand}, 'parameters')~product.images[0].path|replace({'JPG': 'jpg'}) : 'parameter.s3.url.img-marque'|trans({}, 'parameters') %}
-{% else %}
-    {% set path = 'parameter.s3.url.big'|trans({'#brand#': product.brand}, 'parameters')~image.path|replace({'JPG': 'jpg'}) %}
-{% endif %}
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ absolute_url(path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale})) }}">
-<meta property="og:title" content="{{ product.name }}">
-<meta property="og:description" content="{{ description }}">
-<meta property="og:image" content="{{ path }}">
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="{{ absolute_url(path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale})) }}">
-<meta property="twitter:title" content="{{ product.name }}">
-<meta property="twitter:description" content="{{ description }}">
-<meta property="twitter:image" content="{{ path }}">
-#}

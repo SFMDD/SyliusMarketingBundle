@@ -1,57 +1,71 @@
-# Marketing Bundle for Sylius
+# Sylius Marketing Bundle
 
-## Install
+## Installation
+
+### Step 1: Download the plugin
+
+Open a command console, enter your project directory and execute the following command to download the latest stable version of this bundle:
+
 ```shell
 $ composer require fmdd/sylius-marketing-plugin
 ```
 
-## Add in bundles.php
+This command requires you to have Composer installed globally, as explained in the [installation chapter](https://getcomposer.org/doc/00-intro.md) of the Composer documentation.
+
+### Step 2: Enable the plugin
+
+Then, enable the plugin by adding it to the end of the list of registered plugins/bundles
+in `config/bundles.php` file of your project.
+
 ```php
-    ...
+<?php
+# config/bundles.php
+return [
+    // ...
     FMDD\SyliusMarketingPlugin\FMDDSyliusMarketingPlugin::class => ['all' => true],
+    // ...
+];
 ```
 
-## in packages/_sylius.yaml
+### Step 3: Configure the plugin
+
 ```yaml
+# config/packages/_sylius.yaml
 imports:
-    ...
+    # ...
     - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/config.yml" }
 ```
 
-# Parameter
-```yaml
-parameters:
-  google.analytics: "UA-"
-  google.adwords: "AW-"
-  google.id: ""
-  google.type.merchant: "FurnitureStore"
-  contact_geo_latitude_longitude: ["", ""]
-  contact_geo_opening_hours: [["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], ["09:00", "19:30"]]
 
-  facebook.pixel: ""
-  url.privacy: ""
-  website.name: ""
-  author: ""
-  google.event.purchase: ""
-  google.event.search: ""
-  google.event.product_show: ""
-  google.event.registration: ""
-  google.event.checkout.progress: ""
-  google.event.select.payment: ""
+### Step 4: Extend channel entity
 
+```php
+<?php
+namespace App\Entity\Channel;
+
+use FMDD\SyliusMarketingPlugin\Entity\ChannelInterface as FMDDChannelInterface;
+use FMDD\SyliusMarketingPlugin\Entity\ChannelTrait as FMDDChannelTrait;
+use Sylius\Component\Core\Model\Channel as BaseChannel;
+
+class Channel extends BaseChannel implements FMDDChannelInterface
+{
+    use FMDDChannelTrait;
+}
 ```
 
-## Add block in layout.html.twig
-Replace 
+### Step 5: Add the blocks event
+
+You must replace the following line : 
 ```twig
+{# @SyliusShopBundle/_layout.html.twig #}
 {{ sonata_block_render_event('sylius.shop.layout.head') }}
 ```
-
-by 
+By : 
 ```twig 
+{# @SyliusShopBundle/_layout.html.twig #}
 {{ sonata_block_render_event('sylius.shop.layout.head') }}
-{% block metatags %}
-{% endblock %}
+{% block metatags %}{% endblock %}
+
 #Add event after <head> in layout
 #{{ sonata_block_render_event('fmdd.event.marketing.metadata') }}
 ```

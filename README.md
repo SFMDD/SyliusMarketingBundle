@@ -37,6 +37,18 @@ imports:
     - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/config.yml" }
 ```
 
+### Step 4: Add the plugin routing to your application
+
+```yaml
+# config/routes/sylius_admin.yaml
+sylius_marketing_plugin_admin:
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/admin_routing.yaml"
+```
+```yaml
+# config/routes/sylius_admin.yaml
+sylius_marketing_plugin_shop:
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/shop_routing.yaml"
+```
 
 ### Step 4: Extend channel, customer and order entities
 

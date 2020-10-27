@@ -5,7 +5,6 @@ services:
     arguments:
       - "@sylius.context.channel"
 
-
   fmdd.event.listener.marketing:
     parent: "fmdd.event.listener.marketing.abstract"
     class: FMDD\SyliusMarketingPlugin\EventListener\MarketingListener
@@ -38,3 +37,8 @@ services:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.breadcrumb.product, method: buildBreadcrumbProduct}
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.breadcrumb.search, method: buildBreadcrumbSearch}
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.breadcrumb.taxon, method: buildBreadcrumbTaxon}
+
+  fmdd.listener.order_item:
+    class: FMDD\SyliusMarketingPlugin\Listener\OrderItemListener
+    tags:
+      - { name: kernel.event_listener, event: sylius.cart_change, method: gTagAddToCart }

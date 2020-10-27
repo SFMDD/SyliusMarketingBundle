@@ -1,0 +1,42 @@
+imports:
+    - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
+
+    - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusAdminApiBundle/Resources/config/app/config.yml" }
+
+    - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
+
+    - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/config.yml" }
+
+parameters:
+    sylius_core.public_dir: '%kernel.project_dir%/public'
+
+sylius_mailer:
+    sender:
+        name: "test"
+        address: "test@dialann.com"
+
+sylius_shop:
+    product_grid:
+        include_all_descendants: true
+
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Customer
+                # If you already have your own CustomerController - use TrustpilotCustomerTrait instead
+                controller: Setono\SyliusTrustpilotPlugin\Controller\CustomerController
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Order
+
+sylius_channel:
+    resources:
+        channel:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Channel

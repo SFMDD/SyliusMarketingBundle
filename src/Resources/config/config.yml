@@ -1,2 +1,3 @@
 imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
+  - { resource: "@SetonoSyliusTrustpilotPlugin/Resources/config/app/config.yaml" }

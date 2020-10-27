@@ -22,6 +22,7 @@ in `config/bundles.php` file of your project.
 # config/bundles.php
 return [
     // ...
+    Setono\SyliusTrustpilotPlugin\SetonoSyliusTrustpilotPlugin::class => ['all' => true],
     FMDD\SyliusMarketingPlugin\FMDDSyliusMarketingPlugin::class => ['all' => true],
     // ...
 ];
@@ -37,10 +38,12 @@ imports:
 ```
 
 
-### Step 4: Extend channel entity
+### Step 4: Extend channel, customer and order entities
 
 ```php
 <?php
+// src/Entity/Channel.php
+
 namespace App\Entity\Channel;
 
 use FMDD\SyliusMarketingPlugin\Entity\ChannelInterface as FMDDChannelInterface;
@@ -51,6 +54,74 @@ class Channel extends BaseChannel implements FMDDChannelInterface
 {
     use FMDDChannelTrait;
 }
+```
+
+```php
+<?php
+// src/Entity/Customer.php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Setono\SyliusTrustpilotPlugin\Model\CustomerTrustpilotAwareInterface;
+use Setono\SyliusTrustpilotPlugin\Model\CustomerTrait as TrustpilotCustomerTrait;
+use Sylius\Component\Core\Model\Customer as BaseCustomer;
+
+/**
+ * @ORM\Table(name="sylius_customer")
+ * @ORM\Entity()
+ */
+class Customer extends BaseCustomer implements CustomerTrustpilotAwareInterface
+{
+    use TrustpilotCustomerTrait;
+}
+```
+
+```php
+<?php
+// src/Entity/Order.php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Setono\SyliusTrustpilotPlugin\Model\OrderTrustpilotAwareInterface;
+use Setono\SyliusTrustpilotPlugin\Model\OrderTrait as TrustpilotOrderTrait;
+use Sylius\Component\Core\Model\Order as BaseOrder;
+
+/**
+ * @ORM\Table(name="sylius_order")
+ * @ORM\Entity()
+ */
+class Order extends BaseOrder implements OrderTrustpilotAwareInterface
+{
+    use TrustpilotOrderTrait;
+}
+```
+
+Add overrides configuration :
+
+```yaml
+# config/packages/_sylius.yml
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Customer
+                # If you already have your own CustomerController - use TrustpilotCustomerTrait instead
+                controller: Setono\SyliusTrustpilotPlugin\Controller\CustomerController
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Order
+
+sylius_channel:
+    resources:
+        channel:
+            classes:
+                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Channel
 ```
 
 ### Step 5: Add the blocks event

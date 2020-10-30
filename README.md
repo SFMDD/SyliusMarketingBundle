@@ -50,7 +50,7 @@ sylius_marketing_plugin_shop:
     resource: "@FMDDSyliusMarketingPlugin/Resources/config/shop_routing.yaml"
 ```
 
-### Step 4: Extend channel, customer and order entities
+### Step 5: Extend channel, customer and order entities
 
 ```php
 <?php
@@ -72,7 +72,7 @@ class Channel extends BaseChannel implements FMDDChannelInterface
 <?php
 // src/Entity/Customer.php
 
-namespace App\Entity;
+namespace App\Entity\Customer;
 
 use Doctrine\ORM\Mapping as ORM;
 use Setono\SyliusTrustpilotPlugin\Model\CustomerTrustpilotAwareInterface;
@@ -93,7 +93,7 @@ class Customer extends BaseCustomer implements CustomerTrustpilotAwareInterface
 <?php
 // src/Entity/Order.php
 
-namespace App\Entity;
+namespace App\Entity\Order;
 
 use Doctrine\ORM\Mapping as ORM;
 use Setono\SyliusTrustpilotPlugin\Model\OrderTrustpilotAwareInterface;
@@ -119,24 +119,12 @@ sylius_customer:
     resources:
         customer:
             classes:
-                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Customer
                 # If you already have your own CustomerController - use TrustpilotCustomerTrait instead
                 controller: Setono\SyliusTrustpilotPlugin\Controller\CustomerController
 
-sylius_order:
-    resources:
-        order:
-            classes:
-                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Order
-
-sylius_channel:
-    resources:
-        channel:
-            classes:
-                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Channel
 ```
 
-### Step 5: Add the blocks event
+### Step 6: Add the blocks event
 
 You must replace the following line : 
 ```twig
@@ -152,7 +140,7 @@ By :
 </head>
 ```
 
-## Add events JSON-LD and MarketingEvent
+### Step 7: Add events JSON-LD and MarketingEvent
 ```twig
 #SyliusShopBundle\Checkout\selectPayment.html.twig
 {% block metatags %}
@@ -207,4 +195,9 @@ By :
 
 # TODO
 #{{ sonata_block_render_event('fmdd.event.marketing.view_item_list') }}
+```
+
+### Step 8 : Copy the templates folder
+```shell script
+ $ cp -r vendor/fmdd/sylius-marketing-plugin/tests/Application/templates/bundles/ ./templates/
 ```

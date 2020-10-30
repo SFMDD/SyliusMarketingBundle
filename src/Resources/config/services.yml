@@ -42,3 +42,8 @@ services:
     class: FMDD\SyliusMarketingPlugin\Listener\OrderItemListener
     tags:
       - { name: kernel.event_listener, event: sylius.cart_change, method: gTagAddToCart }
+
+  fmdd.form.channel_type.extension:
+    class: FMDD\SyliusMarketingPlugin\Form\Extension\ChannelTypeExtension
+    tags:
+      - { name: form.type_extension, extended_type: Sylius\Bundle\ChannelBundle\Form\Type\ChannelType }

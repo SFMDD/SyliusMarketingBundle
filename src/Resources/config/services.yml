@@ -39,11 +39,6 @@ services:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.breadcrumb.taxon, method: buildBreadcrumbTaxon}
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.jsonld.faq, method: buildFaq}
 
-  fmdd.listener.order_item:
-    class: FMDD\SyliusMarketingPlugin\Listener\OrderItemListener
-    tags:
-      - { name: kernel.event_listener, event: sylius.cart_change, method: gTagAddToCart }
-
   fmdd.form.channel_type.extension:
     class: FMDD\SyliusMarketingPlugin\Form\Extension\ChannelTypeExtension
     tags:

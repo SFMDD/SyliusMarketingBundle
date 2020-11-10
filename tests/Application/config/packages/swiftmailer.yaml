@@ -1,0 +1,14 @@
+swiftmailer:
+    disable_delivery: false
+    transport:        smtp
+    username:         m44871810-137757617
+    password:         'aDw3I04En5N8nGag'
+    host:             smtp.ionos.fr
+    port:             465
+    encryption:       ssl
+    auth-mode:        login
+    stream_options:
+        ssl:
+            allow_self_signed: true
+            verify_peer: false
+            verify_peer_name: false

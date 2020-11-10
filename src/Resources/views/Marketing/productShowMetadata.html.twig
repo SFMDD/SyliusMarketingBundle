@@ -1,8 +1,9 @@
 {% if settings.attr.title is defined and settings.attr.description is defined and settings.attr.image is defined and settings.attr.url is defined %}
+    <meta itemprop="image" content="{{ settings.attr.image }}">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url"
-          content="{{ settings.attr.url }}">
+    <meta property="og:url" content="{{ settings.attr.url }}">
     <meta property="og:title" content="{{ settings.attr.title }}">
     <meta property="og:description" content="{{ settings.attr.description }}">
     <meta property="og:image" content="{{ settings.attr.image }}">

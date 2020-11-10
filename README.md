@@ -22,6 +22,7 @@ in `config/bundles.php` file of your project.
 # config/bundles.php
 return [
     // ...
+    Setono\SyliusTrustpilotPlugin\SetonoSyliusTrustpilotPlugin::class => ['all' => true],
     FMDD\SyliusMarketingPlugin\FMDDSyliusMarketingPlugin::class => ['all' => true],
     // ...
 ];
@@ -36,11 +37,25 @@ imports:
     - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/config.yml" }
 ```
 
+### Step 4: Add the plugin routing to your application
 
-### Step 4: Extend channel entity
+```yaml
+# config/routes/sylius_admin.yaml
+sylius_marketing_plugin_admin:
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/admin_routing.yaml"
+```
+```yaml
+# config/routes/sylius_admin.yaml
+sylius_marketing_plugin_shop:
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/shop_routing.yaml"
+```
+
+### Step 5: Extend channel, customer and order entities
 
 ```php
 <?php
+// src/Entity/Channel.php
+
 namespace App\Entity\Channel;
 
 use FMDD\SyliusMarketingPlugin\Entity\ChannelInterface as FMDDChannelInterface;
@@ -53,7 +68,63 @@ class Channel extends BaseChannel implements FMDDChannelInterface
 }
 ```
 
-### Step 5: Add the blocks event
+```php
+<?php
+// src/Entity/Customer.php
+
+namespace App\Entity\Customer;
+
+use Doctrine\ORM\Mapping as ORM;
+use Setono\SyliusTrustpilotPlugin\Model\CustomerTrustpilotAwareInterface;
+use Setono\SyliusTrustpilotPlugin\Model\CustomerTrait as TrustpilotCustomerTrait;
+use Sylius\Component\Core\Model\Customer as BaseCustomer;
+
+/**
+ * @ORM\Table(name="sylius_customer")
+ * @ORM\Entity()
+ */
+class Customer extends BaseCustomer implements CustomerTrustpilotAwareInterface
+{
+    use TrustpilotCustomerTrait;
+}
+```
+
+```php
+<?php
+// src/Entity/Order.php
+
+namespace App\Entity\Order;
+
+use Doctrine\ORM\Mapping as ORM;
+use Setono\SyliusTrustpilotPlugin\Model\OrderTrustpilotAwareInterface;
+use Setono\SyliusTrustpilotPlugin\Model\OrderTrait as TrustpilotOrderTrait;
+use Sylius\Component\Core\Model\Order as BaseOrder;
+
+/**
+ * @ORM\Table(name="sylius_order")
+ * @ORM\Entity()
+ */
+class Order extends BaseOrder implements OrderTrustpilotAwareInterface
+{
+    use TrustpilotOrderTrait;
+}
+```
+
+Add overrides configuration :
+
+```yaml
+# config/packages/_sylius.yml
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                # If you already have your own CustomerController - use TrustpilotCustomerTrait instead
+                controller: Setono\SyliusTrustpilotPlugin\Controller\CustomerController
+
+```
+
+### Step 6: Add the blocks event
 
 You must replace the following line : 
 ```twig
@@ -69,7 +140,7 @@ By :
 </head>
 ```
 
-## Add events JSON-LD and MarketingEvent
+### Step 7: Add events JSON-LD and MarketingEvent
 ```twig
 #SyliusShopBundle\Checkout\selectPayment.html.twig
 {% block metatags %}
@@ -127,4 +198,9 @@ By :
 
 # TODO
 #{{ sonata_block_render_event('fmdd.event.marketing.view_item_list') }}
+```
+
+### Step 8 : Copy the templates folder
+```shell script
+ $ cp -r vendor/fmdd/sylius-marketing-plugin/tests/Application/templates/bundles/ ./templates/
 ```

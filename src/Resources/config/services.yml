@@ -7,3 +7,8 @@ services:
     FMDD\SyliusMarketingPlugin\:
         resource: '../../*'
         exclude: '../../{Entity,Migrations,FMDDSyliusMarketingPlugin.php}'
+
+  fmdd.form.channel_type.extension:
+    class: FMDD\SyliusMarketingPlugin\Form\Extension\ChannelTypeExtension
+    tags:
+      - { name: form.type_extension, extended_type: Sylius\Bundle\ChannelBundle\Form\Type\ChannelType }

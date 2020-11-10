@@ -46,4 +46,9 @@ class JsonldListener extends AbstractMarketingListener
     {
         $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Jsonld/website.html.twig"));
     }
+
+    public function buildFaq(BlockEvent $blockEvent)
+    {
+        $blockEvent->addBlock($this->blockInit($blockEvent, "@FMDDSyliusMarketingPlugin/Jsonld/faq.html.twig"));
+    }
 }

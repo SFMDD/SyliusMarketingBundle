@@ -1,12 +1,12 @@
 imports:
-    - { resource: "./service/listener/marketing.yml"}
-    - { resource: "./service/listener/jsonld.yml"}
-    - { resource: "./service/commands.yml"}
+  - { resource: "./service/listener/marketing.yml"}
+  - { resource: "./service/listener/jsonld.yml"}
+  - { resource: "./service/commands.yml"}
 
 services:
-    FMDD\SyliusMarketingPlugin\:
-        resource: '../../*'
-        exclude: '../../{Entity,Migrations,FMDDSyliusMarketingPlugin.php}'
+  FMDD\SyliusMarketingPlugin\:
+    resource: '../../*'
+    exclude: '../../{Entity,Migrations,FMDDSyliusMarketingPlugin.php}'
 
   fmdd.form.channel_type.extension:
     class: FMDD\SyliusMarketingPlugin\Form\Extension\ChannelTypeExtension

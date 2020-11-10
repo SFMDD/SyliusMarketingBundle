@@ -1,0 +1,32 @@
+sylius_resource:
+    resources:
+        fmdd_sylius_marketing.cart_abandoned:
+            driver: doctrine/orm
+            classes:
+                model: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
+                form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
+
+sylius_grid:
+    grids:
+        fmdd_sylius_marketing_cart_abandoned:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
+                    form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
+            fields:
+                subject:
+                    type: string
+                    label: "Subject"
+                sendDelay:
+                    type: string
+                    label: "Send after"
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

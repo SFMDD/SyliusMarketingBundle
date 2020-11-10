@@ -84,7 +84,10 @@ By :
 
 #SyliusShopBundle\error404.html.twig and SyliusShopBundle\error500.html.twig error404/500 
 {% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.marketing.exception', {"code_error": "500"})) }}
+{{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
+        'template': '@FMDDSyliusMarketingPlugin/Marketing/Google/exception.html.twig',
+        'attr': {'code_error': '404'}
+    }) }}
 {% endblock %}
 
 #SyliusShopBundle\Product\index.html.twig

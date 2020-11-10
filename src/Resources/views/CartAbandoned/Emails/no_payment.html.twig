@@ -1,0 +1,26 @@
+{% extends '@SyliusShop/Email/layout.html.twig' %}
+
+{# @var order \App\Entity\Order\Order #}
+{% block subject %}
+    No payment for order #{{ order.number }}
+{% endblock %}
+
+{% block content %}
+    {% set url = channel.hostname is not null ? 'http://' ~ channel.hostname ~ path('sylius_shop_order_show', {'tokenValue': order.tokenValue, '_locale': localeCode}) : url('sylius_shop_order_show', {'tokenValue': order.tokenValue, '_locale': localeCode}) %}
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        Votre commande
+        <div style="margin: 10px 0;">
+          <span style="border: 1px solid #eee; padding: 10px; color: #1abb9c; font-size: 28px;">
+            {{ order.number }}
+          </span>
+        </div>
+        est en attente de paiement. Il vous reste {{ cart_expiration_period }} jours
+    </div>
+
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="{{ url|raw }}" style="display: inline-block; text-align: center; background: #1abb9c; padding: 18px 28px; color: #fff; text-decoration: none; border-radius: 3px;">
+            {{ 'sylius.email.order_confirmation.view_order_or_change_payment_method'|trans({}, null, localeCode) }}
+        </a>
+    </div>
+{% endblock %}

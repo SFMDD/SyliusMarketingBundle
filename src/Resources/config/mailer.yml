@@ -1,0 +1,4 @@
+sylius_mailer:
+    emails:
+        no_payment:
+            template: "@FMDDSyliusMarketingPlugin/CartAbandoned/Emails/no_payment.html.twig"

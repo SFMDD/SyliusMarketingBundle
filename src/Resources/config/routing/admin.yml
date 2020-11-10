@@ -1,0 +1,16 @@
+fmdd_sylius_marketing_admin_cart_abandoned:
+    resource: |
+        alias: fmdd_sylius_marketing.cart_abandoned
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: fmdd_sylius_marketing_cart_abandoned
+        vars:
+            all:
+                subheader: 'Cart abandoned'
+                templates:
+                    form: '@FMDDSyliusMarketingPlugin/CartAbandoned/_form.html.twig'
+            index:
+                icon: 'file image outline'
+    type: sylius.resource
+    prefix: admin

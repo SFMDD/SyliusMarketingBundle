@@ -1,2 +1,56 @@
-{{ form_errors(form) }}
-{{ form_widget(form) }}
+<div class="ui stackable grid sylius-tabular-form">
+    <div class="three wide column">
+        <div class="ui large fluid vertical menu">
+            <a class="item active" data-tab="email">Email</a>
+
+            <a class="item" data-tab="cart">Cart</a>
+
+            <a class="item" data-tab="customer">Customer</a>
+
+            <a class="item" data-tab="discount">Discount</a>
+        </div>
+    </div>
+    <div class="thirteen wide column">
+
+        <div>
+            <div class="ui active tab" data-tab="email">
+                <h3 class="ui top attached header">Email</h3>
+
+                <div class="ui attached segment">
+                    {{ form_row(form.status) }}
+                    {{ form_row(form.subject) }}
+                    <i>Config in yaml : sylius_mailer > emails > your_template</i>
+                    {{ form_row(form.template) }}
+                    <i>120 mins = 120</i>
+                    {{ form_row(form.sendDelay) }}
+                </div>
+            </div>
+            <div class="ui active tab" data-tab="cart">
+                <h3 class="ui top attached header">Cart</h3>
+
+                <div class="ui attached segment">
+                    {{ form_row(form.cartNotCheckout) }}
+                    {{ form_row(form.cartNotPayed) }}
+                </div>
+            </div>
+            <div class="ui tab" data-tab="customer">
+                <h3 class="ui top attached header">Customer</h3>
+
+                <div class="ui attached segment">
+                    {{ form_row(form.targetActive) }}
+                    {{ form_row(form.targetInactive) }}
+                    {{ form_row(form.targetWithoutOrder) }}
+                </div>
+            </div>
+            <div class="ui tab" data-tab="discount">
+                <h3 class="ui top attached header">Discount</h3>
+
+                <div class="ui attached segment">
+                    {{ form_row(form.discountType) }}
+                    {{ form_row(form.discountAmount) }}
+                    {{ form_row(form.discountValidity) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

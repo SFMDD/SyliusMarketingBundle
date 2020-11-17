@@ -15,12 +15,24 @@ sylius_grid:
                     class: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
                     form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
             fields:
+                status:
+                    type: twig
+                    label: sylius.ui.enabled
+                    sortable: true
+                    options:
+                        template: SyliusUiBundle:Grid/Field:enabled.html.twig
                 subject:
                     type: string
                     label: "Subject"
+                    sortable: true
+                template:
+                    type: string
+                    label: "Template"
+                    sortable: true
                 sendDelay:
                     type: string
-                    label: "Send after"
+                    label: "Send after (mins)"
+                    sortable: true
             actions:
                 main:
                     create:
@@ -30,3 +42,12 @@ sylius_grid:
                         type: update
                     delete:
                         type: delete
+            filters:
+                search:
+                    type: string
+                    label: sylius.ui.search
+                    options:
+                        fields: [subject, template]
+                status:
+                    type: boolean
+                    label: sylius.ui.enabled

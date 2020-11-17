@@ -29,7 +29,7 @@ class CartAbandonedSend implements ResourceInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private Customer $customer;
 

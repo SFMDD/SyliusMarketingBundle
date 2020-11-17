@@ -31,5 +31,15 @@ final class AdminMenuListener
             ->setAttribute('type', 'link')
             ->setLabel('sylius.menu.admin.main.cart_abandoned')
             ->setLabelAttribute('icon', 'cart');
+
+        $item
+            ->addChild('notification', [
+                'route' => 'fmdd_sylius_marketing_admin_notification_index',
+            ])
+            ->setAttribute('type', 'link')
+            ->setLabel('sylius.menu.admin.main.notification')
+            ->setLabelAttribute('icon', 'paper plane');
+
+
     }
 }

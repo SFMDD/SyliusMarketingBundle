@@ -2,11 +2,16 @@ fmdd_sylius_marketing:
     ui:
         cart_abandoneds: "Emails paniers abandonnés"
         new_cart_abandoned: "Nouveau email de panier abandonné"
+        notification_types: "Type de notification"
+        new_notification_types: "Nouveau type de notification"
+        notifications: "Notifications envoyées aux visiteurs"
+        new_notifications: "Nouvelle notification"
 sylius:
     menu:
         admin:
             main:
                 cart_abandoned: "Email Panier abandonné"
+                notification: "Notifications"
 
 emails:
     no_payment:

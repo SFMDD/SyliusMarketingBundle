@@ -1,6 +1,8 @@
 imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_cart_abandoned.yml"}
+  - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_notification.yml"}
+  - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_notification_type.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/mailer.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
   - { resource: "@SetonoSyliusTrustpilotPlugin/Resources/config/app/config.yaml" }

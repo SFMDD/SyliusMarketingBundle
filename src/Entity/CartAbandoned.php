@@ -9,7 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="cart_abandoned")
+ * @ORM\Table(name="fmdd_cart_abandoned")
  */
 class CartAbandoned implements ResourceInterface
 {

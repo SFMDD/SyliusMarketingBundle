@@ -65,12 +65,12 @@
             url: "{{ path('fmdd_notification_random') }}",
             contentType: "application/json; charset=utf-8",
             success: function (msg) {
-                sendNotification(msg.notification);
+                sendNotification(msg.notification, msg.error);
             }
         });
     }
-    function sendNotification(notification){
-        if(!notification.error) return;
+    function sendNotification(notification, error){
+        if(error) return;
         let element = $('#notify')
         if(element.length) element.remove();
 

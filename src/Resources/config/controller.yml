@@ -1,0 +1,5 @@
+services:
+  fmdd.notification.controller:
+    class: FMDD\SyliusMarketingPlugin\Controller\NotificationController
+    arguments: ['@doctrine', '@time.datetime_formatter']
+    public: true

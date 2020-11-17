@@ -3,9 +3,10 @@
 
 namespace FMDD\SyliusMarketingPlugin\EventListener;
 
-use App\Entity\Notification;
-use App\Entity\NotificationType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use FMDD\SyliusMarketingPlugin\Entity\Notification;
+use FMDD\SyliusMarketingPlugin\Entity\NotificationType;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sylius\Component\Core\Model\OrderInterface;
 
 class NotificationOrderPayerListener
@@ -14,10 +15,15 @@ class NotificationOrderPayerListener
      * @var Registry
      */
     private Registry $doctrine;
+    /**
+     * @var CacheManager
+     */
+    private CacheManager $cacheManager;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, CacheManager $cacheManager)
     {
         $this->doctrine = $doctrine;
+        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -33,7 +39,11 @@ class NotificationOrderPayerListener
             $options = [
                 'firstname' => $order->getCustomer()->getFirstName(),
                 'product_name' => empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName(),
-                'product_image' => $item->getProduct()->getImages()->first(),
+                'product_image' => empty($item->getProduct()->getImages()) ? '' :
+                    $this->cacheManager->getBrowserPath(
+                        $item->getProduct()->getImages()->first()->getPath(),
+                        'sylius_shop_product_thumbnail'
+                    ),
                 'country' => $order->getShippingAddress()->getCountryCode(),
                 'city' => $order->getShippingAddress()->getCity(),
             ];

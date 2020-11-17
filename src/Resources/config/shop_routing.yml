@@ -2,4 +2,4 @@ fmdd_notification_random:
   path: /notification/random
   methods: [POST]
   defaults:
-    _controller: FMDD\SyliusMarketingPlugin\Controller\NotificationController::randomNotificationAction
+    _controller: fmdd.notification.controller::randomAction

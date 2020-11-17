@@ -16,11 +16,28 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NotificationController extends AbstractController
 {
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
+    /**
+     * @var DateTimeFormatter
+     */
+    private DateTimeFormatter $dateTimeFormatter;
 
-    public function randomAction(Request $request, Registry $doctrine, DateTimeFormatter $dateTimeFormatter)
+    public function __construct(
+        Registry $doctrine,
+        DateTimeFormatter $dateTimeFormatter
+    ) {
+        $this->doctrine = $doctrine;
+        $this->dateTimeFormatter = $dateTimeFormatter;
+    }
+
+
+    public function randomAction(Request $request)
     {
         /** @var EntityManagerInterface $em */
-        $em = $doctrine->getManager();
+        $em = $this->doctrine->getManager();
 
         try {
             /** @var ShopUser|null $user */
@@ -29,13 +46,13 @@ class NotificationController extends AbstractController
             /** @var Notification $notification */
             $notification = $em->createQueryBuilder()
                 ->select('a')
-                ->from('App:Notification', 'a')
-                ->leftJoin('App:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND (b.user = :user OR b.ip = :ip)')
+                ->from('FMDDSyliusMarketingPlugin:Notification', 'a')
+                ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND (b.user = :user OR b.ip = :ip)')
                 ->where('b.notification IS NULL')
                 ->setParameter('user', $user)
                 ->setParameter('ip', $request->getClientIp())
-                ->getQuery()
-                ->getSingleResult();
+                ->setMaxResults(1)
+                ->getQuery()->getSingleResult();
 
             if (!is_null($notification)) {
                 $notificationUser = new NotificationUser();
@@ -53,13 +70,16 @@ class NotificationController extends AbstractController
                 'notification' => [
                     'type' => $notification->getType()->getCode(),
                     'options' => json_decode($notification->getOptions()),
-                    'created_at' => $dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
+                    'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
                 ],
             ]);
         } catch (\Exception $e) {
             return new JsonResponse([
                 'error' => true,
-                'notification' => null
+                'notification' => null,
+                'exception' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'line' => $e->getLine(),
             ]);
         }
     }

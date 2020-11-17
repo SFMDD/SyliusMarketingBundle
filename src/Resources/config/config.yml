@@ -1,5 +1,6 @@
 imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
+  - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/winzou.yml" }
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_cart_abandoned.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_notification.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids/fmdd_sylius_marketing_notification_type.yml"}

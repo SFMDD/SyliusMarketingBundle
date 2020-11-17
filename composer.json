@@ -7,7 +7,8 @@
     "require": {
         "php": "^7.4",
         "sylius/sylius": "^1.7",
-        "setono/sylius-trustpilot-plugin": "^1.1"
+        "setono/sylius-trustpilot-plugin": "^1.1",
+        "knplabs/knp-time-bundle": "^1.13"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -22,7 +23,7 @@
         "lakion/mink-debug-extension": "^1.2.3",
         "phpspec/phpspec": "^6.0",
         "phpstan/phpstan-doctrine": "^0.11",
-        "phpstan/phpstan-shim": "^0.11",
+        "phpstan/phpstan-shim": "^0.12",
         "phpstan/phpstan-webmozart-assert": "^0.11",
         "phpunit/phpunit": "^8.0",
         "sensiolabs/security-checker": "^5.0",

@@ -1,37 +1,33 @@
 sylius_resource:
     resources:
-        fmdd_sylius_marketing.cart_abandoned:
+        fmdd_sylius_marketing.notification_type:
             driver: doctrine/orm
             classes:
-                model: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
-                form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
+                model: FMDD\SyliusMarketingPlugin\Entity\NotificationType
+                form: FMDD\SyliusMarketingPlugin\Form\NotificationTypeType
 
 sylius_grid:
     grids:
-        fmdd_sylius_marketing_cart_abandoned:
+        fmdd_sylius_marketing_notification_type:
             driver:
                 name: doctrine/orm
                 options:
-                    class: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
-                    form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
+                    class: FMDD\SyliusMarketingPlugin\Entity\NotificationType
+                    form: FMDD\SyliusMarketingPlugin\Form\NotificationTypeType
             fields:
-                status:
+                enabled:
                     type: twig
                     label: sylius.ui.enabled
                     sortable: true
                     options:
                         template: SyliusUiBundle:Grid/Field:enabled.html.twig
-                subject:
+                code:
                     type: string
-                    label: "Subject"
+                    label: "Code"
                     sortable: true
-                template:
+                name:
                     type: string
-                    label: "Template"
-                    sortable: true
-                sendDelay:
-                    type: string
-                    label: "Send after (mins)"
+                    label: "Name"
                     sortable: true
             actions:
                 main:
@@ -47,7 +43,7 @@ sylius_grid:
                     type: string
                     label: sylius.ui.search
                     options:
-                        fields: [subject, template]
-                status:
+                        fields: [code, name]
+                enabled:
                     type: boolean
                     label: sylius.ui.enabled

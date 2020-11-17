@@ -10,7 +10,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass=CartAbandonedSendRepository::class)
- * @ORM\Table(name="cart_abandoned_send")
+ * @ORM\Table(name="fmdd_cart_abandoned_send")
  */
 class CartAbandonedSend implements ResourceInterface
 {
@@ -29,7 +29,7 @@ class CartAbandonedSend implements ResourceInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private Customer $customer;
 

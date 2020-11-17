@@ -9,7 +9,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="cart_abandoned")
+ * @ORM\Table(name="fmdd_cart_abandoned")
  */
 class CartAbandoned implements ResourceInterface
 {
@@ -69,6 +69,16 @@ class CartAbandoned implements ResourceInterface
      * @ORM\Column(type="boolean")
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="boolean", name="cart_not_payed")
+     */
+    private $cartNotPayed;
+
+    /**
+     * @ORM\Column(type="boolean", name="cart_not_checkout")
+     */
+    private $cartNotCheckout;
 
     /**
      * @ORM\OneToMany(targetEntity=CartAbandonedSend::class, mappedBy="cartAbandoned", orphanRemoval=true)
@@ -234,5 +244,37 @@ class CartAbandoned implements ResourceInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCartNotPayed()
+    {
+        return $this->cartNotPayed;
+    }
+
+    /**
+     * @param mixed $cartNotPayed
+     */
+    public function setCartNotPayed($cartNotPayed): void
+    {
+        $this->cartNotPayed = $cartNotPayed;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCartNotCheckout()
+    {
+        return $this->cartNotCheckout;
+    }
+
+    /**
+     * @param mixed $cartNotCheckout
+     */
+    public function setCartNotCheckout($cartNotCheckout): void
+    {
+        $this->cartNotCheckout = $cartNotCheckout;
     }
 }

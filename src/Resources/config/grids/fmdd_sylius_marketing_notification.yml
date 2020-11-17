@@ -1,0 +1,40 @@
+sylius_resource:
+    resources:
+        fmdd_sylius_marketing.notification:
+            driver: doctrine/orm
+            classes:
+                model: FMDD\SyliusMarketingPlugin\Entity\Notification
+                form: FMDD\SyliusMarketingPlugin\Form\NotificationType
+
+sylius_grid:
+    grids:
+        fmdd_sylius_marketing_notification:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: FMDD\SyliusMarketingPlugin\Entity\Notification
+                    form: FMDD\SyliusMarketingPlugin\Form\NotificationType
+            fields:
+                id:
+                    type: string
+                    label: "ID"
+                    sortable: true
+                options:
+                    type: string
+                    label: "Options"
+                    sortable: true
+            actions:
+                main:
+                    create:
+                        type: create
+                    new:
+                        type: create
+                        label: 'sylius.menu.admin.main.notification_type'
+                        options:
+                            link:
+                                route: fmdd_sylius_marketing_admin_notification_type_index
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

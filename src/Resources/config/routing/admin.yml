@@ -14,3 +14,37 @@ fmdd_sylius_marketing_admin_cart_abandoned:
                 icon: 'file image outline'
     type: sylius.resource
     prefix: admin
+
+fmdd_sylius_marketing_admin_notification:
+    resource: |
+        alias: fmdd_sylius_marketing.notification
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: fmdd_sylius_marketing_notification
+        vars:
+            all:
+                subheader: 'Notification'
+                templates:
+                    form: '@FMDDSyliusMarketingPlugin/Notification/_form.html.twig'
+            index:
+                icon: 'file image outline'
+    type: sylius.resource
+    prefix: admin
+
+fmdd_sylius_marketing_admin_notification_type:
+    resource: |
+        alias: fmdd_sylius_marketing.notification_type
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: fmdd_sylius_marketing_notification_type
+        vars:
+            all:
+                subheader: 'Notification Type'
+                templates:
+                    form: '@FMDDSyliusMarketingPlugin/Notification/_form.html.twig'
+            index:
+                icon: 'file image outline'
+    type: sylius.resource
+    prefix: admin

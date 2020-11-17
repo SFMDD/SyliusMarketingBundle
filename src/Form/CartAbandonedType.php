@@ -21,6 +21,8 @@ class CartAbandonedType extends AbstractType
             ->add('discountType')
             ->add('discountAmount')
             ->add('discountValidity')
+            ->add('cartNotCheckout')
+            ->add('cartNotPayed')
             ->add('status')
         ;
     }

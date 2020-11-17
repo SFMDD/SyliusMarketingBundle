@@ -31,7 +31,7 @@ sylius_grid:
                     sortable: true
                 sendDelay:
                     type: string
-                    label: "Send after (mins)"
+                    label: "Send after (hours)"
                     sortable: true
             actions:
                 main:

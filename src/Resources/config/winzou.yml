@@ -1,0 +1,8 @@
+winzou_state_machine:
+  sylius_payment:
+    callbacks:
+      after:
+        app_notification_order_payed:
+          on: ['complete']
+          do: ["@fmdd.event.listener.notification_order_payed", "process"]
+          args: ['object.getOrder()']

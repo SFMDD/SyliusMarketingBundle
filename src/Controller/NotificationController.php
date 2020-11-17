@@ -3,12 +3,12 @@
 
 namespace FMDD\SyliusMarketingPlugin\Controller;
 
-
-use App\Entity\Notification;
-use App\Entity\NotificationUser;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
+use FMDD\SyliusMarketingPlugin\Entity\Notification;
+use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
+use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,11 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NotificationController extends AbstractController
 {
-    public function __construct() {
 
-    }
-
-    public function randomAction(Request $request, Registry $doctrine)
+    public function randomAction(Request $request, Registry $doctrine, DateTimeFormatter $dateTimeFormatter)
     {
         /** @var EntityManagerInterface $em */
         $em = $doctrine->getManager();
@@ -50,12 +47,13 @@ class NotificationController extends AbstractController
                 $em->flush();
             }
 
+
             return new JsonResponse([
                 'error' => false,
                 'notification' => [
                     'type' => $notification->getType()->getCode(),
                     'options' => json_decode($notification->getOptions()),
-                    'created_at' => $notification->getCreatedAt(),
+                    'created_at' => $dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
                 ],
             ]);
         } catch (\Exception $e) {

@@ -75,15 +75,13 @@
         if(element.length) element.remove();
 
         if(notification.type === "purchase") {
-            let date = notification.created_at.date.split(' ');
-            let hour = date[1].split(':');
             $('body').append(`
                     <div id="notify" data-notification-status="notice" class="do-show bottom-left">
                         <img src="${notification.options.product_image}" alt="${notification.options.product_name}">
                         <div>
                             <div class="title"><b>${notification.options.firstname}</b> (${notification.options.city}, ${notification.options.country})</div>
                             <div class="content">A acheté <span>${notification.options.product_name}</span></div>
-                            <div class="date">Le ${date[0]} à ${hour[0]}h${hour[1]}</div>
+                            <div class="date">${notification.created_at}</div>
                         </div>
                     </div>`);
         }

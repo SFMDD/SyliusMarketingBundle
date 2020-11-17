@@ -3,6 +3,7 @@
 namespace FMDD\SyliusMarketingPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Core\Model\ShopUser;
 
 /**
  * @ORM\Entity()
@@ -48,7 +49,7 @@ class NotificationUser
         return $this->notification;
     }
 
-    public function setNotification(?Notification $notification): self
+    public function setNotification(Notification $notification): self
     {
         $this->notification = $notification;
 

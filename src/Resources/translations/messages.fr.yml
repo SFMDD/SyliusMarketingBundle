@@ -5,14 +5,13 @@ fmdd_sylius_marketing:
         notification_types: "Type de notification"
         new_notification_types: "Nouveau type de notification"
         notifications: "Notifications envoyées aux visiteurs"
-        new_notifications: "Nouvelle notification"
+        new_notification: "Nouvelle notification"
 sylius:
     menu:
         admin:
             main:
                 cart_abandoned: "Email Panier abandonné"
                 notification: "Notifications"
-
 emails:
     no_payment:
         subject: "Bonjour %customerName% votre commande #%number% va expirer"

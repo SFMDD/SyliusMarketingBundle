@@ -1,6 +1,7 @@
 imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/winzou.yml" }
+  - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/controller.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/grids.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/mailer.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }

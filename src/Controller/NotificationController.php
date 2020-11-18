@@ -43,16 +43,22 @@ class NotificationController extends AbstractController
             /** @var ShopUser|null $user */
             $user = is_null($this->getUser()) ? null : $this->getUser();
 
-            /** @var Notification $notification */
-            $notification = $em->createQueryBuilder()
+            $query = $em->createQueryBuilder()
                 ->select('a')
                 ->from('FMDDSyliusMarketingPlugin:Notification', 'a')
                 ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND (b.user = :user OR b.ip = :ip)')
-                ->where('b.notification IS NULL')
+                ->where('b.notification IS NULL');
+            if(!is_null($user))
+                $query->andWhere('a.createdBy != :user');
+            $query = $query
+                ->orderBy('a.createdAt', 'ASC')
                 ->setParameter('user', $user)
                 ->setParameter('ip', $request->getClientIp())
                 ->setMaxResults(1)
-                ->getQuery()->getSingleResult();
+                ->getQuery();
+
+            /** @var Notification $notification */
+            $notification = $query->getSingleResult();
 
             if (!is_null($notification)) {
                 $notificationUser = new NotificationUser();
@@ -63,7 +69,6 @@ class NotificationController extends AbstractController
                 $em->persist($notificationUser);
                 $em->flush();
             }
-
 
             return new JsonResponse([
                 'error' => false,

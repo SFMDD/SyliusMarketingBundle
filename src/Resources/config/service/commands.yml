@@ -19,3 +19,11 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@sylius.email_sender'
       - '@parameter_bag'
+
+  fmdd.command.notification_order_load:
+    class: FMDD\SyliusMarketingPlugin\Command\NotificationOrderLoadCommand
+    tags:
+      - { name: console.command, command: 'fmdd:notification-order:load'}
+    arguments:
+      - '@sylius.repository.order'
+      - '@fmdd.event.listener.notification_order_payed'

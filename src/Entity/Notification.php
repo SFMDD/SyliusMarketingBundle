@@ -19,13 +19,18 @@ class Notification implements ResourceInterface
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
+     */
+    private $createdBy;
+
+    /**
      * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\NotificationType", inversedBy="notifications")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
      */
     private $options;
 
@@ -37,6 +42,22 @@ class Notification implements ResourceInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param mixed $createdBy
+     */
+    public function setCreatedBy($createdBy): void
+    {
+        $this->createdBy = $createdBy;
     }
 
     public function getType(): ?NotificationType

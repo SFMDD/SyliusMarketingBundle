@@ -28,6 +28,6 @@ services:
       - { name: kernel.event_listener, event: sonata.block.event.fmdd.event.marketing.view_item_list, method: buildViewItemList }
 
   fmdd.event.listener.notification_order_payed:
-    class: FMDD\SyliusMarketingPlugin\EventListener\NotificationOrderPayerListener
+    class: FMDD\SyliusMarketingPlugin\EventListener\NotificationOrderPayedListener
     arguments: ['@doctrine', '@liip_imagine.cache.manager']
     public: true

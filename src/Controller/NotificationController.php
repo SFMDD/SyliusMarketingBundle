@@ -84,5 +84,6 @@ class NotificationController extends AbstractController
                 ]);
             }
         }
+        throw $this->createNotFoundException('Not found notification');
     }
 }

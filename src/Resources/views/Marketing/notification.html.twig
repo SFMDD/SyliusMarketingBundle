@@ -61,10 +61,11 @@
     setInterval(randomNotification, 15000);
     function randomNotification() {
         $.ajax({
-            type: "POST", dataType: 'json',
+            type: "GET",
             url: "{{ path('fmdd_notification_random') }}",
-            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function (msg) {
+                console.log(msg);
                 sendNotification(msg.notification, msg.error);
             }
         });
@@ -77,7 +78,7 @@
         if(notification.type === "purchase") {
             $('body').append(`
                     <div id="notify" data-notification-status="notice" class="do-show bottom-left">
-                        <img src="${notification.options.product_image.replace('http://localhost', location.protocol + '//' + location.hostname)}" alt="${notification.options.product_name}">
+                        <img src="${notification.options.product_image.replace('http://localhost', location.protocol + '//' +location.hostname)}" alt="${notification.options.product_name}">
                         <div>
                             <div class="title"><b>${notification.options.firstname}</b> (${notification.options.city}, ${notification.options.country})</div>
                             <div class="content">A acheté <span>${notification.options.quantity === 1 ? '' : notification.options.quantity} ${notification.options.product_name}</span></div>

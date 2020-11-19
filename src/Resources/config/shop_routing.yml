@@ -1,5 +1,5 @@
 fmdd_notification_random:
   path: /notification/random
-  methods: [POST]
+  methods: [GET]
   defaults:
     _controller: fmdd.notification.controller::randomAction

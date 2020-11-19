@@ -36,48 +36,53 @@ class NotificationController extends AbstractController
 
     public function randomAction(Request $request)
     {
-        /** @var EntityManagerInterface $em */
-        $em = $this->doctrine->getManager();
+        if($request->isXmlHttpRequest()) {
+            /** @var EntityManagerInterface $em */
+            $em = $this->doctrine->getManager();
 
-        try {
-            $query = $em->createQueryBuilder()
-                ->select('a')
-                ->from('FMDDSyliusMarketingPlugin:Notification', 'a')
-                ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND b.ip = :ip')
-                ->where('b.notification IS NULL')
-                ->orderBy('a.createdAt', 'DESC')
-                ->setParameter('ip', $request->getClientIp())
-                ->setMaxResults(1)
-                ->getQuery();
+            try {
+                $query = $em->createQueryBuilder()
+                    ->select('a')
+                    ->from('FMDDSyliusMarketingPlugin:Notification', 'a')
+                    ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b', Join::WITH, 'b.notification = a.id AND b.ip = :ip')
+                    ->leftJoin('FMDDSyliusMarketingPlugin:NotificationType', 't', Join::WITH, 't.id = a.type')
+                    ->where('b.notification IS NULL')
+                    ->andWhere("t.enabled = 1")
+                    ->orderBy('a.createdAt', 'DESC')
+                    ->setParameter('ip', $request->getClientIp())
+                    ->setMaxResults(1)
+                    ->getQuery();
 
-            /** @var Notification $notification */
-            $notification = $query->getSingleResult();
+                /** @var Notification $notification */
+                $notification = $query->getSingleResult();
 
-            if (!is_null($notification)) {
-                $notificationUser = new NotificationUser();
-                $notificationUser->setNotification($notification);
-                $notificationUser->setIp($request->getClientIp());
-                $notificationUser->setCreatedAt(new \DateTime());
-                $em->persist($notificationUser);
-                $em->flush();
+                if ($notification->getType()->getEnabled())
+                    if (!is_null($notification)) {
+                        $notificationUser = new NotificationUser();
+                        $notificationUser->setNotification($notification);
+                        $notificationUser->setIp($request->getClientIp());
+                        $notificationUser->setCreatedAt(new \DateTime());
+                        $em->persist($notificationUser);
+                        $em->flush();
+                    }
+
+                return new JsonResponse([
+                    'error' => false,
+                    'notification' => [
+                        'type' => $notification->getType()->getCode(),
+                        'options' => $notification->getOptions(),
+                        'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
+                    ],
+                ]);
+            } catch (\Exception $e) {
+                return new JsonResponse([
+                    'error' => true,
+                    'notification' => null,
+                    'exception' => $e->getMessage(),
+                    'code' => $e->getCode(),
+                    'line' => $e->getLine(),
+                ]);
             }
-
-            return new JsonResponse([
-                'error' => false,
-                'notification' => [
-                    'type' => $notification->getType()->getCode(),
-                    'options' => $notification->getOptions(),
-                    'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
-                ],
-            ]);
-        } catch (\Exception $e) {
-            return new JsonResponse([
-                'error' => true,
-                'notification' => null,
-                'exception' => $e->getMessage(),
-                'code' => $e->getCode(),
-                'line' => $e->getLine(),
-            ]);
         }
     }
 }

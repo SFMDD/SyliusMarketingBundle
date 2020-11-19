@@ -15,10 +15,6 @@ sylius_grid:
                     class: FMDD\SyliusMarketingPlugin\Entity\Notification
                     form: FMDD\SyliusMarketingPlugin\Form\NotificationType
             fields:
-                id:
-                    type: string
-                    label: "ID"
-                    sortable: true
                 options:
                     type: string
                     label: "Options"

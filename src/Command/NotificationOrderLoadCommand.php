@@ -54,12 +54,12 @@ class NotificationOrderLoadCommand extends Command
         $this->removeNotifications($output);
         $output->writeln("START : " . $this->getDescription());
 
+        $orders = $this->orderRepository->findAll();
         /** @var OrderInterface $order */
-        foreach ($this->orderRepository->findAll() as $order) {
+        foreach ($orders as $order) {
             $this->notificationOrderPayedListener->process($order);
-            $io->writeln("Order " . $order->getNumber() . " added as notification");
         }
-
+        $io->writeln(sizeof($orders) . "orders with added as notification");
         $io->success('Finish');
         return 0;
     }

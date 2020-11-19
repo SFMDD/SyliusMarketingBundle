@@ -59,7 +59,7 @@ class NotificationOrderLoadCommand extends Command
         foreach ($orders as $order) {
             $this->notificationOrderPayedListener->process($order);
         }
-        $io->writeln(sizeof($orders) . "orders with added as notification");
+        $io->writeln(sizeof($orders) . "orders added as notification");
         $io->success('Finish');
         return 0;
     }

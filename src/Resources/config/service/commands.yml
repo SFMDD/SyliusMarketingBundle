@@ -27,3 +27,4 @@ services:
     arguments:
       - '@sylius.repository.order'
       - '@fmdd.event.listener.notification_order_payed'
+      - '@doctrine'

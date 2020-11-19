@@ -2,24 +2,14 @@
 
 namespace FMDD\SyliusMarketingPlugin\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use FMDD\SyliusMarketingPlugin\Entity\CartAbandoned;
-use FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use FMDD\SyliusMarketingPlugin\EventListener\NotificationOrderPayedListener;
-use FMDD\SyliusMarketingPlugin\Repository\CartAbandonedSendRepository;
-use Sylius\Component\Core\Model\Order;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\OrderPaymentStates;
-use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class NotificationOrderLoadCommand extends Command
 {
@@ -34,6 +24,10 @@ class NotificationOrderLoadCommand extends Command
      * @var NotificationOrderPayedListener
      */
     private NotificationOrderPayedListener $notificationOrderPayedListener;
+    /**
+     * @var Registry
+     */
+    private Registry $doctrine;
 
     protected function configure()
     {
@@ -44,17 +38,20 @@ class NotificationOrderLoadCommand extends Command
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        NotificationOrderPayedListener $notificationOrderPayedListener
+        NotificationOrderPayedListener $notificationOrderPayedListener,
+        Registry $doctrine
     )
     {
         parent::__construct();
         $this->orderRepository = $orderRepository;
         $this->notificationOrderPayedListener = $notificationOrderPayedListener;
+        $this->doctrine = $doctrine;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $this->removeNotifications($output);
         $output->writeln("START : " . $this->getDescription());
 
         /** @var OrderInterface $order */
@@ -65,5 +62,16 @@ class NotificationOrderLoadCommand extends Command
 
         $io->success('Finish');
         return 0;
+    }
+
+    private function removeNotifications(OutputInterface $output)
+    {
+        $notifications = $this->doctrine->getRepository('FMDDSyliusMarketingPlugin:Notification')->findAll();
+        $output->writeln("Remove notification : " . sizeof($notifications));
+        $em = $this->doctrine->getManager();
+        foreach ($notifications as $notification){
+            $em->remove($notification);
+        }
+        $em->flush();
     }
 }

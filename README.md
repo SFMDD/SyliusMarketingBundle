@@ -153,7 +153,7 @@ By :
 </head>
 ```
 
-### Step 7: Add events JSON-LD and MarketingEvent
+### Step 7: Add events JSON-LD and MarketingEvent : OPTION, for the future we will remove this part  
 ```twig
 #SyliusShopBundle\Checkout\selectPayment.html.twig
 {% block metatags %}

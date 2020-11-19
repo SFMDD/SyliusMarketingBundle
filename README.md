@@ -204,3 +204,20 @@ By :
 ```shell script
  $ cp -r vendor/fmdd/sylius-marketing-plugin/tests/Application/templates/bundles/ ./templates/
 ```
+
+### Step 9 : Add notification system
+```twig
+    ...
+    <body>
+    ...
+    {% include '@FMDDSyliusMarketingPlugin/Marketing/notification.html.twig' %}
+    </body>
+```
+
+You must load orders purchased event notification 
+```shell script
+$ php bin/console fmdd:notification-order:load
+```
+
+
+

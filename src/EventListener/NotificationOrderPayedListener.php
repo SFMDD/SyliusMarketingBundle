@@ -58,7 +58,7 @@ class NotificationOrderPayedListener
                     $notification = new Notification();
                     $notification->setType($notificationType);
                     $notification->setCreatedAt($order->getUpdatedAt());
-                    $notification->setOptions(json_encode($options));
+                    $notification->setOptions($options);
                     $em->persist($notification);
                 }
             }

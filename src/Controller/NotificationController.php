@@ -66,7 +66,7 @@ class NotificationController extends AbstractController
                 'error' => false,
                 'notification' => [
                     'type' => $notification->getType()->getCode(),
-                    'options' => json_decode($notification->getOptions()),
+                    'options' => $notification->getOptions(),
                     'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
                 ],
             ]);

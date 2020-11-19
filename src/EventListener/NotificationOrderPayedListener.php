@@ -40,8 +40,8 @@ class NotificationOrderPayedListener
             $notificationType = $this->doctrine->getRepository(NotificationType::class)->findOneBy(['code' => 'purchase']);
 
             foreach ($order->getItems() as $item) {
-                if(!is_null($order->getUser()) && $order->getPaymentState() === OrderPaymentStates::STATE_PAID) {
-                    $firstname = $order->getCustomer()->getFirstName();
+                if($order->getPaymentState() === OrderPaymentStates::STATE_PAID) {
+                    $firstname = $order->getShippingAddress()->getFirstName();
                     $firstname = is_null($firstname) ? array_rand(NotificationOrderPayedListener::$FIRSTNAMES) : $firstname;
                     $options = [
                         'firstname' => ucfirst($firstname),
@@ -53,11 +53,11 @@ class NotificationOrderPayedListener
                             ),
                         'country' => $order->getShippingAddress()->getCountryCode(),
                         'city' => $order->getShippingAddress()->getCity(),
+                        'quantity' => $item->getQuantity(),
                     ];
                     $notification = new Notification();
                     $notification->setType($notificationType);
                     $notification->setCreatedAt($order->getUpdatedAt());
-                    $notification->setCreatedBy($order->getUser());
                     $notification->setOptions(json_encode($options));
                     $em->persist($notification);
                 }

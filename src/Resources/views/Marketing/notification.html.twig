@@ -80,7 +80,7 @@
                         <img src="${notification.options.product_image}" alt="${notification.options.product_name}">
                         <div>
                             <div class="title"><b>${notification.options.firstname}</b> (${notification.options.city}, ${notification.options.country})</div>
-                            <div class="content">A acheté <span>${notification.options.product_name}</span></div>
+                            <div class="content">A acheté <span>${notification.options.quantity === 1 ? '' : notification.options.quantity} ${notification.options.product_name}</span></div>
                             <div class="date">${notification.created_at}</div>
                         </div>
                     </div>`);

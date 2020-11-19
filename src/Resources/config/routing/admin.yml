@@ -7,7 +7,7 @@ fmdd_sylius_marketing_admin_cart_abandoned:
         grid: fmdd_sylius_marketing_cart_abandoned
         vars:
             all:
-                subheader: 'Cart abandoned'
+                subheader: fmdd_sylius_marketing.ui.cart_abandoneds
                 templates:
                     form: '@FMDDSyliusMarketingPlugin/CartAbandoned/_form.html.twig'
             index:
@@ -24,7 +24,7 @@ fmdd_sylius_marketing_admin_notification:
         grid: fmdd_sylius_marketing_notification
         vars:
             all:
-                subheader: 'Notification'
+                subheader: fmdd_sylius_marketing.ui.notifications
                 templates:
                     form: '@FMDDSyliusMarketingPlugin/Notification/_form.html.twig'
             index:
@@ -41,7 +41,7 @@ fmdd_sylius_marketing_admin_notification_type:
         grid: fmdd_sylius_marketing_notification_type
         vars:
             all:
-                subheader: 'Notification Type'
+                subheader: fmdd_sylius_marketing.ui.notification_types
                 templates:
                     form: '@FMDDSyliusMarketingPlugin/Notification/_form.html.twig'
             index:

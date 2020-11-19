@@ -2,6 +2,7 @@
 
 namespace FMDD\SyliusMarketingPlugin\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -19,11 +20,6 @@ class Notification implements ResourceInterface
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
-     */
-    private $createdBy;
-
-    /**
      * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\NotificationType", inversedBy="notifications")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -39,25 +35,19 @@ class Notification implements ResourceInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=NotificationUser::class, mappedBy="notification", orphanRemoval=true, fetch="EXTRA_LAZY")
+     */
+    private $notificationsUsers;
+
+    public function __construct() {
+        $this->createdAt = new \DateTime();
+        $this->notificationsUsers = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param mixed $createdBy
-     */
-    public function setCreatedBy($createdBy): void
-    {
-        $this->createdBy = $createdBy;
     }
 
     public function getType(): ?NotificationType
@@ -72,12 +62,12 @@ class Notification implements ResourceInterface
         return $this;
     }
 
-    public function getOptions(): ?string
+    public function getOptions(): ?array
     {
         return $this->options;
     }
 
-    public function setOptions(string $options): self
+    public function setOptions(array $options): self
     {
         $this->options = $options;
 
@@ -94,5 +84,45 @@ class Notification implements ResourceInterface
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+
+    public function addNotificationsUsers(NotificationUser $notificationUser): self
+    {
+        if (!$this->notificationsUsers->contains($notificationUser)) {
+            $this->notificationsUsers[] = $notificationUser;
+            $notificationUser->setNotification($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartAbandonedSend(NotificationUser $notificationUser): self
+    {
+        if ($this->notificationsUsers->contains($notificationUser)) {
+            $this->notificationsUsers->removeElement($notificationUser);
+            // set the owning side to null (unless already changed)
+            if ($notificationUser->getNotification() === $this) {
+                $notificationUser->setNotification(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotificationsUsers(): ArrayCollection
+    {
+        return $this->notificationsUsers;
+    }
+
+    /**
+     * @param ArrayCollection $notificationsUsers
+     */
+    public function setNotificationsUsers(ArrayCollection $notificationsUsers): void
+    {
+        $this->notificationsUsers = $notificationsUsers;
     }
 }

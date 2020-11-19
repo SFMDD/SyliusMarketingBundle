@@ -9,6 +9,7 @@ sylius_resource:
 sylius_grid:
     grids:
         fmdd_sylius_marketing_notification:
+            limits: [30, 50, 150]
             driver:
                 name: doctrine/orm
                 options:
@@ -16,8 +17,14 @@ sylius_grid:
                     form: FMDD\SyliusMarketingPlugin\Form\NotificationType
             fields:
                 options:
-                    type: string
+                    type: twig
                     label: "Options"
+                    sortable: true
+                    options:
+                        template: SyliusUiBundle:Grid/Field:logData.html.twig
+                createdAt:
+                    type: datetime
+                    label: "createdAt"
                     sortable: true
             actions:
                 main:

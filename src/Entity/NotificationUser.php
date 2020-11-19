@@ -19,7 +19,7 @@ class NotificationUser
 
     /**
      * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\Notification")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private Notification $notification;
 

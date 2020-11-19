@@ -3,7 +3,6 @@
 namespace FMDD\SyliusMarketingPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sylius\Component\Core\Model\ShopUser;
 
 /**
  * @ORM\Entity()
@@ -23,11 +22,6 @@ class NotificationUser
      * @ORM\JoinColumn(nullable=false)
      */
     private Notification $notification;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
-     */
-    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -52,18 +46,6 @@ class NotificationUser
     public function setNotification(Notification $notification): self
     {
         $this->notification = $notification;
-
-        return $this;
-    }
-
-    public function getUser(): ?ShopUser
-    {
-        return $this->user;
-    }
-
-    public function setUser(?ShopUser $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -40,19 +40,12 @@ class NotificationController extends AbstractController
         $em = $this->doctrine->getManager();
 
         try {
-            /** @var ShopUser|null $user */
-            $user = is_null($this->getUser()) ? null : $this->getUser();
-
             $query = $em->createQueryBuilder()
                 ->select('a')
                 ->from('FMDDSyliusMarketingPlugin:Notification', 'a')
-                ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND (b.user = :user OR b.ip = :ip)')
-                ->where('b.notification IS NULL');
-            if(!is_null($user))
-                $query->andWhere('a.createdBy != :user');
-            $query = $query
-                ->orderBy('a.createdAt', 'ASC')
-                ->setParameter('user', $user)
+                ->leftJoin('FMDDSyliusMarketingPlugin:NotificationUser', 'b',Join::WITH, 'b.notification = a.id AND b.ip = :ip')
+                ->where('b.notification IS NULL')
+                ->orderBy('a.createdAt', 'DESC')
                 ->setParameter('ip', $request->getClientIp())
                 ->setMaxResults(1)
                 ->getQuery();
@@ -63,7 +56,6 @@ class NotificationController extends AbstractController
             if (!is_null($notification)) {
                 $notificationUser = new NotificationUser();
                 $notificationUser->setNotification($notification);
-                $notificationUser->setUser($user);
                 $notificationUser->setIp($request->getClientIp());
                 $notificationUser->setCreatedAt(new \DateTime());
                 $em->persist($notificationUser);

@@ -1,5 +1,18 @@
 # Sylius Marketing Bundle
 
+Marketing bundle is use for :
+- Add TrustPilot bundle from Setono\SyliusTrustpilotPlugin
+- Extension of channel for multi field
+- Email cart abandoned or cart not payed
+- Notification Proof of purchase
+- Option : Add event e-commerce for Google and Facebook
+
+TODO :
+- Add multiple email marketing
+- Add new Notification Type
+- Remove event marketing : Use GoogleTagManager from stefandoorn/sylius-google-tag-manager-enhanced-ecommerce-plugin
+- Add Config for Google Tag Manager with tarteaucitron : RGPD consent
+
 ## Installation
 
 ### Step 1: Download the plugin

@@ -65,7 +65,6 @@
             url: "{{ path('fmdd_notification_random') }}",
             dataType: "json",
             success: function (msg) {
-                console.log(msg);
                 sendNotification(msg.notification, msg.error);
             }
         });

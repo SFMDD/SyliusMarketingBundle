@@ -12,6 +12,7 @@ sylius:
             main:
                 cart_abandoned: "Email Panier abandonné"
                 notification: "Notifications"
+                notification_type: "Voir les types de notification"
 emails:
     no_payment:
         subject: "Bonjour %customerName% votre commande #%number% va expirer"

@@ -86,5 +86,6 @@ class NotificationController extends AbstractController
         } else {
             return new Response('', 404);
         }
+        throw $this->createNotFoundException('Not found notification');
     }
 }

@@ -127,7 +127,7 @@ class CartAbandonedCommand extends Command
         foreach ($orders as $order) {
             $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order, 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {
-                if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail())){
+                if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0){
                     array_push($this->emails, [
                         'code' => $cartAbandoned->getTemplate(),
                         'recipients' => [$order->getCustomer()->getEmail()],

@@ -45,6 +45,8 @@ class NotificationOrderPayedListener
                     $firstname = is_null($firstname) ? array_rand(NotificationOrderPayedListener::$FIRSTNAMES) : $firstname;
                     $options = [
                         'firstname' => ucfirst($firstname),
+                        'product_id' => $item->getProduct()->getId(),
+                        'product_code' => $item->getProduct()->getCode(),
                         'product_name' => empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName(),
                         'product_image' => empty($item->getProduct()->getImages()) ? '' :
                             $this->cacheManager->getBrowserPath(

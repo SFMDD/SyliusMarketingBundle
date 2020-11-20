@@ -3,3 +3,7 @@ services:
     class: FMDD\SyliusMarketingPlugin\Controller\NotificationController
     arguments: ['@doctrine', '@time.datetime_formatter']
     public: true
+  fmdd.product.controller:
+    class: FMDD\SyliusMarketingPlugin\Controller\ProductController
+    arguments: ['@sylius.repository.product']
+    public: true

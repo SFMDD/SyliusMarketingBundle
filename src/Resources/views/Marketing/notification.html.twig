@@ -30,8 +30,11 @@
         }
     }
     .do-show {
-        animation: fade-in 1s ease-in-out forwards,
-        fade-in 1s ease-in-out reverse forwards 5s;
+        animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
+        -webkit-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
+        -moz-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
+        -o-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
+        -ms-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
     }
     .bottom-left {
         bottom: 0;
@@ -58,6 +61,7 @@
     }
 </style>
 <script>
+    let route = '{{ absolute_url(path('fmdd_product_redirect', {'code': '_code_'})) }}';
     setInterval(randomNotification, 15000);
     function randomNotification() {
         $.ajax({
@@ -76,14 +80,14 @@
 
         if(notification.type === "purchase") {
             $('body').append(`
-                    <div id="notify" data-notification-status="notice" class="do-show bottom-left">
+                    <a id="notify" data-id="${notification.options.product_id}" data-name="${notification.options.product_name}" class="do-show bottom-left gtm-eh-track-product-click" href="${route.replace('_code_', notification.options.product_code)}">
                         <img src="${notification.options.product_image.replace('http://localhost', location.protocol + '//' +location.hostname)}" alt="${notification.options.product_name}">
                         <div>
                             <div class="title"><b>${notification.options.firstname}</b> (${notification.options.city}, ${notification.options.country})</div>
                             <div class="content">A acheté <span>${notification.options.quantity === 1 ? '' : notification.options.quantity} ${notification.options.product_name}</span></div>
                             <div class="date">${notification.created_at}</div>
                         </div>
-                    </div>`);
+                    </a>`);
         }
     }
 </script>

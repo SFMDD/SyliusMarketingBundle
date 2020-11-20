@@ -10,6 +10,7 @@ use FMDD\SyliusMarketingPlugin\Entity\Notification;
 use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
 use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Sylius\Component\Core\Model\ShopUser;
+use Sylius\Component\Product\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,6 @@ class NotificationController extends AbstractController
         $this->doctrine = $doctrine;
         $this->dateTimeFormatter = $dateTimeFormatter;
     }
-
 
     public function randomAction(Request $request)
     {
@@ -83,6 +83,8 @@ class NotificationController extends AbstractController
                     'line' => $e->getLine(),
                 ]);
             }
+        } else {
+            return new Response('', 404);
         }
     }
 }

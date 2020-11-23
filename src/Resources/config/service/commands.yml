@@ -4,21 +4,15 @@ services:
     tags:
       - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
 
-  fmdd_sylius_marketing.repository.cart_abandonned_send:
-    class: FMDD\SyliusMarketingPlugin\Repository\CartAbandonedSendRepository
-    autowire: true
-
   fmdd.command.cart_abandoned:
     class: FMDD\SyliusMarketingPlugin\Command\CartAbandonedCommand
     tags:
       - { name: console.command, command: 'fmdd:cart-abandoned:run'}
     arguments:
-      - '@fmdd_sylius_marketing.repository.cart_abandoned'
-      - '@fmdd_sylius_marketing.repository.cart_abandonned_send'
-      - '@sylius.repository.order'
-      - '@doctrine.orm.entity_manager'
+      - '@doctrine'
       - '@sylius.email_sender'
       - '@parameter_bag'
+      - '@sylius.repository.order'
 
   fmdd.command.notification_order_load:
     class: FMDD\SyliusMarketingPlugin\Command\NotificationOrderLoadCommand

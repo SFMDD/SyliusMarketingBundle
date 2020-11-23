@@ -2,49 +2,50 @@
 
 namespace FMDD\SyliusMarketingPlugin\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandoned;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend;
-use FMDD\SyliusMarketingPlugin\Repository\CartAbandonedSendRepository;
-use Sylius\Component\Core\Model\Order;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Bundle\OrderBundle\Doctrine\ORM\OrderRepository;
 use Sylius\Component\Mailer\Sender\SenderInterface;
+use Sylius\Component\Order\Model\Order;
+use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class CartAbandonedCommand extends Command
 {
     protected static $defaultName = 'fmdd:cart-abandoned:run';
     /**
-     * @var EntityManagerInterface
+     * @var ObjectManager
      */
-    private EntityManagerInterface $em;
+    private ObjectManager $em;
     private array $emails;
     /**
      * @var SenderInterface
      */
     private SenderInterface $sender;
     /**
-     * @var CartAbandonedSendRepository
+     * @var ObjectRepository
      */
-    private CartAbandonedSendRepository $cartAbandonedSendRepository;
+    private ObjectRepository $cartAbandonedRepository;
     /**
-     * @var EntityRepository
+     * @var ObjectRepository
      */
-    private EntityRepository $cartAbandonedRepository;
+    private ObjectRepository $cartAbandonedSendRepository;
     /**
      * @var ParameterBagInterface
      */
     private ParameterBagInterface $parameterBag;
     /**
-     * @var OrderRepositoryInterface
+     * @var ObjectRepository
      */
-    private OrderRepositoryInterface $orderRepository;
+    private ObjectRepository $orderRepository;
     private OutputInterface $output;
 
     protected function configure()
@@ -56,17 +57,15 @@ class CartAbandonedCommand extends Command
     }
 
     public function __construct(
-        EntityRepository $cartAbandonedRepository,
-        CartAbandonedSendRepository $cartAbandonedSendRepository,
-        OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $em,
+        Registry $doctrine,
         SenderInterface $sender,
-        ParameterBagInterface $parameterBag)
+        ParameterBagInterface $parameterBag,
+        OrderRepositoryInterface $orderRepository)
     {
-        $this->cartAbandonedRepository = $cartAbandonedRepository;
-        $this->cartAbandonedSendRepository = $cartAbandonedSendRepository;
+        $this->cartAbandonedRepository = $doctrine->getRepository('FMDDSyliusMarketingPlugin:CartAbandoned');
+        $this->cartAbandonedSendRepository = $doctrine->getRepository('FMDDSyliusMarketingPlugin:CartAbandonedSend');
         $this->orderRepository = $orderRepository;
-        $this->em = $em;
+        $this->em = $doctrine->getManager();
         $this->sender = $sender;
         $this->emails = [];
         $this->parameterBag = $parameterBag;

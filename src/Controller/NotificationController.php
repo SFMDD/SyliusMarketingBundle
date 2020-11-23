@@ -10,9 +10,11 @@ use FMDD\SyliusMarketingPlugin\Entity\Notification;
 use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
 use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Sylius\Component\Core\Model\ShopUser;
+use Sylius\Component\Product\Model\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NotificationController extends AbstractController
 {
@@ -32,7 +34,6 @@ class NotificationController extends AbstractController
         $this->doctrine = $doctrine;
         $this->dateTimeFormatter = $dateTimeFormatter;
     }
-
 
     public function randomAction(Request $request)
     {
@@ -56,7 +57,7 @@ class NotificationController extends AbstractController
                 /** @var Notification $notification */
                 $notification = $query->getSingleResult();
 
-                if ($notification->getType()->getEnabled())
+                if ($notification->getType()->getEnabled()) {
                     if (!is_null($notification)) {
                         $notificationUser = new NotificationUser();
                         $notificationUser->setNotification($notification);
@@ -64,16 +65,17 @@ class NotificationController extends AbstractController
                         $notificationUser->setCreatedAt(new \DateTime());
                         $em->persist($notificationUser);
                         $em->flush();
-                    }
 
-                return new JsonResponse([
-                    'error' => false,
-                    'notification' => [
-                        'type' => $notification->getType()->getCode(),
-                        'options' => $notification->getOptions(),
-                        'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
-                    ],
-                ]);
+                        return new JsonResponse([
+                            'error' => false,
+                            'notification' => [
+                                'type' => $notification->getType()->getCode(),
+                                'options' => $notification->getOptions(),
+                                'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
+                            ],
+                        ]);
+                    }
+                }
             } catch (\Exception $e) {
                 return new JsonResponse([
                     'error' => true,
@@ -84,6 +86,6 @@ class NotificationController extends AbstractController
                 ]);
             }
         }
-        throw $this->createNotFoundException('Not found notification');
+        return new Response('', 404);
     }
 }

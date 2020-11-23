@@ -4,6 +4,7 @@ fmdd_sylius_marketing:
         new_cart_abandoned: "Nouveau email de panier abandonné"
         notification_types: "Type de notification"
         new_notification_types: "Nouveau type de notification"
+        edit_notification_type: "Modifier un type de notification"
         notifications: "Notifications envoyées aux visiteurs"
         new_notification: "Nouvelle notification"
 sylius:

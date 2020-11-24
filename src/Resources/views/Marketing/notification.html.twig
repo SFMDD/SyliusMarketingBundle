@@ -19,6 +19,16 @@
         background-color: #ffffff;
         border-radius: 5px;
     }
+    @-webkit-keyframes fade-in {
+        from {
+            visibility: hidden;
+            opacity: 0;
+        }
+        to {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
     @keyframes fade-in {
         from {
             visibility: hidden;
@@ -30,11 +40,11 @@
         }
     }
     .do-show {
-        animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
-        -webkit-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
-        -moz-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
-        -o-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
-        -ms-animation: fade-in 1s ease-in-out forwards, fade-in 5s ease-in-out reverse forwards 8s;
+        animation: fade-in 2s ease-in-out forwards, fade-in 8s ease-in-out reverse forwards;
+        -webkit-animation: fade-in 2s ease-in-out forwards, fade-in 8s ease-in-out reverse forwards;
+        -moz-animation: fade-in 2s ease-in-out forwards, fade-in 8s ease-in-out reverse forwards;
+        -o-animation: fade-in 2s ease-in-out forwards, fade-in 8s ease-in-out reverse forwards;
+        -ms-animation: fade-in 2s ease-in-out forwards, fade-in 8s ease-in-out reverse forwards;
     }
     .bottom-left {
         bottom: 0;

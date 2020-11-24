@@ -2,14 +2,13 @@
 
 namespace FMDD\SyliusMarketingPlugin\Entity;
 
-use FMDD\SyliusMarketingPlugin\Repository\CartAbandonedSendRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Core\Model\Order;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
- * @ORM\Entity(repositoryClass=CartAbandonedSendRepository::class)
+ * @ORM\Entity
  * @ORM\Table(name="fmdd_cart_abandoned_send")
  */
 class CartAbandonedSend implements ResourceInterface

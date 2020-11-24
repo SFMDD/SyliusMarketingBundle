@@ -5,6 +5,10 @@ sylius_resource:
             classes:
                 model: FMDD\SyliusMarketingPlugin\Entity\CartAbandoned
                 form: FMDD\SyliusMarketingPlugin\Form\CartAbandonedType
+        fmdd_sylius_marketing.cart_abandoned_send:
+            driver: doctrine/orm
+            classes:
+                model: FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend
 
 sylius_grid:
     grids:

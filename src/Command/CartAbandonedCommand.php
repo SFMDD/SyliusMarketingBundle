@@ -2,6 +2,8 @@
 
 namespace FMDD\SyliusMarketingPlugin\Command;
 
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandoned;
@@ -106,8 +108,8 @@ class CartAbandonedCommand extends Command
     private function cartNotPayed(CartAbandoned $cartAbandoned)
     {
         $this->output->writeln("START ORDER NO PAYED");
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
+        $date = new DateTime();
+        $date->sub(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
         $orders = $this->orderRepository->findOrdersUnpaidSince($date);
         $this->output->writeln("FIND : ".sizeof($orders)." orders");
         $this->addOrderForEmail($orders, $cartAbandoned);
@@ -116,8 +118,8 @@ class CartAbandonedCommand extends Command
     private function cartNotCheckout(CartAbandoned $cartAbandoned)
     {
         $this->output->writeln("START ORDER NO CHECKOUT");
-        $date = new \DateTime();
-        $date->add(new \DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
+        $date = new DateTime();
+        $date->add(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
         $orders = $this->orderRepository->findCartsNotModifiedSince($date);
         $this->output->writeln("FIND : ".sizeof($orders)." orders");
         $this->addOrderForEmail($orders, $cartAbandoned);
@@ -148,11 +150,11 @@ class CartAbandonedCommand extends Command
                 $cartAbandonedSend = new CartAbandonedSend();
                 $cartAbandonedSend->setCartAbandoned($cartAbandoned);
                 if(!is_null($order->getCustomer()))
-                    $cartAbandonedSend->setCustomer($order->getCustomer());
-                $cartAbandonedSend->setDateSend(new \DateTime());
+                    $cartAbandonedSend->setCustomer($order->getCustomer()->getId());
+                $cartAbandonedSend->setDateSend(new DateTime());
                 /** TODO: Set discount if generate code discount */
                 //$cartAbandonnedSend->setDiscount();
-                $cartAbandonedSend->setOrder($order);
+                $cartAbandonedSend->setOrder($order->getId());
                 $this->em->persist($cartAbandonedSend);
                 $this->output->writeln("SEND ORDER : #".$order->getNumber().".");
             }

@@ -8,7 +8,10 @@
         "php": "^7.4",
         "sylius/sylius": "^1.7",
         "setono/sylius-trustpilot-plugin": "^1.1",
-        "knplabs/knp-time-bundle": "^1.13"
+        "knplabs/knp-time-bundle": "^1.13",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "behat/behat": "^3.4",

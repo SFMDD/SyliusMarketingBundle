@@ -12,3 +12,7 @@ services:
     class: FMDD\SyliusMarketingPlugin\Form\Extension\ChannelTypeExtension
     tags:
       - { name: form.type_extension, extended_type: Sylius\Bundle\ChannelBundle\Form\Type\ChannelType }
+      
+  setono_sylius_trustpilot.email_manager:
+    class: FMDD\SyliusMarketingPlugin\Trustpilot\EmailManager
+    arguments: ['@sylius.email_sender', '%setono_sylius_trustpilot.trustpilot_email%', '%locale%']

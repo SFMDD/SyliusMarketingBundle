@@ -223,7 +223,7 @@ By :
     ...
     <body>
     ...
-    {% include '@FMDDSyliusMarketingPlugin/Marketing/notification.html.twig' %}
+    {% include '@FMDDSyliusMarketingPlugin/Notification/_notification.html.twig' %}
     </body>
 ```
 

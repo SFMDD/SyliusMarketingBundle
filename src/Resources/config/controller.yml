@@ -1,8 +1,15 @@
 services:
+  fmdd.instagram.controller:
+    class: FMDD\SyliusMarketingPlugin\Controller\InstagramController
+    arguments:
+      - '@fmdd_sylius_marketing.repository.instagram_post'
+    public: true
+
   fmdd.notification.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\NotificationController
     arguments: ['@doctrine', '@time.datetime_formatter']
     public: true
+
   fmdd.product.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\ProductController
     arguments: ['@sylius.repository.product']

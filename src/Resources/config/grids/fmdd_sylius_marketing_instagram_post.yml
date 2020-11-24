@@ -1,0 +1,7 @@
+sylius_resource:
+  resources:
+    fmdd_sylius_marketing.instagram_post:
+      driver: doctrine/orm
+      classes:
+        model: FMDD\SyliusMarketingPlugin\Entity\InstagramPost
+        form: FMDD\SyliusMarketingPlugin\Form\InstagramPostType

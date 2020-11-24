@@ -4,6 +4,20 @@ services:
     tags:
       - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
 
+  fmdd.command.trustpilot_export_data:
+    class: FMDD\SyliusMarketingPlugin\Command\TrustpilotExportDataCommand
+    arguments: ['@sylius.repository.order', '@doctrine', '@router', '@liip_imagine.cache.manager', '@sylius.context.locale', '%kernel.project_dir%']
+    tags:
+      - { name: console.command, command: 'fmdd:trustpilot:export'}
+
+  fmdd.command.intagram_post_load:
+    class: FMDD\SyliusMarketingPlugin\Command\InstagramPostLoadCommand
+    tags:
+      - { name: console.command, command: 'fmdd:instagram-post:load'}
+    arguments:
+      - '@doctrine'
+      - '@fmdd_sylius_marketing.repository.instagram_post'
+
   fmdd.command.cart_abandoned:
     class: FMDD\SyliusMarketingPlugin\Command\CartAbandonedCommand
     tags:
@@ -15,6 +29,7 @@ services:
       - '@sylius.repository.order'
       - '@fmdd_sylius_marketing.repository.cart_abandoned'
       - '@fmdd_sylius_marketing.repository.cart_abandoned_send'
+
 
   fmdd.command.notification_order_load:
     class: FMDD\SyliusMarketingPlugin\Command\NotificationOrderLoadCommand

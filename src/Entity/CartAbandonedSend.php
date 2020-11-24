@@ -51,36 +51,36 @@ class CartAbandonedSend implements ResourceInterface
         return $this->id;
     }
 
-    public function getOrder(): ?OrderInterface
+    public function getOrder(): ?int
     {
         return $this->order;
     }
 
-    public function setOrder(?OrderInterface $order): self
+    public function setOrder(?int $order): self
     {
         $this->order = $order;
 
         return $this;
     }
 
-    public function getCustomer(): ?CustomerInterface
+    public function getCustomer(): ?int
     {
         return $this->customer;
     }
 
-    public function setCustomer(?CustomerInterface $customer): self
+    public function setCustomer(?int $customer): self
     {
         $this->customer = $customer;
 
         return $this;
     }
 
-    public function getCartAbandoned(): ?CartAbandoned
+    public function getCartAbandoned(): ?int
     {
         return $this->cartAbandoned;
     }
 
-    public function setCartAbandoned(?CartAbandoned $cartAbandoned): self
+    public function setCartAbandoned(?int $cartAbandoned): self
     {
         $this->cartAbandoned = $cartAbandoned;
 

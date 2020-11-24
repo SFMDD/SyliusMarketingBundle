@@ -13,6 +13,8 @@ services:
       - '@sylius.email_sender'
       - '@parameter_bag'
       - '@sylius.repository.order'
+      - '@fmdd_sylius_marketing.repository.cart_abandoned'
+      - '@fmdd_sylius_marketing.repository.cart_abandoned_send'
 
   fmdd.command.notification_order_load:
     class: FMDD\SyliusMarketingPlugin\Command\NotificationOrderLoadCommand

@@ -81,7 +81,7 @@ class CartAbandoned implements ResourceInterface
     private $cartNotCheckout;
 
     /**
-     * @ORM\OneToMany(targetEntity=CartAbandonedSend::class, mappedBy="cartAbandoned", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend", mappedBy="cartAbandoned", orphanRemoval=true)
      */
     private $cartAbandonedSends;
 

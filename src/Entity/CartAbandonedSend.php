@@ -3,8 +3,8 @@
 namespace FMDD\SyliusMarketingPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Sylius\Component\Core\Model\Customer;
-use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 /**
@@ -21,19 +21,17 @@ class CartAbandonedSend implements ResourceInterface
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer", name="order_id", length=12, nullable=true)
      */
     private $order;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class)
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="integer", name="customer_id", length=12, nullable=true)
      */
-    private Customer $customer;
+    private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CartAbandoned::class, inversedBy="cartAbandonedSends")
+     * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\CartAbandoned", inversedBy="cartAbandonedSends")
      * @ORM\JoinColumn(nullable=false)
      */
     private $cartAbandoned;
@@ -53,36 +51,36 @@ class CartAbandonedSend implements ResourceInterface
         return $this->id;
     }
 
-    public function getOrder(): ?Order
+    public function getOrder(): ?int
     {
         return $this->order;
     }
 
-    public function setOrder(?Order $order): self
+    public function setOrder(?int $order): self
     {
         $this->order = $order;
 
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    public function getCustomer(): ?int
     {
         return $this->customer;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setCustomer(?int $customer): self
     {
         $this->customer = $customer;
 
         return $this;
     }
 
-    public function getCartAbandoned(): ?CartAbandoned
+    public function getCartAbandoned(): ?int
     {
         return $this->cartAbandoned;
     }
 
-    public function setCartAbandoned(?CartAbandoned $cartAbandoned): self
+    public function setCartAbandoned(?int $cartAbandoned): self
     {
         $this->cartAbandoned = $cartAbandoned;
 

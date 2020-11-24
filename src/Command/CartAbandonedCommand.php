@@ -2,13 +2,15 @@
 
 namespace FMDD\SyliusMarketingPlugin\Command;
 
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandoned;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Mailer\Sender\SenderInterface;
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,13 +32,13 @@ class CartAbandonedCommand extends Command
      */
     private SenderInterface $sender;
     /**
-     * @var ObjectRepository
+     * @var EntityRepository
      */
-    private ObjectRepository $cartAbandonedRepository;
+    private EntityRepository $cartAbandonedRepository;
     /**
-     * @var ObjectRepository
+     * @var EntityRepository
      */
-    private ObjectRepository $cartAbandonedSendRepository;
+    private EntityRepository $cartAbandonedSendRepository;
     /**
      * @var ParameterBagInterface
      */
@@ -46,6 +48,7 @@ class CartAbandonedCommand extends Command
      */
     private OrderRepositoryInterface $orderRepository;
     private OutputInterface $output;
+    private Registry $doctrine;
 
     protected function configure()
     {
@@ -59,12 +62,16 @@ class CartAbandonedCommand extends Command
         Registry $doctrine,
         SenderInterface $sender,
         ParameterBagInterface $parameterBag,
-        OrderRepositoryInterface $orderRepository)
+        OrderRepositoryInterface $orderRepository,
+        EntityRepository $cartAbandonedRepository,
+        EntityRepository $cartAbandonedSendRepository
+    )
     {
-        $this->cartAbandonedRepository = $doctrine->getRepository('FMDDSyliusMarketingPlugin:CartAbandoned');
-        $this->cartAbandonedSendRepository = $doctrine->getRepository('FMDDSyliusMarketingPlugin:CartAbandonedSend');
+        $this->cartAbandonedRepository = $cartAbandonedRepository;
+        $this->cartAbandonedSendRepository = $cartAbandonedSendRepository;
         $this->orderRepository = $orderRepository;
         $this->em = $doctrine->getManager();
+        $this->doctrine = $doctrine;
         $this->sender = $sender;
         $this->emails = [];
         $this->parameterBag = $parameterBag;
@@ -101,8 +108,8 @@ class CartAbandonedCommand extends Command
     private function cartNotPayed(CartAbandoned $cartAbandoned)
     {
         $this->output->writeln("START ORDER NO PAYED");
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
+        $date = new DateTime();
+        $date->sub(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
         $orders = $this->orderRepository->findOrdersUnpaidSince($date);
         $this->output->writeln("FIND : ".sizeof($orders)." orders");
         $this->addOrderForEmail($orders, $cartAbandoned);
@@ -111,24 +118,22 @@ class CartAbandonedCommand extends Command
     private function cartNotCheckout(CartAbandoned $cartAbandoned)
     {
         $this->output->writeln("START ORDER NO CHECKOUT");
-        $date = new \DateTime();
-        $date->add(new \DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
+        $date = new DateTime();
+        $date->add(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
         $orders = $this->orderRepository->findCartsNotModifiedSince($date);
         $this->output->writeln("FIND : ".sizeof($orders)." orders");
         $this->addOrderForEmail($orders, $cartAbandoned);
     }
 
-    private function addOrderForEmail(array $orders, CartAbandoned $cartAbandoned)
+    private function addOrderForEmail($orders, CartAbandoned $cartAbandoned)
     {
         $this->output->writeln("#START#".$cartAbandoned->getSubject()."-".$cartAbandoned->getTemplate()."-".$cartAbandoned->getSendDelay());
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
-            $this->output->write("ORDER : ". $order->getNumber());
-            $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order, 'cartAbandoned' => $cartAbandoned]);
-            $this->output->write("- 1");
+            $this->output->write("ORDER : ". $order->getNumber() . " " . $order->getId());
+            $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order->getId(), 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {
                 if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0){
-                    $this->output->write("- 2");
                     array_push($this->emails, [
                         'code' => $cartAbandoned->getTemplate(),
                         'recipients' => [$order->getCustomer()->getEmail()],
@@ -142,16 +147,14 @@ class CartAbandonedCommand extends Command
                         ]
                     ]);
                 }
-                $this->output->write("- 3");
                 $cartAbandonedSend = new CartAbandonedSend();
                 $cartAbandonedSend->setCartAbandoned($cartAbandoned);
                 if(!is_null($order->getCustomer()))
-                    $cartAbandonedSend->setCustomer($order->getCustomer());
-                $cartAbandonedSend->setDateSend(new \DateTime());
+                    $cartAbandonedSend->setCustomer($order->getCustomer()->getId());
+                $cartAbandonedSend->setDateSend(new DateTime());
                 /** TODO: Set discount if generate code discount */
                 //$cartAbandonnedSend->setDiscount();
-                $cartAbandonedSend->setOrder($order);
-                $this->output->write("- 4");
+                $cartAbandonedSend->setOrder($order->getId());
                 $this->em->persist($cartAbandonedSend);
                 $this->output->writeln("SEND ORDER : #".$order->getNumber().".");
             }

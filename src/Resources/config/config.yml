@@ -6,3 +6,6 @@ imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/mailer.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/services.yml" }
   - { resource: "@SetonoSyliusTrustpilotPlugin/Resources/config/app/config.yaml" }
+
+parameters:
+  fmdd_instagram_url_tag: 'your_instagram_profile_url_tag'

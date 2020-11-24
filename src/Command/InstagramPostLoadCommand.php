@@ -12,8 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 class InstagramPostLoadCommand extends Command
 {
@@ -22,6 +21,7 @@ class InstagramPostLoadCommand extends Command
     private EntityRepository $instagramPostRepository;
 
     private ObjectManager $em;
+    private $instagramUrlTag;
 
     protected function configure()
     {
@@ -32,21 +32,29 @@ class InstagramPostLoadCommand extends Command
 
     public function __construct(
         Registry $doctrine,
-        EntityRepository $instagramPostRepository
+        EntityRepository $instagramPostRepository,
+        $instagramUrlTag
     )
     {
         parent::__construct();
         $this->em = $doctrine->getManager();
         $this->instagramPostRepository = $instagramPostRepository;
+        $this->instagramUrlTag = $instagramUrlTag;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
+        $io->writeln("Curl : https://www.instagram.com/" . $this->instagramUrlTag . "/?__a=1");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/mcprotech/?__a=1");
+        curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/" . $this->instagramUrlTag . "/?__a=1");
+        curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.17');
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
         $result = curl_exec($ch);
         curl_close($ch);
 

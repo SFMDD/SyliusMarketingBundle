@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectRepository;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandoned;
 use FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend;
 use Sylius\Component\Mailer\Sender\SenderInterface;
-use Sylius\Component\Order\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Order\Repository\OrderRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

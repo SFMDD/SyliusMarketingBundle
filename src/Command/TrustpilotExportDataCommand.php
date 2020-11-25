@@ -126,6 +126,7 @@ class TrustpilotExportDataCommand extends Command
                 (empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName()) . self::$DELIMITER .
                 $urlProduct . self::$DELIMITER .
                 $urlProductImage;
+            $data .= PHP_EOL;
         }
 
         return $data;

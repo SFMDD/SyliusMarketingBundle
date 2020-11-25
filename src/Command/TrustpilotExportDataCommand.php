@@ -89,7 +89,7 @@ class TrustpilotExportDataCommand extends Command
         }
 
         $date = new \DateTime();
-        $path = $this->projectDir . 'public\uploads\export_' . $date->format('Y-m-d_H-i-s') . '.csv';
+        $path = $this->projectDir . '/public/uploads/export_' . $date->format('Y-m-d_H-i-s') . '.csv';
 
         $file = fopen($path, "w+");
         fwrite($file, nl2br($data));

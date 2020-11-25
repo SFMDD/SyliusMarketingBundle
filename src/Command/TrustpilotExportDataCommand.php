@@ -92,7 +92,7 @@ class TrustpilotExportDataCommand extends Command
         $path = $this->projectDir . '/public/uploads/export_' . $date->format('Y-m-d_H-i-s') . '.csv';
 
         $file = fopen($path, "w+");
-        fwrite($file, nl2br($data));
+        fwrite($file, $data);
         fclose($file);
 
         $output->writeln($path);
@@ -126,8 +126,8 @@ class TrustpilotExportDataCommand extends Command
                 (empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName()) . self::$DELIMITER .
                 $urlProduct . self::$DELIMITER .
                 $urlProductImage;
-            $data .= PHP_EOL;
         }
+
         return $data;
     }
 }

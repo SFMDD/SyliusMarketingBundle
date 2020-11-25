@@ -96,16 +96,27 @@ class TrustpilotExportDataCommand extends Command
         fclose($file);
 
         $output->writeln($path);
-        $io->success(sizeof($orders) . "orders exported");
+        $io->success(sizeof($orders) . " orders exported");
         return 0;
     }
 
-    private function orderToString(OrderInterface  $order)
+    private function orderToString(OrderInterface $order)
     {
         $data = "";
+        $defaultHostname = 'http://localhost';
+        $hostname = 'https://' . $order->getChannel()->getHostname();
         /** @var OrderItem $item */
         foreach ($order->getItems() as $item) {
             $customer = $order->getCustomer();
+            $urlProduct = $this->router->generate(
+                'sylius_shop_product_show',
+                ['slug' => $item->getProduct()->getSlug(), '_locale' => $item->getProduct()->getTranslation()->getLocale()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            $urlProduct = str_replace($defaultHostname, $hostname, $urlProduct);
+            $urlProductImage = $this->cacheManager->generateUrl($item->getProduct()->getImages()->first()->getPath(), 'sylius_shop_product_thumbnail');
+            $urlProductImage = str_replace($defaultHostname, $hostname, $urlProductImage);
+
             $data .=
                 $customer->getEmail() . self::$DELIMITER .
                 $order->getShippingAddress()->getFullName() . self::$DELIMITER .
@@ -113,12 +124,8 @@ class TrustpilotExportDataCommand extends Command
             $data .=
                 $item->getVariant()->getCode() . self::$DELIMITER .
                 (empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName()) . self::$DELIMITER .
-                $this->router->generate(
-                    'sylius_shop_product_show',
-                    ['slug' => $item->getProduct()->getSlug(), '_locale' => $item->getProduct()->getTranslation()->getLocale()],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ) . self::$DELIMITER .
-                $this->cacheManager->generateUrl($item->getProduct()->getImages()->first()->getPath(), 'sylius_shop_product_thumbnail');
+                $urlProduct . self::$DELIMITER .
+                $urlProductImage;
             $data .= PHP_EOL;
         }
         return $data;

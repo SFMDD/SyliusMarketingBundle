@@ -168,9 +168,18 @@ class CartAbandonedCommand extends Command
     {
         foreach ($this->emails as $email) {
             if($this->parameterBag->get('kernel.environment') != 'dev') //Email customer, without in dev
-                $this->sender->send($email['code'], $email['recipients'], $email['data']);
+                try{
+                    $this->sender->send($email['code'], $email['recipients'], $email['data']);
+                } catch (\Exception $e){
+
+                }
+
             if(!empty($recipients)) //Email admin
-                $this->sender->send($email['code'], $recipients, $email['data']);
+                try {
+                    $this->sender->send($email['code'], $recipients, $email['data']);
+                } catch (\Exception $e){
+                }
+
         }
         $this->emails = [];
     }

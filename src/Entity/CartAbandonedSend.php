@@ -75,12 +75,12 @@ class CartAbandonedSend implements ResourceInterface
         return $this;
     }
 
-    public function getCartAbandoned(): ?int
+    public function getCartAbandoned(): ?CartAbandoned
     {
         return $this->cartAbandoned;
     }
 
-    public function setCartAbandoned(?int $cartAbandoned): self
+    public function setCartAbandoned(?CartAbandoned $cartAbandoned): self
     {
         $this->cartAbandoned = $cartAbandoned;
 

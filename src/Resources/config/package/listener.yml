@@ -1,0 +1,5 @@
+services:
+  fmdd.event.listener.notification_order_payed:
+    class: FMDD\SyliusMarketingPlugin\EventListener\NotificationOrderPayedListener
+    arguments: ['@doctrine', '@liip_imagine.cache.manager']
+    public: true

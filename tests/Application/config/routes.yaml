@@ -1,0 +1,3 @@
+# config/routes/sylius_admin.yaml
+sylius_marketing_plugin:
+  resource: "@FMDDSyliusMarketingPlugin/Resources/config/routes.yml"

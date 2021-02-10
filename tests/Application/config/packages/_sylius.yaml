@@ -34,9 +34,3 @@ sylius_order:
         order:
             classes:
                 model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Order
-
-sylius_channel:
-    resources:
-        channel:
-            classes:
-                model: Tests\FMDD\SyliusMarketingPlugin\Application\Entity\Channel

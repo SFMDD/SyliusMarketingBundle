@@ -133,7 +133,8 @@ class CartAbandonedCommand extends Command
             $this->output->write("ORDER : ". $order->getNumber() . " " . $order->getId());
             $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order->getId(), 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {
-                if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0){
+                if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0
+                    and !$this->findIfOrderValidBetween1hours($order)){
                     array_push($this->emails, [
                         'code' => $cartAbandoned->getTemplate(),
                         'recipients' => [$order->getCustomer()->getEmail()],
@@ -173,7 +174,6 @@ class CartAbandonedCommand extends Command
                 } catch (\Exception $e){
 
                 }
-
             if(!empty($recipients)) //Email admin
                 try {
                     $this->sender->send($email['code'], $recipients, $email['data']);
@@ -182,5 +182,21 @@ class CartAbandonedCommand extends Command
 
         }
         $this->emails = [];
+    }
+
+    private function findIfOrderValidBetween1hours(OrderInterface $order)
+    {
+        $builder = $this->orderRepository->createCartQueryBuilder();
+        $dateCompleteAtStart = $order->getCheckoutCompletedAt()->modify('-1 hours');
+        $dateCompleteAtEnd = $order->getCheckoutCompletedAt()->modify('+1 hours');
+
+        return !is_null($builder->select('s')
+            ->where('s.user = ?1')
+            ->andWhere('s.checkoutCompletedAt >= ?2')
+            ->andWhere('s.checkoutCompletedAt <= ?3')
+            ->andWhere("s.paymentState = 'paid'")
+            ->setParameter(1, $order->getCustomer()->getUser())
+            ->setParameter(2, $dateCompleteAtStart)
+            ->setParameter(3, $dateCompleteAtEnd)->getQuery()->getFirstResult());
     }
 }

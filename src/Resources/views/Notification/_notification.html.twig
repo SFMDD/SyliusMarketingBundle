@@ -72,7 +72,16 @@
 </style>
 <script>
     let route = '{{ absolute_url(path('fmdd_product_redirect', {'code': '_code_'})) }}';
-    setInterval(randomNotification, 15000);
+    setIntervalX(randomNotification, 15000, 8);
+    function setIntervalX(callback, delay, repetitions) {
+        var x = 0;
+        var intervalID = window.setInterval(function () {
+            callback();
+            if (++x === repetitions) {
+                window.clearInterval(intervalID);
+            }
+        }, delay);
+    }
     function randomNotification() {
         $.ajax({
             type: "GET",

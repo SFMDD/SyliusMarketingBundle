@@ -1,0 +1,9 @@
+fmdd_sylius_marketing_admin:
+  resource: "@FMDDSyliusMarketingPlugin/Resources/config/routing/admin.yml"
+  prefix: /admin
+
+fmdd_sylius_marketing_grids:
+  resource: "@FMDDSyliusMarketingPlugin/Resources/config/routing/grids.yml"
+
+fmdd_sylius_marketing_shop:
+  resource: "@FMDDSyliusMarketingPlugin/Resources/config/routing/shop.yml"

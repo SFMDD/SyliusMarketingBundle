@@ -2,16 +2,12 @@
 
 Marketing bundle is use for :
 - Add TrustPilot bundle from Setono\SyliusTrustpilotPlugin
-- Extension of channel for multi field
 - Email cart abandoned or cart not payed
 - Notification Proof of purchase
-- Option : Add event e-commerce for Google and Facebook
 
 TODO :
 - Add multiple email marketing
 - Add new Notification Type
-- Remove event marketing : Use GoogleTagManager from stefandoorn/sylius-google-tag-manager-enhanced-ecommerce-plugin
-- Add Config for Google Tag Manager with tarteaucitron : RGPD consent
 
 ## Installation
 
@@ -54,32 +50,11 @@ imports:
 
 ```yaml
 # config/routes/sylius_admin.yaml
-sylius_marketing_plugin_admin:
-    resource: "@FMDDSyliusMarketingPlugin/Resources/config/admin_routing.yaml"
-```
-```yaml
-# config/routes/sylius_admin.yaml
-sylius_marketing_plugin_shop:
-    resource: "@FMDDSyliusMarketingPlugin/Resources/config/shop_routing.yaml"
+sylius_marketing_plugin:
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/route.yaml"
 ```
 
-### Step 5: Extend channel, customer and order entities
-
-```php
-<?php
-// src/Entity/Channel.php
-
-namespace App\Entity\Channel;
-
-use FMDD\SyliusMarketingPlugin\Entity\ChannelInterface as FMDDChannelInterface;
-use FMDD\SyliusMarketingPlugin\Entity\ChannelTrait as FMDDChannelTrait;
-use Sylius\Component\Core\Model\Channel as BaseChannel;
-
-class Channel extends BaseChannel implements FMDDChannelInterface
-{
-    use FMDDChannelTrait;
-}
-```
+### Step 5: Extend customer and order entities
 
 ```php
 <?php
@@ -137,88 +112,7 @@ sylius_customer:
 
 ```
 
-### Step 6: Add the blocks event
-
-You must replace the following line : 
-```twig
-{# @SyliusShopBundle/_layout.html.twig #}
-{{ sonata_block_render_event('sylius.shop.layout.head') }}
-```
-By : 
-```twig 
-{{ sonata_block_render_event('sylius.shop.layout.head') }}
-{% block metatags %}
-{% endblock %}
-{{ sonata_block_render_event('fmdd.event.marketing.metadata') }}
-</head>
-```
-
-### Step 7: Add events JSON-LD and MarketingEvent : OPTION, for the future we will remove this part  
-```twig
-#SyliusShopBundle\Checkout\selectPayment.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.marketing.selectPayment') }}
-    {{ sonata_block_render_event('fmdd.event.marketing.checkout_progress', {'order': order}) }}
-{% endblock %}
-
-#SyliusShopBundle\Checkout\selectShipping.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.marketing.checkout_progress', {'order': order}) }}
-{% endblock %}
-
-#SyliusShopBundle\error404.html.twig and SyliusShopBundle\error500.html.twig error404/500 
-{% block metatags %}
-{{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
-        'template': '@FMDDSyliusMarketingPlugin/Marketing/Google/exception.html.twig',
-        'attr': {'code_error': '404'}
-    }) }}
-{% endblock %}
-
-#SyliusShopBundle\Product\index.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.taxon', {'taxon': taxon}) }}
-    {{ sonata_block_render_event('fmdd.event.marketing.product_index', {'attr': {'products': products}, 'taxon': taxon}) }}
-{% endblock %}
-
-#SyliusShopBundle\Product\show.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.marketing.product_show', {'product': product}) }}
-    {{ sonata_block_render_event('fmdd.event.jsonld.product', {'product': product}) }}
-    {{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.product', {'product': product}) }}
-{% endblock %}
-
-#SyliusShopBundle\Homepage\index.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.jsonld.website') }}
-{% endblock %}
-
-#SyliusShopBundle\Contact\request.html.twig
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.jsonld.contact.business') }} #contact page
-    {{ sonata_block_render_event('fmdd.event.jsonld.local.business') }}
-{% endblock %}
-
-# use in specific webpage
-#search page :
-{% block metatags %}
-    {{ sonata_block_render_event('fmdd.event.marketing.search', {'attr' : {'search_term': search_term, "products": products} } ) }}
-    {{ sonata_block_render_event('fmdd.event.jsonld.breadcrumb.search', {'attr' : {'search_term': search_term} } ) }}
-{% endblock %}
-
-#{{ sonata_block_render_event('fmdd.event.marketing.promotion', {'variants': variants}) }}
-#{{ sonata_block_render_event('fmdd.event.marketing.registration') }}
-#{{ sonata_block_render_event('fmdd.event.marketing.exception', {"attr": {'code_error': "404"}}) }}
-
-# TODO
-#{{ sonata_block_render_event('fmdd.event.marketing.view_item_list') }}
-```
-
-### Step 8 : Copy the templates folder
-```shell script
- $ cp -r vendor/fmdd/sylius-marketing-plugin/tests/Application/templates/bundles/ ./templates/
-```
-
-### Step 9 : Add notification system
+### Step 6 : Add notification system
 ```twig
     ...
     <body>

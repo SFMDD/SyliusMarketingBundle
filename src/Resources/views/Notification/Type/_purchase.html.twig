@@ -1,0 +1,9 @@
+<a id="notify" data-id="{{ product.id }}" data-name="{{ product.name }}" class="do-show bottom-left gtm-eh-track-product-click"
+   href="{{ path('sylius_shop_product_show', {'slug': product.slug }) }}">
+    <img src="{{ product.images.first.path|imagine_filter('sylius_shop_product_thumbnail') }}" alt="{{ product.name }}">
+    <div style="margin-left: 15px;">
+        <div class="title"><b>{{ firstname }}</b> ({{ city }}, {{ country }})</div>
+        <div class="content">A acheté <span>{{ quantity == 1 ? '' : quantity }} {{ product.name }}</span></div>
+        <div class="date">{{ created_at }}</div>
+    </div>
+</a>

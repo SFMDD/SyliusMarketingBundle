@@ -1,3 +1,4 @@
+{% spaceless %}
 <style>
     #notify{
         position: fixed;
@@ -54,7 +55,7 @@
         width: 50px; height: 50px;
     }
     #notify div {
-        font-size: 14px;margin-left: 15px;
+        font-size: 14px;
     }
     #notify div .title {
         font-size: 16px!important;
@@ -62,6 +63,7 @@
     }
     #notify div .content {
         color: gray;
+        margin-top: 5px;
     }
     #notify div .content span {
         color: black;
@@ -69,7 +71,11 @@
     #notify div .date {
         color: #aaaaaa;
     }
+    #notify iframe {
+        margin: 0
+    }
 </style>
+{% endspaceless %}
 <script>
     let route = '{{ absolute_url(path('fmdd_product_redirect', {'code': '_code_'})) }}';
     setInterval(randomNotification, 15000);
@@ -79,25 +85,24 @@
             url: "{{ path('fmdd_notification_random') }}",
             dataType: "json",
             success: function (msg) {
-                sendNotification(msg.notification, msg.error);
+                sendNotification(msg);
             }
         });
     }
-    function sendNotification(notification, error){
-        if(error) return;
+    function sendNotification(msg){
+        console.log(msg.error);
+        if(msg.error) {
+            console.log(msg.exception);
+            return;
+        }
+        console.log('pas derreur');
         let element = $('#notify')
         if(element.length) element.remove();
+        console.log('pu delement');
 
-        if(notification.type === "purchase") {
-            $('body').append(`
-                    <a id="notify" data-id="${notification.options.product_id}" data-name="${notification.options.product_name}" class="do-show bottom-left gtm-eh-track-product-click" href="${route.replace('_code_', notification.options.product_code)}">
-                        <img src="${notification.options.product_image.replace('http://localhost', location.protocol + '//' +location.hostname)}" alt="${notification.options.product_name}">
-                        <div>
-                            <div class="title"><b>${notification.options.firstname}</b> (${notification.options.city}, ${notification.options.country})</div>
-                            <div class="content">A acheté <span>${notification.options.quantity === 1 ? '' : notification.options.quantity} ${notification.options.product_name}</span></div>
-                            <div class="date">${notification.created_at}</div>
-                        </div>
-                    </a>`);
+        console.log('pas derreur');
+        if(msg.notification.template != '') {
+            $('body').append(msg.notification.template);
         }
     }
 </script>

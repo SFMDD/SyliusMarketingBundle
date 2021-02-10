@@ -1,0 +1,21 @@
+<a id="notify" data-id="{{ post.id }}" class="do-show bottom-left gtm-eh-track-product-click"
+   href="{{ post.link }}">
+   <img height="75" width="auto" src="{{ post.imageSmall }}" alt="{{ post.content }}" style="height: 75px; width: auto">
+    <div style="margin-left: 15px;">
+        <div class="title">
+            <b>@{{ post.author }}</b>
+        </div>
+
+        <div class="content">
+            {{ post.content|length > 100 ? post.content|slice(0, 100) ~ '...' : post.content  }}
+        </div>
+        <div class="date">
+            <div class="float-left" style="margin-top: 5px">
+                {{ post.createdAt|ago }}
+            </div>
+            <div class="float-right">
+                <div class="instagram-section__likes">{{ post.likes }}</div>
+            </div>
+        </div>
+    </div>
+</a>

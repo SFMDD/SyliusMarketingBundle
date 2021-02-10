@@ -1,0 +1,8 @@
+services:
+  FMDD\SyliusMarketingPlugin\:
+    resource: '../../*'
+    exclude: '../../{Entity,Migrations,FMDDSyliusMarketingPlugin.php}'
+
+  setono_sylius_trustpilot.email_manager:
+    class: FMDD\SyliusMarketingPlugin\Trustpilot\EmailManager
+    arguments: ['@sylius.email_sender', '%setono_sylius_trustpilot.trustpilot_email%', '%locale%']

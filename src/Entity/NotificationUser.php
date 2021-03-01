@@ -18,7 +18,7 @@ class NotificationUser
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\Notification")
+     * @ORM\ManyToOne(targetEntity="FMDD\SyliusMarketingPlugin\Entity\Notification", inversedBy="notificationsUsers")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private Notification $notification;

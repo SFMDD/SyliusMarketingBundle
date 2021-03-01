@@ -34,13 +34,13 @@ class NotificationOrderPayedListener
      */
     public function process(OrderInterface $order)
     {
-        try {
-            $em = $this->doctrine->getManager();
-            /** @var NotificationType $notificationType */
-            $notificationType = $this->doctrine->getRepository(NotificationType::class)->findOneBy(['code' => 'purchase']);
+        /** @var NotificationType $notificationType */
+        $notificationType = $this->doctrine->getRepository(NotificationType::class)->findOneBy(['code' => 'purchase']);
 
+        if (!is_null($notificationType)) {
+            $em = $this->doctrine->getManager();
             foreach ($order->getItems() as $item) {
-                if($order->getPaymentState() === OrderPaymentStates::STATE_PAID) {
+                if ($order->getPaymentState() === OrderPaymentStates::STATE_PAID) {
                     $firstname = $order->getShippingAddress()->getFirstName();
                     $firstname = is_null($firstname) ? array_rand(NotificationOrderPayedListener::$FIRSTNAMES) : $firstname;
                     $options = [
@@ -65,8 +65,6 @@ class NotificationOrderPayedListener
                 }
             }
             $em->flush();
-        } catch(\Exception $exception) {
-            // Skip if any exception throw, will not impact order payment
         }
     }
 }

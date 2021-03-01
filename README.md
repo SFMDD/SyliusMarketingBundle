@@ -126,5 +126,8 @@ You must load orders purchased event notification
 $ php bin/console fmdd:notification-order:load
 ```
 
+### Step 7 : Create notification types
+- purchase
+
 
 

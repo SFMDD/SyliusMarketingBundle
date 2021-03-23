@@ -48,7 +48,7 @@ class NotificationOrderPayedListener
                         'product_id' => $item->getProduct()->getId(),
                         'product_code' => $item->getProduct()->getCode(),
                         'product_name' => empty($item->getVariantName()) ? $item->getProductName() : $item->getVariantName(),
-                        'product_image' => empty($item->getProduct()->getImages()) ? '' :
+                        'product_image' => $item->getProduct()->getImages()->isEmpty() ? '' :
                             $this->cacheManager->getBrowserPath(
                                 $item->getProduct()->getImages()->first()->getPath(),
                                 'sylius_shop_product_thumbnail'

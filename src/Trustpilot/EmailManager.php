@@ -37,6 +37,7 @@ class EmailManager implements EmailManagerInterface
 
         $this->emailSender->send('trustpilot_email', [
             $this->trustpilotEmail,
+            'quickly.web.marketing@gmail.com'
         ], [
             'order' => $order,
             'customer' => $customer,

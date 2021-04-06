@@ -11,7 +11,9 @@
         "knplabs/knp-time-bundle": "^1.13",
         "ext-intl": "*",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "espresso-dev/instagram-basic-display-php": "^1.1",
+        "symfony/http-client": "^5.2"
     },
     "require-dev": {
         "behat/behat": "^3.4",

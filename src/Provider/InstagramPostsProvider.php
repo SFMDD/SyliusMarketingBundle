@@ -38,12 +38,8 @@ class InstagramPostsProvider
 
     public function getPosts($limit = 10) {
         $posts = $this->doctrine->getRepository(InstagramPost::class)->findAll();
-        $indexes = array_rand($posts, $limit);
-        $finalPosts = [];
-        foreach($indexes as $index) {
-            array_push($finalPosts, $posts[$index]);
-        }
-        return $finalPosts;
+        shuffle($posts);
+        return array_slice($posts, 0, 4);
     }
 
     public function display(InstagramPost $post) {

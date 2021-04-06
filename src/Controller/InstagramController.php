@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use FMDD\SyliusMarketingPlugin\Entity\Notification;
 use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
+use FMDD\SyliusMarketingPlugin\Provider\InstagramPostsProvider;
 use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Product\Model\Product;
@@ -22,22 +23,24 @@ class InstagramController extends AbstractController
 
     /** @var EntityRepository */
     private EntityRepository $instagramPostRepository;
+    /**
+     * @var InstagramPostsProvider
+     */
+    private InstagramPostsProvider $instagramPostsProvider;
 
     public function __construct(
+        InstagramPostsProvider $instagramPostsProvider,
         EntityRepository $instagramPostRepository
     ) {
         $this->instagramPostRepository = $instagramPostRepository;
+        $this->instagramPostsProvider = $instagramPostsProvider;
     }
 
     public function showLatestAction(Request $request)
     {
-        /** @var array $instagramPosts */
-        $instagramPosts = $this->instagramPostRepository->findAll();
-        shuffle($instagramPosts);
-        $instagramPosts = array_slice($instagramPosts, 0, 4);
 
         return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram.html.twig', [
-            'instagramPosts' => $instagramPosts
+            'provider' => $this->instagramPostsProvider,
         ]);
     }
 }

@@ -1,3 +1,4 @@
+{% set instagramPosts = provider.posts(4) %}
 {% if instagramPosts is not empty %}
     <div class="container">
         <div class="row">
@@ -7,23 +8,8 @@
         </div>
         <div class="row" style="margin-top: 5vh">
             {% for post in instagramPosts %}
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 mb-15">
-                    <div class="instagram-section__wrapper">
-                        <div class="single-service-item">
-                            <div class="img-full service-img">
-                                <a href="{{ post.link }}" rel="nofollow noreferrer noopener" target="_blank">
-                                    <img alt="Intagram {{ sylius.channel.name }} {{ post.content }}" title="Intagram {{ sylius.channel.name }} {{ post.content }}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                                         data-defer-src="{{ post.imageMedium }}">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="instagram-section__meta" style="padding: 10px;">
-                            <div class="instagram-section__likes">{{ post.likes }} likes</div>
-                            <div class="instagram-section__caption"><strong>{{ post.author }}</strong>
-                                {{ post.content }}
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    {{ provider.display(post) }}
                 </div>
             {% endfor %}
         </div>

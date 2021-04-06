@@ -10,15 +10,6 @@ services:
     tags:
       - { name: console.command, command: 'fmdd:trustpilot:export'}
 
-  fmdd.command.intagram_post_load:
-    class: FMDD\SyliusMarketingPlugin\Command\InstagramPostLoadCommand
-    tags:
-      - { name: console.command, command: 'fmdd:instagram-post:load'}
-    arguments:
-      - '@doctrine'
-      - '@fmdd_sylius_marketing.repository.instagram_post'
-      - '%fmdd_instagram_url_tag%'
-
   fmdd.command.cart_abandoned:
     class: FMDD\SyliusMarketingPlugin\Command\CartAbandonedCommand
     tags:

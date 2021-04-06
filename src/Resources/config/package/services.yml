@@ -6,3 +6,7 @@ services:
   setono_sylius_trustpilot.email_manager:
     class: FMDD\SyliusMarketingPlugin\Trustpilot\EmailManager
     arguments: ['@sylius.email_sender', '%setono_sylius_trustpilot.trustpilot_email%', '%locale%']
+
+  fmdd.instagram.oembed.provider:
+    class: FMDD\SyliusMarketingPlugin\Provider\InstagramPostsProvider
+    arguments: ['@http_client', '@doctrine', '%fmdd_instagram_client_id%', '%fmdd_instagram_client_secret%']

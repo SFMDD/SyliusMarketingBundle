@@ -129,5 +129,9 @@ $ php bin/console fmdd:notification-order:load
 ### Step 7 : Create notification types
 - purchase
 
-
-
+### Step 8 : If you want to use Instagram oEmbed
+```yaml
+parameters:
+    fmdd_instagram_client_id: 'your_app_id'
+    fmdd_instagram_client_secret: 'your_app_secret'
+```

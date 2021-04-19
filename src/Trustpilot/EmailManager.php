@@ -41,7 +41,7 @@ class EmailManager implements EmailManagerInterface
         ], [
             'order' => $order,
             'customer' => $customer,
-            'locale' => $this->country_code_to_locale($this->locale),
+            'locale' =>  str_replace('_', '-', $this->country_code_to_locale($this->locale)),
         ]);
     }
 

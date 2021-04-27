@@ -6,7 +6,13 @@ services:
 
   fmdd.command.trustpilot_export_data:
     class: FMDD\SyliusMarketingPlugin\Command\TrustpilotExportDataCommand
-    arguments: ['@sylius.repository.order', '@doctrine', '@router', '@liip_imagine.cache.manager', '@sylius.context.locale', '%kernel.project_dir%']
+    arguments:
+      - '@sylius.repository.order'
+      - '@doctrine'
+      - '@router.default'
+      - '@liip_imagine.cache.manager'
+      - '@sylius.context.locale'
+      - '%kernel.project_dir%'
     tags:
       - { name: console.command, command: 'fmdd:trustpilot:export'}
 

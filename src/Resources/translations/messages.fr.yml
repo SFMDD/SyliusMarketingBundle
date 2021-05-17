@@ -7,11 +7,15 @@ fmdd_sylius_marketing:
         edit_notification_type: "Modifier un type de notification"
         notifications: "Notifications envoyées aux visiteurs"
         new_notification: "Nouvelle notification"
+        instagram_posts: "Flux instagram"
+        instagram_post: "Ajoutez les liens vers les posts les plus influents"
+
 sylius:
     menu:
         admin:
             main:
                 cart_abandoned: "Email Panier abandonné"
+                instagram: "Flux instagram"
                 notification: "Notifications"
                 notification_type: "Voir les types de notification"
 emails:

@@ -20,27 +20,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InstagramController extends AbstractController
 {
-
-    /** @var EntityRepository */
-    private EntityRepository $instagramPostRepository;
-    /**
-     * @var InstagramPostsProvider
-     */
     private InstagramPostsProvider $instagramPostsProvider;
 
-    public function __construct(
-        InstagramPostsProvider $instagramPostsProvider,
-        EntityRepository $instagramPostRepository
-    ) {
-        $this->instagramPostRepository = $instagramPostRepository;
+    public function __construct(InstagramPostsProvider $instagramPostsProvider)
+    {
         $this->instagramPostsProvider = $instagramPostsProvider;
     }
 
-    public function showLatestAction(Request $request)
+    public function showLatestAction($max = 4)
     {
-
+        $posts = $this->instagramPostsProvider->getPosts($max);
         return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram.html.twig', [
             'provider' => $this->instagramPostsProvider,
+            'instagramPosts' => $posts,
         ]);
     }
 }

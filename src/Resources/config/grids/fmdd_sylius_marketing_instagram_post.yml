@@ -5,3 +5,24 @@ sylius_resource:
       classes:
         model: FMDD\SyliusMarketingPlugin\Entity\InstagramPost
         form: FMDD\SyliusMarketingPlugin\Form\InstagramPostType
+
+sylius_grid:
+  grids:
+    fmdd_sylius_marketing_instagram_post:
+      driver:
+        name: doctrine/orm
+        options:
+          class: FMDD\SyliusMarketingPlugin\Entity\InstagramPost
+      fields:
+        link:
+          type: string
+          label: sylius.ui.links
+      actions:
+        main:
+          create:
+            type: create
+        item:
+          update:
+            type: update
+          delete:
+            type: delete

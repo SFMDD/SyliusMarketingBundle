@@ -48,3 +48,20 @@ fmdd_sylius_marketing_admin_notification_type:
                 icon: 'file image outline'
     type: sylius.resource
     prefix: admin
+
+fmdd_sylius_marketing_admin_instagram_post:
+    resource: |
+        alias: fmdd_sylius_marketing.instagram_post
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: index
+        grid: fmdd_sylius_marketing_instagram_post
+        vars:
+            all:
+                subheader: fmdd_sylius_marketing.ui.instagram_post
+                templates:
+                    form: '@FMDDSyliusMarketingPlugin/Instagram/_form.html.twig'
+            index:
+                icon: 'file image outline'
+    type: sylius.resource
+    prefix: admin

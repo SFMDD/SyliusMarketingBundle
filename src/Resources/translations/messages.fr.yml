@@ -9,6 +9,8 @@ fmdd_sylius_marketing:
         new_notification: "Nouvelle notification"
         instagram_posts: "Flux instagram"
         instagram_post: "Ajoutez les liens vers les posts les plus influents"
+        new_instagram_post: "Créer un post instagram"
+        edit_instagram_post: "Modifier un post instagram"
 
 sylius:
     menu:

@@ -114,6 +114,9 @@
             let div = document.createElement('div');
             div.innerHTML = msg.notification.template;
             document.getElementsByTagName('body')[0].appendChild(div);
+            if(msg.notification.template.includes('trustpilot-notification') && window.Trustpilot) {
+                window.Trustpilot.loadFromElement(document.getElementById('trustpilot-notification'));
+            }
         }
     }
 </script>

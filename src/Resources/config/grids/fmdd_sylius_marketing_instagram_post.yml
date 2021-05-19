@@ -15,8 +15,11 @@ sylius_grid:
           class: FMDD\SyliusMarketingPlugin\Entity\InstagramPost
       fields:
         link:
-          type: string
+          path: .
+          type: twig
           label: sylius.ui.links
+          options:
+            template: "@FMDDSyliusMarketingPlugin/Grid/Field/_preview-instagram.html.twig"
       actions:
         main:
           create:

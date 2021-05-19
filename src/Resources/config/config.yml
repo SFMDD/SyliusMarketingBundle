@@ -7,3 +7,7 @@ imports:
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/package/services.yml"}
   - { resource: "@FMDDSyliusMarketingPlugin/Resources/config/package/winzou.yml" }
   - { resource: "@SetonoSyliusTrustpilotPlugin/Resources/config/app/config.yaml" }
+
+twig:
+  globals:
+    instagram_provider: '@fmdd.instagram.oembed.provider'

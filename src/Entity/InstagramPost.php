@@ -4,10 +4,16 @@ namespace FMDD\SyliusMarketingPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="fmdd_instagram_post")
+ * @UniqueEntity(
+ *     fields={"link"},
+ *     errorPath="link",
+ *     message="Ce lien existe déjà dans la liste."
+ * )
  */
 class InstagramPost implements ResourceInterface
 {

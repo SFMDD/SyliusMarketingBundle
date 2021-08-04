@@ -12,14 +12,7 @@ class InstagramPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author')
-            ->add('content')
-            ->add('comments')
-            ->add('likes')
             ->add('link')
-            ->add('imageSmall')
-            ->add('imageMedium')
-            ->add('imageBig')
         ;
     }
 

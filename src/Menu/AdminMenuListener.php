@@ -40,6 +40,14 @@ final class AdminMenuListener
             ->setLabel('sylius.menu.admin.main.notification')
             ->setLabelAttribute('icon', 'paper plane');
 
+        $item
+            ->addChild('instagramPosts', [
+                'route' => 'fmdd_sylius_marketing_admin_instagram_post_index',
+            ])
+            ->setAttribute('type', 'link')
+            ->setLabel('sylius.menu.admin.main.instagram')
+            ->setLabelAttribute('icon', 'instagram');
+
 
     }
 }

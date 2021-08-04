@@ -3,7 +3,6 @@ services:
     class: FMDD\SyliusMarketingPlugin\Controller\InstagramController
     arguments:
       - '@fmdd.instagram.oembed.provider'
-      - '@fmdd_sylius_marketing.repository.instagram_post'
     public: true
 
   fmdd.notification.controller:

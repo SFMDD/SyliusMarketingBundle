@@ -39,7 +39,7 @@ class InstagramPostsProvider
     public function getPosts($limit = 10) {
         $posts = $this->doctrine->getRepository(InstagramPost::class)->findAll();
         shuffle($posts);
-        return array_slice($posts, 0, 4);
+        return array_slice($posts, 0, $limit);
     }
 
     public function display(InstagramPost $post) {

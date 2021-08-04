@@ -117,8 +117,15 @@ sylius_customer:
     ...
     <body>
     ...
-    {% include '@FMDDSyliusMarketingPlugin/Notification/_notification.html.twig' %}
+       {{ sylius_template_event('fmdd.marketing.shop.layout.notification') }}
     </body>
+```
+
+Reload assets : 
+
+```
+php bin/console assets:install
+php bin/console sylius:theme:assets:install
 ```
 
 You must load orders purchased event notification 
@@ -128,6 +135,8 @@ $ php bin/console fmdd:notification-order:load
 
 ### Step 7 : Create notification types
 - purchase
+- trustpilot
+- instagram
 
 ### Step 8 : If you want to use Instagram oEmbed
 ```yaml

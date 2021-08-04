@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use FMDD\SyliusMarketingPlugin\Entity\InstagramPost;
 use FMDD\SyliusMarketingPlugin\Entity\Notification;
 use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
 use FMDD\SyliusMarketingPlugin\Provider\InstagramPostsProvider;
@@ -31,8 +32,11 @@ class InstagramController extends AbstractController
     {
         $posts = $this->instagramPostsProvider->getPosts($max);
         return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram.html.twig', [
-            'provider' => $this->instagramPostsProvider,
             'instagramPosts' => $posts,
         ]);
+    }
+
+    public function display(InstagramPost $post) {
+        return $this->instagramPostsProvider->display($post)['html'];
     }
 }

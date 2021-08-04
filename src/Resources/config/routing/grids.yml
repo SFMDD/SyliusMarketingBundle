@@ -13,6 +13,7 @@ fmdd_sylius_marketing_admin_cart_abandoned:
             index:
                 icon: 'file image outline'
     type: sylius.resource
+    prefix: admin
 
 fmdd_sylius_marketing_admin_notification:
     resource: |
@@ -29,6 +30,7 @@ fmdd_sylius_marketing_admin_notification:
             index:
                 icon: 'file image outline'
     type: sylius.resource
+    prefix: admin
 
 fmdd_sylius_marketing_admin_notification_type:
     resource: |
@@ -45,6 +47,7 @@ fmdd_sylius_marketing_admin_notification_type:
             index:
                 icon: 'file image outline'
     type: sylius.resource
+    prefix: admin
 
 fmdd_sylius_marketing_admin_instagram_post:
     resource: |
@@ -61,3 +64,4 @@ fmdd_sylius_marketing_admin_instagram_post:
             index:
                 icon: 'file image outline'
     type: sylius.resource
+    prefix: admin

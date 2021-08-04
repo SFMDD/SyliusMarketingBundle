@@ -7,3 +7,4 @@ fmdd_sylius_marketing_grids:
 
 fmdd_sylius_marketing_shop:
   resource: "@FMDDSyliusMarketingPlugin/Resources/config/routing/shop.yml"
+  prefix: '/{_locale}'

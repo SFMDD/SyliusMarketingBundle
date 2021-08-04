@@ -37,6 +37,6 @@ class InstagramController extends AbstractController
     }
 
     public function display(InstagramPost $post) {
-        return $this->instagramPostsProvider->display($post);
+        return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram_post.html.twig', ['post' => $this->instagramPostsProvider->display($post)]);
     }
 }

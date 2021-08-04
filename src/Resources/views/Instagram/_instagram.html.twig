@@ -9,7 +9,7 @@
             {% for post in instagramPosts %}
                 {% if post is not empty %}
                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        {{ post|raw }}
+                        {% include '@FMDDSyliusMarketingPlugin/Instagram/_instagram_post.html.twig' with {'post': post} %}
                     </div>
                 {% endif %}
             {% endfor %}

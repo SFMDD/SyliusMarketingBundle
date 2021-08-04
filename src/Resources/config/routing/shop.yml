@@ -1,11 +1,11 @@
 fmdd_notification_random:
-  path: /notification/random
+  path: /{_locale}/notification/random
   methods: [GET]
   defaults:
     _controller: fmdd.notification.controller::randomAction
 
 fmdd_product_redirect:
-  path: /product/redirect/{code}
+  path: /{_locale}/product/redirect/{code}
   methods: [GET]
   defaults:
     _controller: fmdd.product.controller::redirectToProductAction

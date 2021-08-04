@@ -54,6 +54,6 @@ class InstagramPostsProvider
             'GET',
             $query,
         );
-        return 200 === $response->getStatusCode() ? json_decode($response->getContent()) : ['html' => ''];
+        return 200 === $response->getStatusCode() ? json_decode($response->getContent())->html : '';
     }
 }

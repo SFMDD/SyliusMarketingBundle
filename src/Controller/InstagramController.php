@@ -37,6 +37,6 @@ class InstagramController extends AbstractController
     }
 
     public function display(InstagramPost $post) {
-        return $this->instagramPostsProvider->display($post)['html'];
+        return $this->instagramPostsProvider->display($post);
     }
 }

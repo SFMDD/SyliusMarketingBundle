@@ -7,10 +7,9 @@
         </div>
         <div class="row" style="margin-top: 5vh">
             {% for post in instagramPosts %}
-                {% set html = post.html %}
-                {% if html is not empty %}
+                {% if post is not empty %}
                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        {{ html|raw }}
+                        {{ post|raw }}
                     </div>
                 {% endif %}
             {% endfor %}

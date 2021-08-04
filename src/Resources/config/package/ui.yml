@@ -2,5 +2,7 @@ sylius_ui:
   events:
     fmdd.marketing.shop.layout.notification:
       blocks:
-        notification.css: FMDDSyliusMarketingPlugin:Notification/Block/_style.html.twig
-        notification.js: FMDDSyliusMarketingPlugin:Notification/Block/_javascript.html.twig
+        notification.css:
+          template: '@FMDDSyliusMarketingPlugin/Notification/Block/_style.html.twig'
+        notification.js:
+          template: '@FMDDSyliusMarketingPlugin/Notification/Block/_javascript.html.twig'

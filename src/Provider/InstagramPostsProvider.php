@@ -33,7 +33,7 @@ class InstagramPostsProvider
             'GET',
             $query,
         );
-        return json_decode($response->getContent())->access_token;
+        return $response->getStatusCode() === 200 ?  json_decode($response->getContent())->access_token : '';
     }
 
     public function getPosts($limit = 10) {

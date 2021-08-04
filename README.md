@@ -51,7 +51,7 @@ imports:
 ```yaml
 # config/routes/sylius_admin.yaml
 sylius_marketing_plugin:
-    resource: "@FMDDSyliusMarketingPlugin/Resources/config/route.yaml"
+    resource: "@FMDDSyliusMarketingPlugin/Resources/config/routes.yaml"
 ```
 
 ### Step 5: Extend customer and order entities

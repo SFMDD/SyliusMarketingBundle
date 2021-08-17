@@ -18,7 +18,7 @@ function randomNotification() {
             sendNotification(JSON.parse(xhttp.responseText));
         }
     };
-    xhttp.open("GET", "{{ path('fmdd_notification_random') }}", true);
+    xhttp.open("GET", document.getElementById('notification-url').dataset.url, true);
     xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
     xhttp.send();
 }

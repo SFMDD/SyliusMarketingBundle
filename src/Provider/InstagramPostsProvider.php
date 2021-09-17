@@ -7,6 +7,7 @@ namespace FMDD\SyliusMarketingPlugin\Provider;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use EspressoDev\InstagramBasicDisplay\InstagramBasicDisplay;
 use FMDD\SyliusMarketingPlugin\Entity\InstagramPost;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class InstagramPostsProvider
@@ -29,11 +30,15 @@ class InstagramPostsProvider
 
     public function getAccessToken() {
         $query =   "https://graph.facebook.com/oauth/access_token?client_id=" . $this->clientId . "&client_secret=" . $this->clientSecret . "&grant_type=client_credentials";
-        $response = $this->client->request(
-            'GET',
-            $query,
-        );
-        return $response->getStatusCode() === 200 ?  json_decode($response->getContent())->access_token : '';
+        try {
+            $response = $this->client->request(
+                'GET',
+                $query,
+            );
+            return $response->getStatusCode() === 200 ?  json_decode($response->getContent())->access_token : '';
+        } catch (TransportExceptionInterface $exception){
+            return '';
+        }
     }
 
     public function getPosts($limit = 10) {
@@ -50,10 +55,14 @@ class InstagramPostsProvider
     public function display(InstagramPost $post) {
         $token = $this->getAccessToken();
         $query = 'https://graph.facebook.com/v10.0/instagram_oembed?url=' . $post->getLink() . '&access_token=' . urldecode($token);
-        $response = $this->client->request(
-            'GET',
-            $query,
-        );
-        return 200 === $response->getStatusCode() ? json_decode($response->getContent())->html : '';
+        try {
+            $response = $this->client->request(
+                'GET',
+                $query,
+            );
+            return 200 === $response->getStatusCode() ? json_decode($response->getContent())->html : '';
+        } catch (TransportExceptionInterface $exception){
+            return '';
+        }
     }
 }

@@ -32,16 +32,18 @@ class EmailManager implements EmailManagerInterface
 
     public function sendTrustpilotEmail(OrderInterface $order): void
     {
+        if (empty($this->trustpilotEmail) or $this->trustpilotEmail === 'undefined@undefined.undefined')
+            return;
+
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();
 
         $this->emailSender->send('trustpilot_email', [
-            $this->trustpilotEmail,
-            'quickly.web.marketing@gmail.com'
+            $this->trustpilotEmail
         ], [
             'order' => $order,
             'customer' => $customer,
-            'locale' =>  str_replace('_', '-', $this->country_code_to_locale($this->locale)),
+            'locale' => str_replace('_', '-', $this->country_code_to_locale($this->locale)),
         ]);
     }
 

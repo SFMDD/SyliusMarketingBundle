@@ -2,7 +2,12 @@
 
 {# @var order \App\Entity\Order\Order #}
 {% block subject %}
-    {{ "emails.no_checkout.subject"|trans({'%customerName%': order.customer.fullName}) }}
+    {% if order.customer is null %}
+        {% set customerName = '' %}
+    {% else %}
+        {% set customerName = order.customer.fullName %}
+    {% endif %}
+    {{ "emails.no_checkout.subject"|trans({'%customerName%': customerName}) }}
 {% endblock %}
 
 {% block content %}

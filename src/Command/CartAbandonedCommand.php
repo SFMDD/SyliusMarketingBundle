@@ -92,10 +92,14 @@ class CartAbandonedCommand extends Command
          */
         /** @var CartAbandoned $cartAbandoned */
         foreach ($this->cartAbandonedRepository->findBy(['status' => true]) as $cartAbandoned) {
-            if($cartAbandoned->getCartNotPayed())
-                $this->cartNotPayed($cartAbandoned);
-            if($cartAbandoned->getCartNotCheckout())
-                $this->cartNotCheckout($cartAbandoned);
+            switch($cartAbandoned->getTemplate()) {
+                case 'no_payment':
+                    $this->cartNotPayed($cartAbandoned);
+                    break;
+                case 'no_checkout':
+                    $this->cartNotCheckout($cartAbandoned);
+                    break;
+            }
         }
 
         $io->writeln(sizeof($this->emails) . "Emails waiting for send");

@@ -71,16 +71,6 @@ class CartAbandoned implements ResourceInterface
     private $status;
 
     /**
-     * @ORM\Column(type="boolean", name="cart_not_payed")
-     */
-    private $cartNotPayed;
-
-    /**
-     * @ORM\Column(type="boolean", name="cart_not_checkout")
-     */
-    private $cartNotCheckout;
-
-    /**
      * @ORM\OneToMany(targetEntity="FMDD\SyliusMarketingPlugin\Entity\CartAbandonedSend", mappedBy="cartAbandoned", orphanRemoval=true)
      */
     private $cartAbandonedSends;
@@ -244,37 +234,5 @@ class CartAbandoned implements ResourceInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCartNotPayed()
-    {
-        return $this->cartNotPayed;
-    }
-
-    /**
-     * @param mixed $cartNotPayed
-     */
-    public function setCartNotPayed($cartNotPayed): void
-    {
-        $this->cartNotPayed = $cartNotPayed;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCartNotCheckout()
-    {
-        return $this->cartNotCheckout;
-    }
-
-    /**
-     * @param mixed $cartNotCheckout
-     */
-    public function setCartNotCheckout($cartNotCheckout): void
-    {
-        $this->cartNotCheckout = $cartNotCheckout;
     }
 }

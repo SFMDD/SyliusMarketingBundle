@@ -2,6 +2,7 @@ fmdd_sylius_marketing:
     ui:
         cart_abandoneds: "Emails paniers abandonnés"
         new_cart_abandoned: "Nouveau email de panier abandonné"
+        edit_cart_abandoned: "Modifier l'email de panier abandonné"
         notification_types: "Type de notification"
         new_notification_types: "Nouveau type de notification"
         edit_notification_type: "Modifier un type de notification"
@@ -11,6 +12,9 @@ fmdd_sylius_marketing:
         instagram_post: "Ajoutez les liens vers les posts les plus influents"
         new_instagram_post: "Créer un post instagram"
         edit_instagram_post: "Modifier un post instagram"
+    form:
+        cart_abandoned:
+            delay: 'Délai (en heure)'
 
 sylius:
     menu:
@@ -20,12 +24,16 @@ sylius:
                 instagram: "Flux instagram"
                 notification: "Notifications"
                 notification_type: "Voir les types de notification"
+
+
 emails:
     no_payment:
+        name: 'Paiement abandonné'
         subject: "Bonjour %customerName% votre commande #%number% va expirer"
         order: "Votre commande"
         content: "est en attente de paiement. Il vous reste %order_expiration_period% jours avant l'expiration de votre commande."
     no_checkout:
+        name: 'Panier abandonné'
         subject: "Bonjour %customerName% votre panier va expirer"
         cart: "Un panier est en attente de finalisation. Il vous reste %cart_expiration_period% jours avant l'expiration de votre commande."
         content: "Votre panier est en attente de finalisation. "

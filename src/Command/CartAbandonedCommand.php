@@ -138,7 +138,7 @@ class CartAbandonedCommand extends Command
             $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order->getId(), 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {
                 if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0
-                    and !$this->findIfOrderValidBetween1hours($order)){
+                    /*and !$this->findIfOrderValidBetween1hours($order)*/){
                     array_push($this->emails, [
                         'code' => $cartAbandoned->getTemplate(),
                         'recipients' => [$order->getCustomer()->getEmail()],

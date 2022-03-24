@@ -2,12 +2,7 @@
 
 {# @var order \App\Entity\Order\Order #}
 {% block subject %}
-    {% if order.customer is null %}
-        {% set customerName = '' %}
-    {% else %}
-        {% set customerName = order.customer.fullName %}
-    {% endif %}
-    {{ "emails.no_payment.subject"|trans({'%customerName%': customerName, '%number%': order.number}) }}
+    {{ "emails.no_payment.subject"|trans({'%customerName%': (order.customer is not null ? order.customer.fullName : ''), '%number%': order.number}) }}
 {% endblock %}
 
 {% block content %}
@@ -20,8 +15,7 @@
             {{ order.number }}
           </span>
         </div>
-        {% set diff = date(date('now')).diff(date(order.updatedAt)) %}
-        {{ "emails.no_payment.content"|trans({'%order_expiration_period%': (order_expiration_period|replace({' days': ''}) - diff.days)}) }}
+        {{ "emails.no_payment.content"|trans({'%order_expiration_period%': expiration_period}) }}
     </div>
 
     <div style="text-align: center; margin-bottom: 30px;">

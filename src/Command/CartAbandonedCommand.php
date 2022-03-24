@@ -22,33 +22,20 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class CartAbandonedCommand extends Command
 {
     protected static $defaultName = 'fmdd:cart-abandoned:run';
-    /**
-     * @var ObjectManager
-     */
-    private ObjectManager $em;
-    private array $emails;
-    /**
-     * @var SenderInterface
-     */
-    private SenderInterface $sender;
-    /**
-     * @var EntityRepository
-     */
-    private EntityRepository $cartAbandonedRepository;
-    /**
-     * @var EntityRepository
-     */
-    private EntityRepository $cartAbandonedSendRepository;
-    /**
-     * @var ParameterBagInterface
-     */
-    private ParameterBagInterface $parameterBag;
-    /**
-     * @var OrderRepositoryInterface
-     */
-    private OrderRepositoryInterface $orderRepository;
+
     private OutputInterface $output;
-    private Registry $doctrine;
+
+    private ObjectManager $manager;
+    private OrderRepositoryInterface $orderRepository;
+    private EntityRepository $cartAbandonedRepository;
+    private EntityRepository $cartAbandonedSendRepository;
+
+    private SenderInterface $sender;
+
+    private array $emails = [];
+    private string $environment;
+    private string $cartExpirationPeriod;
+    private string $orderExpirationPeriod;
 
     protected function configure()
     {
@@ -65,80 +52,75 @@ class CartAbandonedCommand extends Command
         OrderRepositoryInterface $orderRepository,
         EntityRepository $cartAbandonedRepository,
         EntityRepository $cartAbandonedSendRepository
-    )
-    {
+    ) {
+        parent::__construct();
+        $this->manager = $doctrine->getManager();
+        $this->orderRepository = $orderRepository;
         $this->cartAbandonedRepository = $cartAbandonedRepository;
         $this->cartAbandonedSendRepository = $cartAbandonedSendRepository;
-        $this->orderRepository = $orderRepository;
-        $this->em = $doctrine->getManager();
-        $this->doctrine = $doctrine;
         $this->sender = $sender;
-        $this->emails = [];
-        $this->parameterBag = $parameterBag;
-        parent::__construct();
+        $this->environment = $parameterBag->get('kernel.environment');
+        $this->cartExpirationPeriod = $parameterBag->get('sylius_order.cart_expiration_period');
+        $this->orderExpirationPeriod = $parameterBag->get('sylius_order.order_expiration_period');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $this->output = $output;
-        $this->output->writeln("START : ".$this->getDescription()." ENV : ". $this->parameterBag->get('kernel.environment'));
-        $recipients = explode(',', $input->getOption('recipients'));
 
-        /**
-         * STATE in cart :
-         * Commander, mais non payé
-         * Dans le panier mais non commencé le checkout
-         */
-        /** @var CartAbandoned $cartAbandoned */
-        foreach ($this->cartAbandonedRepository->findBy(['status' => true]) as $cartAbandoned) {
-            switch($cartAbandoned->getTemplate()) {
-                case 'no_payment':
-                    $this->cartNotPayed($cartAbandoned);
-                    break;
-                case 'no_checkout':
-                    $this->cartNotCheckout($cartAbandoned);
-                    break;
+        if($this->environment !== 'prod') {
+            $option = $input->getOption('recipients');
+            $recipients = explode(',', $input->getOption('recipients'));
+            if(is_null($option) || empty($recipients)) {
+                $io->error('Please add recipients addresses in the command arguments');
+                return 0;
             }
         }
 
-        $io->writeln(sizeof($this->emails) . "Emails waiting for send");
-        $this->sendEmails($recipients);
-        $io->success('Send email Finish');
-
+        $this->handleCarts();
+        $this->sendEmails($io, $recipients);
         return 0;
     }
 
-    private function cartNotPayed(CartAbandoned $cartAbandoned)
+    private function handleCarts()
     {
-        $this->output->writeln("START ORDER NO PAYED");
-        $date = new DateTime();
-        $date->sub(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
-        $orders = $this->orderRepository->findOrdersUnpaidSince($date);
-        $this->output->writeln("FIND : ".sizeof($orders)." orders");
-        $this->addOrderForEmail($orders, $cartAbandoned);
-    }
+        /** @var CartAbandoned $cartAbandoned */
+        foreach ($this->cartAbandonedRepository->findBy(['status' => true]) as $cartAbandoned) {
+            $date = new \DateTime('-' . $cartAbandoned->getSendDelay() . ' hours');
+            $this->output->writeln("Start get orders before " . $date->format('d-m-Y H:i:s') . " for type : " . $cartAbandoned->getTemplate());
 
-    private function cartNotCheckout(CartAbandoned $cartAbandoned)
-    {
-        $this->output->writeln("START ORDER NO CHECKOUT");
-        $date = new DateTime();
-        $date->add(new DateInterval('PT'.$cartAbandoned->getSendDelay().'H'));
-        $orders = $this->orderRepository->findCartsNotModifiedSince($date);
-        $this->output->writeln("FIND : ".sizeof($orders)." orders");
-        $this->addOrderForEmail($orders, $cartAbandoned);
+            switch($cartAbandoned->getTemplate()) {
+                case 'no_payment':
+                    $orders = $this->orderRepository->findOrdersUnpaidSince($date);
+                    break;
+                case 'no_checkout':
+                    $orders = $this->orderRepository->findCartsNotModifiedSince($date);
+                    break;
+                default:
+                    $orders = [];
+            }
+            $this->output->writeln("Found " . sizeof($orders) . " orders");
+            $this->addOrderForEmail($orders, $cartAbandoned);
+            $this->output->writeln('-----------------');
+        }
     }
 
     private function addOrderForEmail($orders, CartAbandoned $cartAbandoned)
     {
-        $this->output->writeln("#START#".$cartAbandoned->getSubject()."-".$cartAbandoned->getTemplate()."-".$cartAbandoned->getSendDelay());
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
-            $this->output->write("ORDER : ". $order->getNumber() . " " . $order->getId());
+            $number = empty($order->getNumber()) ? $order->getId() : $order->getNumber();
             $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order->getId(), 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {
-                if(!is_null($order->getCustomer()) and !is_null($order->getCustomer()->getEmail()) and sizeof($order->getItems()) > 0
-                    /*and !$this->findIfOrderValidBetween1hours($order)*/){
+                if(!is_null($order->getCustomer()) && !is_null($order->getCustomer()->getEmail()) && sizeof($order->getItems()) > 0) {
+                    $earlier = is_null($order->getCheckoutCompletedAt()) ? $order->getCreatedAt() : $order->getCheckoutCompletedAt();
+                    $later = new DateTime('now');
+                    $difference = $earlier->diff($later)->format("%r%a");
+                    if($difference < 0) $difference = 0;
+                    $typePeriod = intval(str_replace( ' days', '', is_null($order->getCheckoutCompletedAt()) ? $this->cartExpirationPeriod : $this->orderExpirationPeriod));
+                    $period = $typePeriod - $difference;
+
                     array_push($this->emails, [
                         'code' => $cartAbandoned->getTemplate(),
                         'recipients' => [$order->getCustomer()->getEmail()],
@@ -147,60 +129,39 @@ class CartAbandonedCommand extends Command
                             'localeCode' => $order->getLocaleCode(),
                             'order' => $order,
                             'cartAbandoned' => $cartAbandoned,
-                            'cart_expiration_period' => $this->parameterBag->get('sylius_order.cart_expiration_period'),
-                            'order_expiration_period' => $this->parameterBag->get('sylius_order.order_expiration_period')
+                            'expiration_period' => $period,
                         ]
                     ]);
-                }
-                $cartAbandonedSend = new CartAbandonedSend();
-                $cartAbandonedSend->setCartAbandoned($cartAbandoned);
-                if(!is_null($order->getCustomer()))
+
+                    $cartAbandonedSend = new CartAbandonedSend();
+                    $cartAbandonedSend->setCartAbandoned($cartAbandoned);
                     $cartAbandonedSend->setCustomer($order->getCustomer()->getId());
-                $cartAbandonedSend->setDateSend(new DateTime());
-                /** TODO: Set discount if generate code discount */
-                //$cartAbandonnedSend->setDiscount();
-                $cartAbandonedSend->setOrder($order->getId());
-                $this->em->persist($cartAbandonedSend);
-                $this->output->writeln("SEND ORDER : #".$order->getNumber().".");
+                    $cartAbandonedSend->setDateSend(new DateTime());
+                    $cartAbandonedSend->setOrder($order->getId());
+                    $this->manager->persist($cartAbandonedSend);
+                    $this->output->writeln("Order #". $number . ' added email for ' . $cartAbandoned->getTemplate());
+                } else {
+                    $this->output->writeln("Order #". $number . ' ignored cause of no customer email available.');
+                }
+            } else {
+                $this->output->writeln("Order #". $number . ' already get email for ' . $cartAbandoned->getTemplate());
             }
         }
-        if($this->parameterBag->get('kernel.environment') != 'dev') //Not Register CartAbandonedSend in dev for testing
-            $this->em->flush();
-        $this->output->writeln("#FINISH");
+
+        if($this->environment === 'prod') {
+            $this->manager->flush();
+        }
     }
 
-    private function sendEmails($recipients)
+    private function sendEmails($io, $recipients)
     {
+        $this->output->writeln(sizeof($this->emails) . " emails are going to be sent.");
         foreach ($this->emails as $email) {
-            if($this->parameterBag->get('kernel.environment') != 'dev') //Email customer, without in dev
-                try{
-                    $this->sender->send($email['code'], $email['recipients'], $email['data']);
-                } catch (\Exception $e){
-
-                }
-            if(!empty($recipients)) //Email admin
-                try {
-                    $this->sender->send($email['code'], $recipients, $email['data']);
-                } catch (\Exception $e){
-                }
-
+            $receivers = $this->environment === 'prod' ? $email['recipients'] : $recipients;
+            $this->output->writeln('Send email to ' . implode(', ', $receivers)) . ' for template ' . $email['code'];
+            $this->sender->send($email['code'], $receivers, $email['data']);
         }
         $this->emails = [];
-    }
-
-    private function findIfOrderValidBetween1hours(OrderInterface $order)
-    {
-        $builder = $this->orderRepository->createCartQueryBuilder();
-        $dateCompleteAtStart = $order->getCheckoutCompletedAt()->modify('-1 hours');
-        $dateCompleteAtEnd = $order->getCheckoutCompletedAt()->modify('+1 hours');
-
-        return !is_null($builder->select('s')
-            ->where('s.user = ?1')
-            ->andWhere('s.checkoutCompletedAt >= ?2')
-            ->andWhere('s.checkoutCompletedAt <= ?3')
-            ->andWhere("s.paymentState = 'paid'")
-            ->setParameter(1, $order->getCustomer()->getUser())
-            ->setParameter(2, $dateCompleteAtStart)
-            ->setParameter(3, $dateCompleteAtEnd)->getQuery()->getFirstResult());
+        $io->success('All emails have been sent successfully.');
     }
 }

@@ -2,12 +2,7 @@
 
 {# @var order \App\Entity\Order\Order #}
 {% block subject %}
-    {% if order.customer is null %}
-        {% set customerName = '' %}
-    {% else %}
-        {% set customerName = order.customer.fullName %}
-    {% endif %}
-    {{ "emails.no_checkout.subject"|trans({'%customerName%': customerName}) }}
+    {{ "emails.no_checkout.subject"|trans({'%customerName%': (order.customer is not null ? order.customer.fullName : '')}) }}
 {% endblock %}
 
 {% block content %}
@@ -20,8 +15,7 @@
             {{ order.number }}
           </span>
         </div>
-        {% set diff = date(date('now')).diff(date(order.updatedAt)) %}
-        {{ "emails.no_checkout.content"|trans({'%cart_expiration_period%': cart_expiration_period}) }}
+        {{ "emails.no_checkout.content"|trans({'%cart_expiration_period%': expiration_period}) }}
     </div>
 
     <div style="text-align: center; margin-bottom: 30px;">

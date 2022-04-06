@@ -7,7 +7,7 @@ services:
 
   fmdd.notification.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\NotificationController
-    arguments: ['@doctrine', '@time.datetime_formatter', '@templating.engine.twig']
+    arguments: ['@doctrine', '@time.datetime_formatter', '@twig']
     public: true
 
   fmdd.product.controller:

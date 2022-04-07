@@ -37,6 +37,7 @@ Marketing bundle is use for :
 - Add TrustPilot bundle from Setono\SyliusTrustpilotPlugin
 - Email cart abandoned or cart not payed
 - Notification Proof of purchase
+- Add Instagram
 
 TODO :
 - Add multiple email marketing

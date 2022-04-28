@@ -2,7 +2,7 @@ fmdd_sylius_marketing_admin_cart_abandoned:
     resource: |
         alias: fmdd_sylius_marketing.cart_abandoned
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         redirect: update
         grid: fmdd_sylius_marketing_cart_abandoned
         vars:
@@ -18,7 +18,7 @@ fmdd_sylius_marketing_admin_notification:
     resource: |
         alias: fmdd_sylius_marketing.notification
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         redirect: update
         grid: fmdd_sylius_marketing_notification
         vars:
@@ -34,7 +34,7 @@ fmdd_sylius_marketing_admin_notification_type:
     resource: |
         alias: fmdd_sylius_marketing.notification_type
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         redirect: update
         grid: fmdd_sylius_marketing_notification_type
         vars:
@@ -50,7 +50,7 @@ fmdd_sylius_marketing_admin_instagram_post:
     resource: |
         alias: fmdd_sylius_marketing.instagram_post
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: '@SyliusAdmin/Crud'
         redirect: index
         grid: fmdd_sylius_marketing_instagram_post
         vars:

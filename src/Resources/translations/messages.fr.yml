@@ -8,6 +8,7 @@ fmdd_sylius_marketing:
         edit_notification_type: "Modifier un type de notification"
         notifications: "Notifications envoyées aux visiteurs"
         new_notification: "Nouvelle notification"
+        edit_notification: "Modifier notification"
         instagram_posts: "Flux instagram"
         instagram_post: "Ajoutez les liens vers les posts les plus influents"
         new_instagram_post: "Créer un post instagram"

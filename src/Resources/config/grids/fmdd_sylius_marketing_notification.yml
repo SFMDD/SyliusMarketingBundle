@@ -21,7 +21,7 @@ sylius_grid:
                     label: "Options"
                     sortable: true
                     options:
-                        template: SyliusUiBundle:Grid/Field:logData.html.twig
+                        template: '@SyliusUi/Grid/Field/logData.html.twig'
                 createdAt:
                     type: datetime
                     label: "createdAt"

@@ -110,6 +110,7 @@ class CartAbandonedCommand extends Command
     {
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
+            if($order->getItems()->isEmpty()) continue;
             $number = empty($order->getNumber()) ? $order->getId() : $order->getNumber();
             $cartAbandonedSend = $this->cartAbandonedSendRepository->findOneBy(['order' => $order->getId(), 'cartAbandoned' => $cartAbandoned]);
             if (is_null($cartAbandonedSend)) {

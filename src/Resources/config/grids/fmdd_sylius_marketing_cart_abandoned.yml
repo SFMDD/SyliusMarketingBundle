@@ -24,7 +24,7 @@ sylius_grid:
                     label: sylius.ui.enabled
                     sortable: true
                     options:
-                        template: SyliusUiBundle:Grid/Field:enabled.html.twig
+                        template: '@SyliusUi/Grid/Field/enabled.html.twig'
                 subject:
                     type: string
                     label: "Subject"

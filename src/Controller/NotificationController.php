@@ -10,14 +10,12 @@ use FMDD\SyliusMarketingPlugin\Entity\InstagramPost;
 use FMDD\SyliusMarketingPlugin\Entity\Notification;
 use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
 use Knp\Bundle\TimeBundle\DateTimeFormatter;
-use Sylius\Component\Core\Model\ShopUser;
-use Sylius\Component\Product\Model\Product;
 use Sylius\Component\Product\Model\ProductInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 class NotificationController extends AbstractController
 {
@@ -30,14 +28,14 @@ class NotificationController extends AbstractController
      */
     private DateTimeFormatter $dateTimeFormatter;
     /**
-     * @var EngineInterface
+     * @var Environment
      */
-    private EngineInterface $templating;
+    private Environment $templating;
 
     public function __construct(
         Registry $doctrine,
         DateTimeFormatter $dateTimeFormatter,
-        EngineInterface $templating
+        Environment $templating
     ) {
         $this->doctrine = $doctrine;
         $this->dateTimeFormatter = $dateTimeFormatter;

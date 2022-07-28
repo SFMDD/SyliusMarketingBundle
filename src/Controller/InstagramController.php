@@ -18,25 +18,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
-class InstagramController extends AbstractController
+class InstagramController
 {
+    private Environment $twig;
     private InstagramPostsProvider $instagramPostsProvider;
 
-    public function __construct(InstagramPostsProvider $instagramPostsProvider)
+    public function __construct(Environment $twig, InstagramPostsProvider $instagramPostsProvider)
     {
+        $this->twig = $twig;
         $this->instagramPostsProvider = $instagramPostsProvider;
     }
 
     public function showLatestAction($max = 4)
     {
         $posts = $this->instagramPostsProvider->getPosts($max);
-        return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram.html.twig', [
-            'instagramPosts' => $posts,
-        ]);
+        return new Response(
+            $this->twig->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram.html.twig', [
+                'instagramPosts' => $posts,
+            ])
+        );
     }
 
-    public function display(InstagramPost $post) {
-        return $this->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram_post.html.twig', ['post' => $this->instagramPostsProvider->display($post)]);
+    public function display(InstagramPost $post)
+    {
+        return new Response(
+            $this->twig->render('@FMDDSyliusMarketingPlugin/Instagram/_instagram_post.html.twig', [
+                'post' => $this->instagramPostsProvider->display($post)
+            ])
+        );
     }
 }

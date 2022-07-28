@@ -17,29 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class NotificationController extends AbstractController
+class NotificationController
 {
-    /**
-     * @var Registry
-     */
     private Registry $doctrine;
-    /**
-     * @var DateTimeFormatter
-     */
     private DateTimeFormatter $dateTimeFormatter;
-    /**
-     * @var Environment
-     */
-    private Environment $templating;
+    private Environment $twig;
 
     public function __construct(
         Registry $doctrine,
         DateTimeFormatter $dateTimeFormatter,
-        Environment $templating
+        Environment $twig
     ) {
         $this->doctrine = $doctrine;
         $this->dateTimeFormatter = $dateTimeFormatter;
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     public function randomAction(Request $request)
@@ -107,7 +98,7 @@ class NotificationController extends AbstractController
                 $product = $this->getDoctrine()->getRepository(ProductInterface::class)->find($notification->getOptions()['product_id']);
                 if(is_null($product))
                     return '';
-                return $this->templating->render('@FMDDSyliusMarketingPlugin/Notification/Type/_purchase.html.twig', [
+                return $this->twig->render('@FMDDSyliusMarketingPlugin/Notification/Type/_purchase.html.twig', [
                     'product' => $product,
                     'quantity' => $notification->getOptions()['quantity'],
                     'firstname' => $notification->getOptions()['firstname'],
@@ -116,12 +107,12 @@ class NotificationController extends AbstractController
                     'created_at' => $this->dateTimeFormatter->formatDiff($notification->getCreatedAt(), new \DateTime()),
                 ]);
             case 'trustpilot':
-                return $this->templating->render('@FMDDSyliusMarketingPlugin/Notification/Type/_trustpilot.html.twig', $notification->getOptions());
+                return $this->twig->render('@FMDDSyliusMarketingPlugin/Notification/Type/_trustpilot.html.twig', $notification->getOptions());
             case 'instagram':
                 $posts = $this->getDoctrine()->getRepository(InstagramPost::class)->findAll();
                 shuffle($posts);
 
-                return $this->templating->render('@FMDDSyliusMarketingPlugin/Notification/Type/_instagram.html.twig', ['post' => $posts[0]]);
+                return $this->twig->render('@FMDDSyliusMarketingPlugin/Notification/Type/_instagram.html.twig', ['post' => $posts[0]]);
         }
     }
 }

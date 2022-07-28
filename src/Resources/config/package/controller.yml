@@ -1,16 +1,24 @@
 services:
   fmdd.instagram.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\InstagramController
-    arguments:
-      - '@fmdd.instagram.oembed.provider'
+    arguments: ['@fmdd.instagram.oembed.provider']
+    tags: ['controller.service_arguments']
+    calls:
+      - ['setContainer', [ '@service_container']]
     public: true
 
   fmdd.notification.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\NotificationController
     arguments: ['@doctrine', '@time.datetime_formatter', '@twig']
+    tags: ['controller.service_arguments']
+    calls:
+      - ['setContainer', [ '@service_container']]
     public: true
 
   fmdd.product.controller:
     class: FMDD\SyliusMarketingPlugin\Controller\ProductController
     arguments: ['@sylius.repository.product']
+    tags: ['controller.service_arguments']
+    calls:
+      - ['setContainer', [ '@service_container']]
     public: true

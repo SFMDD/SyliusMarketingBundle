@@ -3,20 +3,8 @@
 
 namespace FMDD\SyliusMarketingPlugin\Controller;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use FMDD\SyliusMarketingPlugin\Entity\InstagramPost;
-use FMDD\SyliusMarketingPlugin\Entity\Notification;
-use FMDD\SyliusMarketingPlugin\Entity\NotificationUser;
 use FMDD\SyliusMarketingPlugin\Provider\InstagramPostsProvider;
-use Knp\Bundle\TimeBundle\DateTimeFormatter;
-use Sylius\Component\Core\Model\ShopUser;
-use Sylius\Component\Product\Model\Product;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 

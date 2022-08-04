@@ -5,7 +5,7 @@
     "description": "FMDD marketing plugin for Sylius.",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "sylius/sylius": "^1.7",
         "setono/sylius-trustpilot-plugin": "^1.1",
         "knplabs/knp-time-bundle": "^1.13",

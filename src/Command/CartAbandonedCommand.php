@@ -69,6 +69,7 @@ class CartAbandonedCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $this->output = $output;
 
+        $recipients = [];
         if($this->environment !== 'prod') {
             $option = $input->getOption('recipients');
             $recipients = explode(',', $input->getOption('recipients'));
